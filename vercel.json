@@ -1,11 +1,10 @@
 {
-  "version": 2,
-  "public": true,
   "cleanUrls": true,
+  "outputDirectory": "frontend",
   "rewrites": [
     {
-      "source": "/(.*)",
-      "destination": "/frontend/$1"
+      "source": "/((?!css|js|assets|favicon|.*\\..*).*)",
+      "destination": "/index.html"
     }
   ]
 }
