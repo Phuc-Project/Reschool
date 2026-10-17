@@ -451,7 +451,7 @@
     <!-- Content injected by items.js -->
   </div>
 
-  <!-- 2. Modal Đăng tin Cho / Nhận mới -->
+  <!-- 2. Modal Đăng tin Cho / Nhận (Chỉ thông tin đồ dùng thiết yếu) -->
   <div id="create-post-modal" class="modal-container" role="dialog" aria-modal="true">
     <div class="modal-backdrop"></div>
     <div class="modal-dialog">
@@ -462,16 +462,30 @@
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
         </button>
-        <h3 class="modal-title">Đăng tin trao đổi đồ dùng học đường</h3>
-        <p class="modal-subtitle">Chia sẻ đồ cũ còn dùng tốt hoặc gửi yêu cầu tìm món đồ bạn đang cần.</p>
+        <h3 class="modal-title">Đăng tin đồ dùng học đường</h3>
+        <p class="modal-subtitle">Chia sẻ đồ cũ còn dùng tốt hoặc đăng tin tìm đồ bị mất, đồ dùng cần hỗ trợ.</p>
+
+        <!-- Thông tin hồ sơ học sinh đăng tin đã lưu sẵn -->
+        <div id="post-author-preset-box" class="author-preset-banner">
+          <div class="preset-info-group">
+            <div class="preset-avatar-circle">
+              <img id="preset-user-avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100" alt="" class="preset-img" />
+            </div>
+            <div class="preset-meta">
+              <span id="preset-user-name" class="preset-name">Đang tải học sinh...</span>
+              <span id="preset-user-school" class="preset-school">Đang tải trường...</span>
+            </div>
+          </div>
+          <button type="button" class="btn-edit-profile-inline" id="btn-edit-profile-from-post">Sửa hồ sơ</button>
+        </div>
 
         <form id="create-post-form">
           <div class="form-row">
             <div class="form-group">
               <label>Loại bài đăng <span class="required">*</span></label>
               <select name="post-type" class="form-control" required>
-                <option value="GIVE">Cho tặng miễn phí (0đ)</option>
-                <option value="RECEIVE">Đang tìm kiếm / Cần xin hỗ trợ</option>
+                <option value="GIVE">Cần tặng lại đồ dùng (0đ)</option>
+                <option value="RECEIVE">Cần tìm đồ / Báo mất đồ học sinh</option>
               </select>
             </div>
             <div class="form-group">
@@ -486,8 +500,8 @@
           </div>
 
           <div class="form-group">
-            <label>Tiêu đề bài đăng <span class="required">*</span></label>
-            <input type="text" name="post-title" class="form-control" placeholder="Ví dụ: Trọn bộ SGK Lớp 10 Kết Nối Tri Thức mới 95%" required minlength="5">
+            <label>Tiêu đề món đồ <span class="required">*</span></label>
+            <input type="text" name="post-title" class="form-control" placeholder="Ví dụ: Tìm máy tính Casio fx-580 rơi ở cổng trường, hoặc Bộ SGK Toán 10" required minlength="5">
           </div>
 
           <div class="form-row">
@@ -505,18 +519,18 @@
               </select>
             </div>
             <div class="form-group">
-              <label>Tình trạng đồ dùng <span class="required">*</span></label>
-              <input type="text" name="post-condition" class="form-control" placeholder="Ví dụ: Mới 90% - Bọc nilon, đủ trang" required>
+              <label>Tình trạng / Đặc điểm nhận dạng <span class="required">*</span></label>
+              <input type="text" name="post-condition" class="form-control" placeholder="Ví dụ: Máy màu đen dán sticker Pikachu ở nắp, Mới 90%..." required>
             </div>
           </div>
 
           <div class="form-group">
-            <label>Mô tả chi tiết đồ dùng <span class="required">*</span></label>
-            <textarea name="post-description" rows="3" class="form-control" placeholder="Mô tả cụ thể về số lượng, tình trạng, lý do tặng hoặc thông tin cần xin hỗ trợ..." required></textarea>
+            <label>Mô tả chi tiết món đồ <span class="required">*</span></label>
+            <textarea name="post-description" rows="3" class="form-control" placeholder="Mô tả cụ thể về số lượng, tình trạng, vị trí làm rơi hoặc lý do cần đồ..." required></textarea>
           </div>
 
           <div class="form-group">
-            <label>Hình ảnh thực tế đồ dùng</label>
+            <label>Hình ảnh thực tế món đồ</label>
             <div class="image-upload-dropzone" onclick="document.getElementById('post-image-file').click()">
               <div class="upload-icon-circle">
                 <svg class="icon icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -524,54 +538,21 @@
                   <circle cx="12" cy="13" r="4"></circle>
                 </svg>
               </div>
-              <p class="dropzone-text">Bấm để chọn ảnh thực tế từ thiết bị của bạn</p>
-              <span class="dropzone-subtext">Hỗ trợ định dạng JPG, PNG (tối đa 5MB)</span>
+              <p class="dropzone-text">Bấm để tải ảnh thực tế từ thiết bị của bạn</p>
+              <span class="dropzone-subtext">Hỗ trợ JPG, PNG (tối đa 5MB)</span>
               <input type="file" id="post-image-file" accept="image/*" style="display: none;">
               <div id="post-image-preview" class="image-preview-box"></div>
             </div>
           </div>
 
-          <div class="form-row">
-            <div class="form-group">
-              <label>Tên trường học <span class="required">*</span></label>
-              <input type="text" name="post-school-name" id="post-school-name" class="form-control" placeholder="Ví dụ: THPT Chu Văn An" required>
-            </div>
-            <div class="form-group">
-              <label>Quận / Huyện <span class="required">*</span></label>
-              <input type="text" name="post-district" class="form-control" placeholder="Ví dụ: Tây Hồ" required>
-            </div>
-          </div>
-
           <div class="form-group">
-            <label>Địa điểm hẹn trao đổi thuận tiện</label>
-            <input type="text" name="post-address" class="form-control" placeholder="Ví dụ: Cổng chính trường sau giờ tan học">
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label>Họ và tên học sinh <span class="required">*</span></label>
-              <input type="text" name="post-author-name" id="post-author-name" class="form-control" placeholder="Họ và tên" required>
-            </div>
-            <div class="form-group">
-              <label>Lớp học</label>
-              <input type="text" name="post-student-class" id="post-student-class" class="form-control" placeholder="Ví dụ: 11A2">
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label>Số điện thoại liên hệ <span class="required">*</span></label>
-              <input type="tel" name="post-phone" class="form-control" placeholder="0987 654 321" required>
-            </div>
-            <div class="form-group">
-              <label>Số Zalo trao đổi</label>
-              <input type="tel" name="post-zalo" class="form-control" placeholder="Số điện thoại Zalo để liên hệ">
-            </div>
+            <label>Địa điểm hẹn trao đổi / Vị trí rơi đồ</label>
+            <input type="text" name="post-address" id="post-address" class="form-control" placeholder="Ví dụ: Cổng chính trường sau giờ tan học">
           </div>
 
           <div class="form-group">
             <label>Từ khóa mô tả (cách nhau bằng dấu phẩy)</label>
-            <input type="text" name="post-tags" class="form-control" placeholder="Ví dụ: Toán 10, Cánh Diều, Miễn phí">
+            <input type="text" name="post-tags" class="form-control" placeholder="Ví dụ: Casio 580, Rơi cổng trường, Cần gấp">
           </div>
 
           <button type="submit" class="btn btn-primary btn-block">
@@ -582,8 +563,8 @@
     </div>
   </div>
 
-  <!-- 3. Modal Đăng Nhập Học Sinh -->
-  <div id="auth-modal" class="modal-container" role="dialog" aria-modal="true">
+  <!-- 3. Modal Hoàn tất Hồ Sơ Học Sinh (Lưu vào Database) -->
+  <div id="profile-onboarding-modal" class="modal-container" role="dialog" aria-modal="true">
     <div class="modal-backdrop"></div>
     <div class="modal-dialog">
       <div class="modal-content">
@@ -593,27 +574,95 @@
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
         </button>
-        <h3 class="modal-title">Đăng nhập tài khoản học sinh</h3>
-        <p class="modal-subtitle">Xác thực để đăng tin và liên hệ trao đổi với bạn bè cùng trường.</p>
+        <h3 class="modal-title">Thông tin học sinh</h3>
+        <p class="modal-subtitle">Vui lòng cập nhật thông tin trường lớp một lần duy nhất. Dữ liệu sẽ được lưu vào cơ sở dữ liệu để tự động liên kết khi bạn đăng tin hoặc tìm đồ.</p>
 
-        <form id="quick-auth-form">
-          <div class="form-group">
-            <label>Họ và tên học sinh <span class="required">*</span></label>
-            <input type="text" name="student-name" class="form-control" value="Nguyễn Hoàng Nam" required>
+        <form id="profile-onboarding-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Tên trường học <span class="required">*</span></label>
+              <input type="text" name="profile-school-name" id="profile-school-name" class="form-control" placeholder="Vd: THPT Chu Văn An" required>
+            </div>
+            <div class="form-group">
+              <label>Quận/Huyện <span class="required">*</span></label>
+              <input type="text" name="profile-district" id="profile-district" class="form-control" placeholder="Vd: Tây Hồ" required>
+            </div>
           </div>
+
           <div class="form-group">
-            <label>Trường đang theo học <span class="required">*</span></label>
-            <input type="text" name="student-school" class="form-control" value="THPT Chu Văn An" required>
+            <label>Địa điểm hẹn gặp thuận tiện</label>
+            <input type="text" name="profile-address" id="profile-address" class="form-control" placeholder="Vd: Cổng chính số 10 Thụy Khuê sau giờ tan học">
           </div>
-          <div class="form-group">
-            <label>Lớp học</label>
-            <input type="text" name="student-class" class="form-control" value="11A2">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Tên bạn học sinh <span class="required">*</span></label>
+              <input type="text" name="profile-student-name" id="profile-student-name" class="form-control" placeholder="Họ và tên" required>
+            </div>
+            <div class="form-group">
+              <label>Lớp học</label>
+              <input type="text" name="profile-student-class" id="profile-student-class" class="form-control" placeholder="Vd: 11A2">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Số điện thoại liên hệ <span class="required">*</span></label>
+              <input type="tel" name="profile-phone" id="profile-phone" class="form-control" placeholder="0987654321" required>
+            </div>
+            <div class="form-group">
+              <label>Số Zalo trao đổi</label>
+              <input type="tel" name="profile-zalo" id="profile-zalo" class="form-control" placeholder="Trùng SĐT hoặc SĐT Zalo">
+            </div>
           </div>
 
           <button type="submit" class="btn btn-primary btn-block">
-            Xác nhận đăng nhập
+            Lưu thông tin hồ sơ
           </button>
         </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Modal Đăng Nhập Học Sinh (Google 1-Click) -->
+  <div id="auth-modal" class="modal-container" role="dialog" aria-modal="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-dialog" style="max-width: 440px;">
+      <div class="modal-content" style="text-align: center; padding: 36px 28px;">
+        <button class="modal-close-btn" aria-label="Đóng">
+          <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+        
+        <div style="width: 52px; height: 52px; border-radius: 14px; background: var(--primary-50); color: var(--primary-600); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+          <svg class="icon icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </div>
+
+        <h3 class="modal-title" style="margin-bottom: 8px;">Đăng nhập học sinh</h3>
+        <p class="modal-subtitle" style="margin-bottom: 24px;">Đăng nhập 1 chạm bằng Google để trao tặng và tìm kiếm đồ dùng học đường cùng các bạn trong trường.</p>
+
+        <button type="button" id="btn-google-login" class="btn-google-auth">
+          <svg class="google-icon" viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+          </svg>
+          <span>Đăng nhập với Google</span>
+        </button>
+
+        <div class="auth-security-note">
+          <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          <span>Xác thực an toàn • Không lưu mật khẩu</span>
+        </div>
       </div>
     </div>
   </div>

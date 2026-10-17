@@ -1283,3 +1283,143 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ==========================================================================
+   GOOGLE AUTH & STUDENT PROFILE ONBOARDING STYLES
+   ========================================================================== */
+
+/* Google Auth Button */
+.btn-google-auth {
+  width: 100%;
+  padding: 13px 20px;
+  background: #FFFFFF;
+  color: #3C4043;
+  border: 1.5px solid #DADCE0;
+  border-radius: var(--radius-md);
+  font-family: var(--font-main);
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(60, 64, 67, 0.08);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-top: 8px;
+}
+
+.btn-google-auth:hover {
+  background: #F8FAFC;
+  border-color: #CBD5E1;
+  box-shadow: 0 3px 8px rgba(60, 64, 67, 0.14);
+  transform: translateY(-1px);
+}
+
+.google-icon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.auth-security-note {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--slate-400);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* Author Preset Banner in Create Post Modal */
+.author-preset-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--primary-50);
+  border: 1px solid var(--primary-200);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  margin-bottom: 20px;
+}
+
+.preset-info-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.preset-avatar-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #FFFFFF;
+  box-shadow: var(--shadow-xs);
+  flex-shrink: 0;
+  background: var(--primary-100);
+}
+
+.preset-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.preset-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.preset-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--slate-900);
+}
+
+.preset-school {
+  font-size: 0.78rem;
+  color: var(--primary-800);
+  font-weight: 500;
+}
+
+.btn-edit-profile-inline {
+  background: #FFFFFF;
+  border: 1px solid var(--primary-200);
+  color: var(--primary-700);
+  font-family: var(--font-main);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-edit-profile-inline:hover {
+  background: var(--primary-100);
+  color: var(--primary-800);
+  border-color: var(--primary-400);
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  color: var(--slate-500);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.btn-icon:hover {
+  color: var(--primary-600);
+  background: var(--slate-200);
+}

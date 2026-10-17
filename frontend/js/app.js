@@ -47,6 +47,7 @@ class ReschoolApp {
     // Modals
     this.itemDetailModal = document.getElementById("item-detail-modal");
     this.createPostModal = document.getElementById("create-post-modal");
+    this.profileModal = document.getElementById("profile-onboarding-modal");
     this.authModal = document.getElementById("auth-modal");
     
     // Buttons
@@ -125,13 +126,28 @@ class ReschoolApp {
       postForm.addEventListener("submit", (e) => this.handleCreatePost(e));
     }
 
-    // Form Auth Login
+    // Nút chỉnh sửa hồ sơ trong modal đăng tin
+    const editProfileBtn = document.getElementById("btn-edit-profile-from-post");
+    if (editProfileBtn) {
+      editProfileBtn.addEventListener("click", () => {
+        if (this.createPostModal) this.createPostModal.classList.remove("active");
+        this.openProfileModal();
+      });
+    }
+
+    // Modal & Nút Đăng nhập Google
     if (this.loginBtn) {
       this.loginBtn.addEventListener("click", () => this.openAuthModal());
     }
-    const authForm = document.getElementById("quick-auth-form");
-    if (authForm) {
-      authForm.addEventListener("submit", (e) => this.handleQuickLogin(e));
+    const googleLoginBtn = document.getElementById("btn-google-login");
+    if (googleLoginBtn) {
+      googleLoginBtn.addEventListener("click", () => this.handleGoogleLogin());
+    }
+
+    // Form Lưu hồ sơ học sinh (Onboarding Database)
+    const profileForm = document.getElementById("profile-onboarding-form");
+    if (profileForm) {
+      profileForm.addEventListener("submit", (e) => this.handleSaveProfile(e));
     }
 
     // Image file upload preview
@@ -195,24 +211,40 @@ class ReschoolApp {
   }
 
   openCreateModal() {
+    if (!authManager.isLoggedIn()) {
+      this.showToast("Vui lòng đăng nhập bằng Google trước khi đăng tin.");
+      this.openAuthModal();
+      return;
+    }
+
+    if (!authManager.isProfileCompleted()) {
+      this.showToast("Vui lòng hoàn thiện hồ sơ học sinh một lần duy nhất.");
+      this.openProfileModal();
+      return;
+    }
+
     if (this.createPostModal) {
+      const user = authManager.getUser();
+
+      // Cập nhật banner thông tin người đăng đã lưu sẵn
+      const avatarEl = document.getElementById("preset-user-avatar");
+      const nameEl = document.getElementById("preset-user-name");
+      const schoolEl = document.getElementById("preset-user-school");
+      const addrInput = document.getElementById("post-address");
+
+      if (avatarEl && user.photoURL) avatarEl.src = user.photoURL;
+      if (nameEl) nameEl.textContent = `${user.displayName}${user.studentClass ? ' • Lớp ' + user.studentClass : ''}`;
+      if (schoolEl) schoolEl.textContent = `${user.school} (${user.district || 'Hà Nội'})`;
+      if (addrInput && !addrInput.value && user.defaultAddress) {
+        addrInput.value = user.defaultAddress;
+      }
+
       this.createPostModal.classList.add("active");
       const closeBtn = this.createPostModal.querySelector(".modal-close-btn");
       const backdrop = this.createPostModal.querySelector(".modal-backdrop");
       const close = () => this.createPostModal.classList.remove("active");
       if (closeBtn) closeBtn.onclick = close;
       if (backdrop) backdrop.onclick = close;
-
-      // Điền sẵn tên nếu đã đăng nhập
-      const user = authManager.getUser();
-      if (user) {
-        const nameInput = document.getElementById("post-author-name");
-        const schoolInput = document.getElementById("post-school-name");
-        const classInput = document.getElementById("post-student-class");
-        if (nameInput) nameInput.value = user.displayName;
-        if (schoolInput) schoolInput.value = user.school;
-        if (classInput) classInput.value = user.studentClass || "";
-      }
     }
   }
 
@@ -236,41 +268,66 @@ class ReschoolApp {
     submitBtn.disabled = true;
     submitBtn.textContent = "Đang đăng bài...";
 
+    const user = authManager.getUser() || {
+      displayName: "Học sinh Reschool",
+      school: "THPT Chu Văn An",
+      district: "Tây Hồ",
+      city: "Hà Nội",
+      studentClass: "11A",
+      phone: "0912345678",
+      zalo: "0912345678",
+      email: ""
+    };
+
     const previewContainer = document.getElementById("post-image-preview");
     const uploadedImg = previewContainer ? previewContainer.getAttribute("data-img-url") : null;
     const defaultPlaceholder = "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600";
 
+    const postType = form["post-type"].value;
+    const postCategory = form["post-category"].value;
+    const postTitle = form["post-title"].value.trim();
+    const postGrade = form["post-grade"].value ? parseInt(form["post-grade"].value) : null;
+    const postCondition = form["post-condition"].value.trim();
+    const postDescription = form["post-description"].value.trim();
+    const specificAddress = form["post-address"].value.trim();
+    const postTags = form["post-tags"].value ? form["post-tags"].value.split(',').map(t => t.trim()) : [];
+
     const newItemData = {
-      title: form["post-title"].value.trim(),
-      type: form["post-type"].value,
-      category: form["post-category"].value,
-      grade: form["post-grade"].value ? parseInt(form["post-grade"].value) : null,
-      condition: form["post-condition"].value,
-      description: form["post-description"].value.trim(),
+      title: postTitle,
+      type: postType,
+      category: postCategory,
+      grade: postGrade,
+      condition: postCondition,
+      description: postDescription,
       images: [uploadedImg || defaultPlaceholder],
-      tags: form["post-tags"].value ? form["post-tags"].value.split(',').map(t => t.trim()) : [],
+      tags: postTags,
       location: {
-        school_name: form["post-school-name"].value.trim(),
-        city: "Hà Nội",
-        district: form["post-district"].value.trim() || "Ba Đình",
-        address_detail: form["post-address"].value.trim() || "",
+        school_name: user.school || "Trường THPT",
+        city: user.city || "Hà Nội",
+        district: user.district || "Tây Hồ",
+        address_detail: specificAddress || user.defaultAddress || "",
         latitude: 21.0333 + (Math.random() - 0.5) * 0.04,
         longitude: 105.8400 + (Math.random() - 0.5) * 0.04
       },
       contact: {
-        author_name: form["post-author-name"].value.trim(),
-        student_class: form["post-student-class"].value.trim(),
-        phone: form["post-phone"].value.trim(),
-        zalo: form["post-zalo"].value.trim() || form["post-phone"].value.trim(),
-        email: ""
+        author_name: user.displayName,
+        student_class: user.studentClass || "",
+        phone: user.phone || "",
+        zalo: user.zalo || user.phone || "",
+        email: user.email || ""
       }
     };
 
     await api.createItem(newItemData);
-    this.showToast("Đăng bài thành công! Đồ dùng đã sẵn sàng luân chuyển cùng các bạn.");
+    this.showToast(postType === "RECEIVE" 
+      ? "Đã đăng tin tìm đồ! Hệ thống sẽ thông báo khi có đồ tương ứng." 
+      : "Đăng bài thành công! Đồ dùng đã sẵn sàng luân chuyển cùng các bạn.");
     
     form.reset();
-    if (previewContainer) previewContainer.innerHTML = "";
+    if (previewContainer) {
+      previewContainer.innerHTML = "";
+      previewContainer.removeAttribute("data-img-url");
+    }
     if (this.createPostModal) this.createPostModal.classList.remove("active");
     submitBtn.disabled = false;
     submitBtn.textContent = "Hoàn tất đăng bài";
@@ -288,16 +345,91 @@ class ReschoolApp {
     if (backdrop) backdrop.onclick = close;
   }
 
-  handleQuickLogin(e) {
+  async handleGoogleLogin() {
+    const googleBtn = document.getElementById("btn-google-login");
+    if (googleBtn) {
+      googleBtn.disabled = true;
+      googleBtn.classList.add("loading");
+    }
+
+    try {
+      const user = await authManager.loginWithGoogle();
+      if (this.authModal) this.authModal.classList.remove("active");
+
+      if (!user.profileCompleted) {
+        this.showToast(`Chào mừng ${user.displayName}! Hãy cập nhật trường lớp một lần duy nhất nhé.`);
+        this.openProfileModal();
+      } else {
+        this.showToast(`Chào mừng bạn ${user.displayName} đã đăng nhập!`);
+      }
+    } catch (err) {
+      console.error("Lỗi đăng nhập Google:", err);
+      this.showToast("Không thể đăng nhập. Vui lòng thử lại!");
+    } finally {
+      if (googleBtn) {
+        googleBtn.disabled = false;
+        googleBtn.classList.remove("loading");
+      }
+    }
+  }
+
+  openProfileModal() {
+    if (!this.profileModal) return;
+    const user = authManager.getUser();
+    if (user) {
+      const sName = document.getElementById("profile-school-name");
+      const dist = document.getElementById("profile-district");
+      const addr = document.getElementById("profile-address");
+      const stdName = document.getElementById("profile-student-name");
+      const stdClass = document.getElementById("profile-student-class");
+      const phone = document.getElementById("profile-phone");
+      const zalo = document.getElementById("profile-zalo");
+
+      if (sName && user.school) sName.value = user.school;
+      if (dist && user.district) dist.value = user.district;
+      if (addr && user.defaultAddress) addr.value = user.defaultAddress;
+      if (stdName) stdName.value = user.displayName || "";
+      if (stdClass && user.studentClass) stdClass.value = user.studentClass;
+      if (phone && user.phone) phone.value = user.phone;
+      if (zalo && user.zalo) zalo.value = user.zalo;
+    }
+
+    this.profileModal.classList.add("active");
+    const closeBtn = this.profileModal.querySelector(".modal-close-btn");
+    const backdrop = this.profileModal.querySelector(".modal-backdrop");
+    const close = () => this.profileModal.classList.remove("active");
+    if (closeBtn) closeBtn.onclick = close;
+    if (backdrop) backdrop.onclick = close;
+  }
+
+  handleSaveProfile(e) {
     e.preventDefault();
     const form = e.target;
-    const name = form["student-name"].value.trim();
-    const school = form["student-school"].value.trim();
-    const sClass = form["student-class"].value.trim();
+    const submitBtn = form.querySelector("button[type='submit']");
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Đang lưu vào cơ sở dữ liệu...";
+    }
 
-    authManager.loginStudent(name, school, sClass);
-    this.showToast(`Chào mừng bạn ${name} đã đăng nhập Reschool!`);
-    if (this.authModal) this.authModal.classList.remove("active");
+    const profileData = {
+      schoolName: form["profile-school-name"].value.trim(),
+      district: form["profile-district"].value.trim(),
+      address: form["profile-address"].value.trim(),
+      authorName: form["profile-student-name"].value.trim(),
+      studentClass: form["profile-student-class"].value.trim(),
+      phone: form["profile-phone"].value.trim(),
+      zalo: form["profile-zalo"].value.trim()
+    };
+
+    authManager.saveStudentProfile(profileData);
+    this.showToast("Đã lưu thông tin học sinh vào cơ sở dữ liệu!");
+
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Lưu thông tin hồ sơ";
+    }
+
+    if (this.profileModal) this.profileModal.classList.remove("active");
   }
 
   setupAuthObserver() {
@@ -309,9 +441,9 @@ class ReschoolApp {
         authContainer.innerHTML = `
           <div class="user-profile-badge">
             <img src="${user.photoURL}" alt="${user.displayName}" class="user-avatar-mini" />
-            <div class="user-meta-header">
+            <div class="user-meta-header" id="btn-header-edit-profile" style="cursor: pointer;" title="Xem & sửa thông tin hồ sơ">
               <span class="user-name">${user.displayName}</span>
-              <span class="user-school-tag">${user.school}</span>
+              <span class="user-school-tag">${user.school || "Cập nhật hồ sơ"}</span>
             </div>
             <button id="btn-logout" class="btn-logout" title="Đăng xuất" aria-label="Đăng xuất">
               <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -322,6 +454,10 @@ class ReschoolApp {
             </button>
           </div>
         `;
+        const editHeaderBtn = document.getElementById("btn-header-edit-profile");
+        if (editHeaderBtn) {
+          editHeaderBtn.onclick = () => this.openProfileModal();
+        }
         const logoutBtn = document.getElementById("btn-logout");
         if (logoutBtn) {
           logoutBtn.onclick = () => {
