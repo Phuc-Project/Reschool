@@ -46,14 +46,18 @@ export function renderMapMarkers(items, onSelectCallback) {
 
     const isGive = item.type === "GIVE";
     const pinColorClass = isGive ? "marker-give" : "marker-receive";
-    const iconSymbol = isGive ? "🎁" : "🔍";
+    
+    // Clean SVG icon for markers
+    const svgIcon = isGive
+      ? `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>`
+      : `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`;
 
     // Custom HTML Marker Icon
     const customIcon = L.divIcon({
       className: "custom-leaflet-marker",
       html: `
         <div class="pin-wrapper ${pinColorClass}">
-          <span class="pin-icon">${iconSymbol}</span>
+          <span class="pin-icon">${svgIcon}</span>
         </div>
       `,
       iconSize: [36, 36],
@@ -69,13 +73,24 @@ export function renderMapMarkers(items, onSelectCallback) {
     const popupHtml = `
       <div class="map-popup-card">
         <div class="map-popup-badge ${isGive ? 'badge-give' : 'badge-receive'}">
-          ${isGive ? 'Cho tặng' : 'Cần xin'}
+          ${isGive ? 'Cho tặng (0đ)' : 'Cần hỗ trợ'}
         </div>
         <img class="map-popup-img" src="${item.images[0] || 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300'}" alt="${item.title}" />
         <h4 class="map-popup-title">${item.title}</h4>
         <div class="map-popup-meta">
-          <span>🏫 ${item.location.school_name}</span>
-          <span class="map-popup-condition">✨ ${item.condition}</span>
+          <span class="map-school-row">
+            <svg class="icon icon-sm text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 21h18"></path>
+              <path d="M5 21V7l7-4 7 4v14"></path>
+              <path d="M9 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"></path>
+              <path d="M10 21V14h4v7"></path>
+            </svg>
+            <span>${item.location.school_name}</span>
+          </span>
+          <span class="map-popup-condition">
+            <span class="condition-dot"></span>
+            <span>${item.condition}</span>
+          </span>
         </div>
         <button class="map-popup-btn" data-id="${item.id}">Xem bài đăng</button>
       </div>
@@ -100,6 +115,6 @@ export function resizeMap() {
   if (mapInstance) {
     setTimeout(() => {
       mapInstance.invalidateSize();
-    }, 200);
+    }, 250);
   }
 }

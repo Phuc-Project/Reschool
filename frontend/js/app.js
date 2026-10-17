@@ -1,13 +1,12 @@
 /**
  * Reschool - Main Application Controller
- * Điều hướng tabs, lắng nghe sự kiện, xử lý đăng tin và cấu hình Firebase.
+ * Điều hướng tabs, lắng nghe sự kiện, xử lý đăng tin và điều khiển giao diện.
  */
 import { api } from './api.js';
 import { authManager } from './auth.js';
 import { initReschoolMap, renderMapMarkers, resizeMap } from './map.js';
 import { renderItemGrid, openItemDetailModal } from './items.js';
 import { renderMatchmakingList } from './matchmaking.js';
-import { getActiveFirebaseConfig, saveFirebaseConfig, isRealFirebaseConfigured } from './firebase-config.js';
 
 class ReschoolApp {
   constructor() {
@@ -25,7 +24,6 @@ class ReschoolApp {
   async init() {
     this.cacheDom();
     this.bindEvents();
-    this.updateFirebaseBadge();
     await this.loadData();
     this.setupAuthObserver();
   }
@@ -49,12 +47,12 @@ class ReschoolApp {
     // Modals
     this.itemDetailModal = document.getElementById("item-detail-modal");
     this.createPostModal = document.getElementById("create-post-modal");
-    this.firebaseConfigModal = document.getElementById("firebase-config-modal");
     this.authModal = document.getElementById("auth-modal");
     
     // Buttons
     this.openPostBtn = document.getElementById("btn-open-create-post");
-    this.firebaseBadgeBtn = document.getElementById("firebase-status-pill");
+    this.heroExploreBtn = document.getElementById("btn-hero-explore");
+    this.heroCreateBtn = document.getElementById("btn-hero-create-post");
     this.loginBtn = document.getElementById("btn-auth-trigger");
   }
 
@@ -66,6 +64,21 @@ class ReschoolApp {
         this.switchTab(targetTab);
       });
     });
+
+    // Hero buttons
+    if (this.heroExploreBtn) {
+      this.heroExploreBtn.addEventListener("click", () => {
+        this.switchTab("explore");
+        const toolbar = document.querySelector(".filters-toolbar");
+        if (toolbar) {
+          toolbar.scrollIntoView({ behavior: "smooth" });
+        }
+      });
+    }
+
+    if (this.heroCreateBtn) {
+      this.heroCreateBtn.addEventListener("click", () => this.openCreateModal());
+    }
 
     // Search input
     if (this.searchInput) {
@@ -106,21 +119,10 @@ class ReschoolApp {
       this.openPostBtn.addEventListener("click", () => this.openCreateModal());
     }
 
-    // Modal Firebase Config
-    if (this.firebaseBadgeBtn) {
-      this.firebaseBadgeBtn.addEventListener("click", () => this.openFirebaseModal());
-    }
-
     // Form đăng tin
     const postForm = document.getElementById("create-post-form");
     if (postForm) {
       postForm.addEventListener("submit", (e) => this.handleCreatePost(e));
-    }
-
-    // Form cấu hình Firebase
-    const firebaseForm = document.getElementById("firebase-config-form");
-    if (firebaseForm) {
-      firebaseForm.addEventListener("submit", (e) => this.handleSaveFirebaseConfig(e));
     }
 
     // Form Auth Login
@@ -221,7 +223,7 @@ class ReschoolApp {
 
     const reader = new FileReader();
     reader.onload = (e) => {
-      previewContainer.innerHTML = `<img src="${e.target.result}" alt="Preview" style="max-height: 140px; border-radius: 8px;" />`;
+      previewContainer.innerHTML = `<img src="${e.target.result}" alt="Ảnh xem trước" class="preview-img-tag" />`;
       previewContainer.setAttribute("data-img-url", e.target.result);
     };
     reader.readAsDataURL(file);
@@ -232,7 +234,7 @@ class ReschoolApp {
     const form = e.target;
     const submitBtn = form.querySelector("button[type='submit']");
     submitBtn.disabled = true;
-    submitBtn.textContent = "Đang đăng tin...";
+    submitBtn.textContent = "Đang đăng bài...";
 
     const previewContainer = document.getElementById("post-image-preview");
     const uploadedImg = previewContainer ? previewContainer.getAttribute("data-img-url") : null;
@@ -264,72 +266,16 @@ class ReschoolApp {
       }
     };
 
-    const saved = await api.createItem(newItemData);
-    this.showToast("🎉 Đăng tin thành công! Bài viết đã sẵn sàng kết nối cùng các bạn.");
+    await api.createItem(newItemData);
+    this.showToast("Đăng bài thành công! Đồ dùng đã sẵn sàng luân chuyển cùng các bạn.");
     
     form.reset();
     if (previewContainer) previewContainer.innerHTML = "";
     if (this.createPostModal) this.createPostModal.classList.remove("active");
     submitBtn.disabled = false;
-    submitBtn.textContent = "Hoàn tất đăng tin";
+    submitBtn.textContent = "Hoàn tất đăng bài";
 
     await this.loadData();
-  }
-
-  openFirebaseModal() {
-    if (!this.firebaseConfigModal) return;
-    const config = getActiveFirebaseConfig();
-    const apiKeyInput = document.getElementById("fb-api-key");
-    const projectIdInput = document.getElementById("fb-project-id");
-    const authDomainInput = document.getElementById("fb-auth-domain");
-
-    if (apiKeyInput) apiKeyInput.value = config.apiKey || "";
-    if (projectIdInput) projectIdInput.value = config.projectId || "";
-    if (authDomainInput) authDomainInput.value = config.authDomain || "";
-
-    this.firebaseConfigModal.classList.add("active");
-    const closeBtn = this.firebaseConfigModal.querySelector(".modal-close-btn");
-    const backdrop = this.firebaseConfigModal.querySelector(".modal-backdrop");
-    const close = () => this.firebaseConfigModal.classList.remove("active");
-    if (closeBtn) closeBtn.onclick = close;
-    if (backdrop) backdrop.onclick = close;
-  }
-
-  handleSaveFirebaseConfig(e) {
-    e.preventDefault();
-    const form = e.target;
-    const current = getActiveFirebaseConfig();
-    const updated = {
-      ...current,
-      apiKey: form["fb-api-key"].value.trim(),
-      projectId: form["fb-project-id"].value.trim(),
-      authDomain: form["fb-auth-domain"].value.trim()
-    };
-
-    saveFirebaseConfig(updated);
-    this.updateFirebaseBadge();
-    this.showToast("✅ Đã lưu cấu hình Firebase! Hệ thống sẵn sàng đồng bộ Cloud Firestore.");
-    if (this.firebaseConfigModal) this.firebaseConfigModal.classList.remove("active");
-  }
-
-  updateFirebaseBadge() {
-    if (!this.firebaseBadgeBtn) return;
-    const isReal = isRealFirebaseConfigured();
-    const config = getActiveFirebaseConfig();
-
-    if (isReal) {
-      this.firebaseBadgeBtn.className = "firebase-pill status-connected";
-      this.firebaseBadgeBtn.innerHTML = `
-        <span class="pulse-dot green"></span>
-        <span>Firebase: <strong>${config.projectId}</strong></span>
-      `;
-    } else {
-      this.firebaseBadgeBtn.className = "firebase-pill status-demo";
-      this.firebaseBadgeBtn.innerHTML = `
-        <span class="pulse-dot amber"></span>
-        <span>Firebase (Demo Mode) • Bấm để cấu hình API Key</span>
-      `;
-    }
   }
 
   openAuthModal() {
@@ -350,7 +296,7 @@ class ReschoolApp {
     const sClass = form["student-class"].value.trim();
 
     authManager.loginStudent(name, school, sClass);
-    this.showToast(`👋 Chào mừng bạn ${name} đã đăng nhập Reschool!`);
+    this.showToast(`Chào mừng bạn ${name} đã đăng nhập Reschool!`);
     if (this.authModal) this.authModal.classList.remove("active");
   }
 
@@ -367,7 +313,13 @@ class ReschoolApp {
               <span class="user-name">${user.displayName}</span>
               <span class="user-school-tag">${user.school}</span>
             </div>
-            <button id="btn-logout" class="btn-logout" title="Đăng xuất">⏻</button>
+            <button id="btn-logout" class="btn-logout" title="Đăng xuất" aria-label="Đăng xuất">
+              <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+            </button>
           </div>
         `;
         const logoutBtn = document.getElementById("btn-logout");
@@ -380,7 +332,11 @@ class ReschoolApp {
       } else {
         authContainer.innerHTML = `
           <button id="btn-auth-trigger" class="btn btn-outline btn-sm">
-            🧑‍🎓 Đăng nhập học sinh
+            <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <span>Đăng nhập học sinh</span>
           </button>
         `;
         const btn = document.getElementById("btn-auth-trigger");
