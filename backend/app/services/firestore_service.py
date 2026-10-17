@@ -4,7 +4,7 @@ from typing import List, Optional, Dict, Any
 from app.core.firebase import firebase_manager
 from app.models.schemas import (
     ItemCreate, ItemResponse, ItemUpdate, ItemStatus, ItemType, ItemCategory,
-    LocationInfo, ContactInfo, ItemFilter
+    LocationInfo, ContactInfo, ItemFilter, StudentProfile
 )
 
 # Dữ liệu ban đầu phong phú, chuẩn thực tế trường học Việt Nam
@@ -314,3 +314,34 @@ class ItemService:
         return len(self._local_items) < initial_len
 
 item_service = ItemService()
+
+class UserService:
+    def __init__(self):
+        self._local_profiles: Dict[str, Dict[str, Any]] = {}
+        self._collection_name = "student_profiles"
+
+    def get_profile(self, uid: str) -> Optional[StudentProfile]:
+        db = firebase_manager.db
+        if db is not None:
+            try:
+                doc = db.collection(self._collection_name).document(uid).get()
+                if doc.exists:
+                    return StudentProfile(**doc.to_dict())
+            except Exception:
+                pass
+        if uid in self._local_profiles:
+            return StudentProfile(**self._local_profiles[uid])
+        return None
+
+    def save_profile(self, profile: StudentProfile) -> StudentProfile:
+        db = firebase_manager.db
+        data = profile.model_dump()
+        if db is not None:
+            try:
+                db.collection(self._collection_name).document(profile.uid).set(data)
+            except Exception:
+                pass
+        self._local_profiles[profile.uid] = data
+        return profile
+
+user_service = UserService()

@@ -107,27 +107,44 @@ class ReschoolAuth {
   saveStudentProfile(profileData) {
     if (!this.currentUser) return null;
 
+    // Trích xuất tự động khối lớp từ tên lớp (VD: "11A2" -> 11, "10 Toán" -> 10)
+    const classStr = profileData.studentClass || "";
+    const gradeMatch = classStr.match(/\b(1[0-2]|[1-9])\b/);
+    const parsedGrade = profileData.grade || (gradeMatch ? parseInt(gradeMatch[1]) : null);
+
     const updatedUser = {
       ...this.currentUser,
+      uid: this.currentUser.uid,
       displayName: profileData.authorName || this.currentUser.displayName,
+      email: this.currentUser.email || "",
+      photoURL: this.currentUser.photoURL || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80",
       school: profileData.schoolName,
       district: profileData.district,
       city: profileData.city || "Hà Nội",
-      studentClass: profileData.studentClass || "",
+      studentClass: classStr,
+      grade: parsedGrade,
       phone: profileData.phone,
       zalo: profileData.zalo || profileData.phone,
       defaultAddress: profileData.address || "",
       profileCompleted: true,
+      createdAt: this.currentUser.createdAt || new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
 
     this.currentUser = updatedUser;
+    
+    // Lưu vào LocalStorage
     try {
       localStorage.setItem(`reschool_student_profile_${updatedUser.uid}`, JSON.stringify(updatedUser));
       localStorage.setItem("reschool_auth_user", JSON.stringify(updatedUser));
     } catch (e) {
       console.error("Lỗi ghi dữ liệu hồ sơ học sinh:", e);
     }
+
+    // Đồng bộ vào Cloud Firestore Database thông qua API
+    import('./api.js').then(({ api }) => {
+      api.saveUserProfile(updatedUser);
+    }).catch(() => {});
 
     this.notify();
     return updatedUser;

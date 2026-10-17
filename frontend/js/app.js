@@ -168,10 +168,10 @@ class ReschoolApp {
 
     if (tabId === "map") {
       initReschoolMap("reschool-map", (item) => {
-        openItemDetailModal(item, this.itemDetailModal);
+        openItemDetailModal(item, this.itemDetailModal, () => this.loadData());
       });
       renderMapMarkers(this.allItems, (item) => {
-        openItemDetailModal(item, this.itemDetailModal);
+        openItemDetailModal(item, this.itemDetailModal, () => this.loadData());
       });
       resizeMap();
     } else if (tabId === "matchmaking") {
@@ -188,7 +188,7 @@ class ReschoolApp {
     const filtered = api.getLocalItems(this.currentFilters);
     if (this.itemsGrid) {
       renderItemGrid(filtered, this.itemsGrid, (item) => {
-        openItemDetailModal(item, this.itemDetailModal);
+        openItemDetailModal(item, this.itemDetailModal, () => this.loadData());
       });
     }
     if (this.itemsCountLabel) {
@@ -197,7 +197,7 @@ class ReschoolApp {
     // Cập nhật marker trên map nếu map đang active
     if (this.currentTab === "map") {
       renderMapMarkers(filtered, (item) => {
-        openItemDetailModal(item, this.itemDetailModal);
+        openItemDetailModal(item, this.itemDetailModal, () => this.loadData());
       });
     }
   }
@@ -206,7 +206,7 @@ class ReschoolApp {
     const matches = await api.getMatchSuggestions();
     renderMatchmakingList(matches, this.matchmakingContainer, (itemId) => {
       const item = this.allItems.find(i => i.id === itemId);
-      if (item) openItemDetailModal(item, this.itemDetailModal);
+      if (item) openItemDetailModal(item, this.itemDetailModal, () => this.loadData());
     });
   }
 
@@ -301,6 +301,11 @@ class ReschoolApp {
       description: postDescription,
       images: [uploadedImg || defaultPlaceholder],
       tags: postTags,
+      user_id: user.uid || "anonymous",
+      status: "AVAILABLE",
+      view_count: 0,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
       location: {
         school_name: user.school || "Trường THPT",
         city: user.city || "Hà Nội",
@@ -310,7 +315,9 @@ class ReschoolApp {
         longitude: 105.8400 + (Math.random() - 0.5) * 0.04
       },
       contact: {
+        user_id: user.uid || "anonymous",
         author_name: user.displayName,
+        author_avatar: user.photoURL || "",
         student_class: user.studentClass || "",
         phone: user.phone || "",
         zalo: user.zalo || user.phone || "",
@@ -411,12 +418,18 @@ class ReschoolApp {
       submitBtn.textContent = "Đang lưu vào cơ sở dữ liệu...";
     }
 
+    const studentClassStr = form["profile-student-class"].value.trim();
+    const gradeMatch = studentClassStr.match(/\b(1[0-2]|[1-9])\b/);
+    const parsedGrade = gradeMatch ? parseInt(gradeMatch[1]) : null;
+
     const profileData = {
       schoolName: form["profile-school-name"].value.trim(),
       district: form["profile-district"].value.trim(),
+      city: "Hà Nội",
       address: form["profile-address"].value.trim(),
       authorName: form["profile-student-name"].value.trim(),
-      studentClass: form["profile-student-class"].value.trim(),
+      studentClass: studentClassStr,
+      grade: parsedGrade,
       phone: form["profile-phone"].value.trim(),
       zalo: form["profile-zalo"].value.trim()
     };

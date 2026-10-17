@@ -36,10 +36,12 @@ class LocationInfo(BaseModel):
 
 class ContactInfo(BaseModel):
     author_name: str = Field(..., description="Tên người đăng")
+    author_avatar: Optional[str] = Field(None, description="Avatar của người đăng")
     student_class: Optional[str] = Field(None, description="Lớp, vd: 10A1, 11 Toán")
     phone: str = Field(..., description="Số điện thoại liên hệ")
     zalo: Optional[str] = Field(None, description="Số Zalo hoặc link Zalo")
     email: Optional[str] = Field(None, description="Email học sinh")
+    user_id: Optional[str] = Field(None, description="UID của người đăng")
 
 class ItemBase(BaseModel):
     title: str = Field(..., min_length=3, max_length=150, description="Tiêu đề bài đăng")
@@ -50,6 +52,7 @@ class ItemBase(BaseModel):
     description: str = Field(..., max_length=1000, description="Mô tả chi tiết đồ dùng, ghi chú thêm")
     images: List[str] = Field(default_factory=list, description="Danh sách URL ảnh hoặc Data URL")
     tags: List[str] = Field(default_factory=list, description="Thẻ tag, vd: ['Cánh Diều', 'Toán 10', 'Size M']")
+    user_id: Optional[str] = Field(None, description="UID của người đăng bài")
     location: LocationInfo
     contact: ContactInfo
 
@@ -101,3 +104,22 @@ class SystemStats(BaseModel):
     co2_saved_kg: float
     paper_saved_kg: float
     students_helped: int
+
+# Hồ sơ học sinh lưu Database
+class StudentProfile(BaseModel):
+    uid: str = Field(..., description="Mã UID tài khoản học sinh")
+    displayName: str = Field(..., description="Họ và tên học sinh")
+    email: Optional[str] = Field(None, description="Email Google")
+    photoURL: Optional[str] = Field(None, description="Ảnh đại diện")
+    school: str = Field(..., description="Tên trường học")
+    district: str = Field(..., description="Quận/Huyện")
+    city: str = Field(default="Hà Nội", description="Tỉnh/Thành phố")
+    studentClass: Optional[str] = Field(None, description="Lớp học")
+    grade: Optional[int] = Field(None, description="Khối lớp (1-12)")
+    phone: str = Field(..., description="Số điện thoại liên hệ")
+    zalo: Optional[str] = Field(None, description="Số Zalo trao đổi")
+    defaultAddress: Optional[str] = Field(None, description="Địa điểm hẹn gặp thuận tiện")
+    profileCompleted: bool = Field(default=True, description="Trạng thái đã hoàn tất hồ sơ")
+    createdAt: Optional[datetime] = Field(default_factory=datetime.utcnow)
+    updatedAt: Optional[datetime] = Field(default_factory=datetime.utcnow)
+
