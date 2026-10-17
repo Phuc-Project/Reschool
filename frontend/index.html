@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/map.css">
+  <link rel="stylesheet" href="css/mobile-app.css">
 </head>
 <body>
 
@@ -649,6 +650,64 @@
       </div>
     </div>
   </div>
+
+  <!-- MOBILE BOTTOM NAVIGATION (Thanh điều hướng ứng dụng di động) -->
+  <nav class="mobile-bottom-nav" aria-label="Điều hướng di động">
+    <button class="bottom-nav-item nav-tab-btn active" data-tab="explore">
+      <div class="bottom-nav-icon">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </div>
+      <span class="bottom-nav-label">Khám phá</span>
+    </button>
+
+    <button class="bottom-nav-item nav-tab-btn" data-tab="map">
+      <div class="bottom-nav-icon">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+          <line x1="8" y1="2" x2="8" y2="18"></line>
+          <line x1="16" y1="6" x2="16" y2="22"></line>
+        </svg>
+      </div>
+      <span class="bottom-nav-label">Bản đồ</span>
+    </button>
+
+    <!-- Nút Đăng tin nổi bật giữa màn hình theo chuẩn Instagram / TikTok / Chợ Tốt -->
+    <button class="bottom-nav-item bottom-nav-fab" id="btn-mobile-create-post" aria-label="Đăng tin">
+      <div class="fab-circle">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+      </div>
+      <span class="bottom-nav-label">Đăng tin</span>
+    </button>
+
+    <button class="bottom-nav-item nav-tab-btn" data-tab="matchmaking">
+      <div class="bottom-nav-icon">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="17 1 21 5 17 9"></polyline>
+          <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+          <polyline points="7 23 3 19 7 15"></polyline>
+          <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+        </svg>
+      </div>
+      <span class="bottom-nav-label">Ghép nối</span>
+    </button>
+
+    <button class="bottom-nav-item nav-tab-btn" data-tab="about">
+      <div class="bottom-nav-icon">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+      </div>
+      <span class="bottom-nav-label">Về dự án</span>
+    </button>
+  </nav>
 
   <!-- Leaflet Map JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>

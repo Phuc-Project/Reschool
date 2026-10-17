@@ -58,19 +58,28 @@ class ReschoolApp {
     
     // Buttons
     this.openPostBtn = document.getElementById("btn-open-create-post");
+    this.mobilePostBtn = document.getElementById("btn-mobile-create-post");
     this.heroExploreBtn = document.getElementById("btn-hero-explore");
     this.heroCreateBtn = document.getElementById("btn-hero-create-post");
     this.loginBtn = document.getElementById("btn-auth-trigger");
   }
 
   bindEvents() {
-    // Navigation tabs
+    // Navigation tabs (both desktop & mobile bottom bar)
     this.navTabs.forEach(btn => {
       btn.addEventListener("click", () => {
         const targetTab = btn.getAttribute("data-tab");
         this.switchTab(targetTab);
       });
     });
+
+    if (this.openPostBtn) {
+      this.openPostBtn.addEventListener("click", () => this.openCreateModal());
+    }
+
+    if (this.mobilePostBtn) {
+      this.mobilePostBtn.addEventListener("click", () => this.openCreateModal());
+    }
 
     // Hero buttons
     if (this.heroExploreBtn) {
