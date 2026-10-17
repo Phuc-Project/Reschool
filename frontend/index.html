@@ -1,89 +1,511 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reschool - Ngân hàng đồ cũ & Sách giáo khoa luân chuyển</title>
+  <meta name="description" content="Nền tảng kết nối học sinh trao tặng và nhận sách giáo khoa, đồng phục, đồ dùng học tập - Vì một ngôi trường xanh.">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>">
 
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/13.0.0/firebase-app-compat.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/13.0.0/firebase-auth-compat.js"></script>
-    <script defer src="/__/firebase/13.0.0/firebase-database-compat.js"></script>
-    <script defer src="/__/firebase/13.0.0/firebase-firestore-compat.js"></script>
-    <script defer src="/__/firebase/13.0.0/firebase-functions-compat.js"></script>
-    <script defer src="/__/firebase/13.0.0/firebase-messaging-compat.js"></script>
-    <script defer src="/__/firebase/13.0.0/firebase-storage-compat.js"></script>
-    <script defer src="/__/firebase/13.0.0/firebase-analytics-compat.js"></script>
-    <script defer src="/__/firebase/13.0.0/firebase-remote-config-compat.js"></script>
-    <script defer src="/__/firebase/13.0.0/firebase-performance-compat.js"></script>
-    <!-- 
-      initialize the SDK after all desired features are loaded, set useEmulator to false
-      to avoid connecting the SDK to running emulators.
-    -->
-    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+  <!-- Google Fonts: Be Vietnam Pro & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+  <!-- Leaflet CSS for Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+
+  <!-- Project Styles -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/map.css">
+</head>
+<body>
+
+  <!-- TOP ANNOUNCEMENT BAR -->
+  <aside class="top-notice-bar">
+    <div class="notice-content">
+      <span class="notice-pill">Thông điệp xanh</span>
+      <span>Trao đi những điều cũ - Nhận lại những giá trị mới • Vì một ngôi trường xanh</span>
     </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
+    <!-- Nút hiển thị & cấu hình Firebase -->
+    <div id="firebase-status-pill" class="firebase-pill status-connected" title="Bấm để xem hoặc cấu hình API Key Firebase">
+      <span class="pulse-dot green"></span>
+      <span>Firebase: gen-lang-client-0595612537</span>
+    </div>
+  </aside>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadEl = document.querySelector('#load');
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.firestore().doc('/foo/bar').get().then(() => { });
-        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        // firebase.analytics(); // call to activate
-        // firebase.analytics().logEvent('tutorial_completed');
-        // firebase.performance(); // call to activate
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+  <!-- MAIN NAVIGATION HEADER -->
+  <header class="main-header">
+    <div class="header-container">
+      <!-- Logo & Thương hiệu -->
+      <a href="#" class="brand-wrapper">
+        <div class="brand-logo-icon">🌱</div>
+        <div class="brand-text">
+          <h1>Reschool</h1>
+          <span>Ngân hàng đồ cũ & SGK luân chuyển</span>
+        </div>
+      </a>
 
-        try {
-          let app = firebase.app();
-          let features = [
-            'auth', 
-            'database', 
-            'firestore',
-            'functions',
-            'messaging', 
-            'storage', 
-            'analytics', 
-            'remoteConfig',
-            'performance',
-          ].filter(feature => typeof app[feature] === 'function');
-          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
-        }
-      });
-    </script>
-  </body>
+      <!-- Menu Tabs Navigation -->
+      <nav class="nav-tabs-wrapper" aria-label="Điều hướng chính">
+        <button class="nav-tab-btn active" data-tab="explore">
+          <span>🔍</span> Khám phá
+        </button>
+        <button class="nav-tab-btn" data-tab="map">
+          <span>🗺️</span> Bản đồ vị trí
+        </button>
+        <button class="nav-tab-btn" data-tab="matchmaking">
+          <span>🤝</span> Gợi ý ghép cặp
+        </button>
+        <button class="nav-tab-btn" data-tab="about">
+          <span>🌿</span> Về Reschool
+        </button>
+      </nav>
+
+      <!-- Hành động Người dùng & Đăng tin -->
+      <div class="header-actions">
+        <button id="btn-open-create-post" class="btn btn-primary">
+          <span>➕</span> Đăng tin cho / nhận
+        </button>
+        <div id="header-auth-box">
+          <!-- Auth Box Rendered by auth.js -->
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO BANNER (THEO POSTER CHUẨN) -->
+  <section class="hero-section">
+    <div class="hero-container">
+      <div class="hero-badge-pill">
+        <span>📖</span> Kết nối học sinh - Lan tỏa yêu thương - Vì một ngôi trường xanh
+      </div>
+      <h2 class="hero-title">
+        Ngân hàng đồ cũ & <span>Sách giáo khoa luân chuyển</span>
+      </h2>
+      <p class="hero-subtitle">
+        Cùng nhau lan tỏa giá trị tốt đẹp! Tái sử dụng sách giáo khoa, đồng phục, dụng cụ học tập để giúp đỡ bạn bè và bảo vệ môi trường học đường.
+      </p>
+
+      <!-- 4 Bước Sử Dụng Chuẩn Theo Poster -->
+      <div class="steps-highlight-row">
+        <div class="step-box">
+          <div class="step-number">1</div>
+          <h4>Đăng ký tài khoản</h4>
+          <p>Dành cho học sinh các trường THPT, THCS trên địa bàn.</p>
+        </div>
+        <div class="step-box">
+          <div class="step-number">2</div>
+          <h4>Đăng tin cho / nhận</h4>
+          <p>Đăng thông tin sách, áo đồng phục, máy tính kèm ảnh & tình trạng.</p>
+        </div>
+        <div class="step-box">
+          <div class="step-number">3</div>
+          <h4>Tìm kiếm & Ghép cặp</h4>
+          <p>Hệ thống tự động gợi ý bạn học sinh gần nhất có nhu cầu phù hợp.</p>
+        </div>
+        <div class="step-box">
+          <div class="step-number">4</div>
+          <h4>Liên hệ & Giao dịch</h4>
+          <p>Hẹn gặp trực tiếp tại cổng trường để trao đổi vui vẻ, an toàn.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="main-content">
+
+    <!-- VIEW 1: KHÁM PHÁ ĐỒ DÙNG (FEED) -->
+    <section id="view-explore" class="view-section active">
+      <!-- Bộ lọc tìm kiếm thông minh -->
+      <div class="filters-toolbar">
+        <div class="search-primary-row">
+          <div class="search-input-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="global-search-input" class="search-input" placeholder="Tìm kiếm sách Toán 10 Kết Nối Tri Thức, áo khoác Kim Liên, máy tính Casio..." autocomplete="off">
+          </div>
+          <select id="type-filter-select" class="select-filter" aria-label="Loại bài đăng">
+            <option value="ALL">Tất cả bài đăng</option>
+            <option value="GIVE">🎁 Đồ cho tặng (0đ)</option>
+            <option value="RECEIVE">🔍 Đang cần xin</option>
+          </select>
+          <select id="grade-filter-select" class="select-filter" aria-label="Khối lớp">
+            <option value="ALL">Tất cả khối lớp</option>
+            <option value="12">Lớp 12</option>
+            <option value="11">Lớp 11</option>
+            <option value="10">Lớp 10</option>
+            <option value="9">Lớp 9</option>
+            <option value="8">Lớp 8</option>
+            <option value="7">Lớp 7</option>
+            <option value="6">Lớp 6</option>
+          </select>
+        </div>
+
+        <!-- Chips Danh Mục -->
+        <div class="categories-chips-row">
+          <button class="category-chip active" data-category="ALL">🌟 Tất cả</button>
+          <button class="category-chip" data-category="TEXTBOOK">📚 Sách giáo khoa</button>
+          <button class="category-chip" data-category="UNIFORM">👕 Đồng phục học sinh</button>
+          <button class="category-chip" data-category="STATIONERY">✏️ Dụng cụ học tập</button>
+          <button class="category-chip" data-category="OTHER">📦 Đồ dùng học đường khác</button>
+        </div>
+      </div>
+
+      <!-- Tiêu đề Feed & Số lượng -->
+      <div class="feed-header-info">
+        <h2>Đồ dùng đang sẵn sàng luân chuyển</h2>
+        <span id="items-found-count" class="items-count-badge">8 món đồ</span>
+      </div>
+
+      <!-- Grid Danh Sách Đồ Dùng -->
+      <div id="items-grid" class="items-grid">
+        <!-- Rendered by items.js -->
+      </div>
+    </section>
+
+    <!-- VIEW 2: BẢN ĐỒ VỊ TRÍ (MAP) -->
+    <section id="view-map" class="view-section">
+      <div class="map-view-wrapper">
+        <div class="map-view-header">
+          <div>
+            <h3>Bản đồ đồ dùng quanh các trường học</h3>
+            <p>Xem các bài đăng gần trường hoặc khu vực của bạn để thuận tiện hẹn trao nhận sách và đồ dùng.</p>
+          </div>
+          <div class="map-legend">
+            <div class="legend-item">
+              <span class="legend-dot give"></span>
+              <span>Điểm cho tặng</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot receive"></span>
+              <span>Điểm cần xin</span>
+            </div>
+          </div>
+        </div>
+        <!-- Bản đồ Leaflet -->
+        <div id="reschool-map"></div>
+      </div>
+    </section>
+
+    <!-- VIEW 3: GỢI Ý GHÉP CẶP (SMART MATCHMAKING) -->
+    <section id="view-matchmaking" class="view-section">
+      <div class="matchmaking-banner">
+        <div class="matchmaking-banner-text">
+          <h2>Thuật toán ghép cặp người cho & người nhận</h2>
+          <p>Hệ thống tự động đối chiếu nhu cầu sách giáo khoa, khối lớp, môn học và khoảng cách địa lý giữa 2 trường để gợi ý kết nối thành công cao nhất.</p>
+        </div>
+      </div>
+      <div id="matchmaking-list">
+        <!-- Rendered by matchmaking.js -->
+      </div>
+    </section>
+
+    <!-- VIEW 4: VỀ RESCHOOL & LỢI ÍCH (POSTER INFORMATION) -->
+    <section id="view-about" class="view-section">
+      <!-- 4 Thẻ Thống kê tác động môi trường -->
+      <div class="stats-cards-grid">
+        <div class="stat-card">
+          <div class="stat-icon green">📚</div>
+          <div>
+            <div class="stat-number">1,248</div>
+            <div class="stat-label">Sách & đồ dùng đã luân chuyển</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon blue">🌳</div>
+          <div>
+            <div class="stat-number">426.5 kg</div>
+            <div class="stat-label">Khí CO2 được giảm phát thải</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon amber">📄</div>
+          <div>
+            <div class="stat-number">318.2 kg</div>
+            <div class="stat-label">Giấy in được tái sử dụng</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon purple">🧑‍🎓</div>
+          <div>
+            <div class="stat-number">972</div>
+            <div class="stat-label">Bạn học sinh được kết nối</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vấn đề hiện tại & Giải pháp theo poster -->
+      <div style="background: #FFFFFF; border: 1px solid var(--slate-200); border-radius: var(--radius-lg); padding: 32px; margin-bottom: 24px;">
+        <h3 style="font-size: 1.3rem; color: var(--blue-800); font-weight: 800; margin-bottom: 16px;">Vấn đề hiện tại trong học đường</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+          <div style="background: var(--slate-50); padding: 18px; border-radius: var(--radius-md); border-left: 4px solid #10B981;">
+            <h4 style="font-size: 1rem; color: var(--slate-800); margin-bottom: 6px;">Lãng phí tài nguyên sách</h4>
+            <p style="font-size: 0.88rem; color: var(--slate-600);">Sách giáo khoa, áo đồng phục và đồ dùng còn rất tốt nhưng sau mỗi năm học thường bị bỏ đi hoặc bán phế liệu giá rẻ, gây lãng phí lớn.</p>
+          </div>
+          <div style="background: var(--slate-50); padding: 18px; border-radius: var(--radius-md); border-left: 4px solid #F59E0B;">
+            <h4 style="font-size: 1rem; color: var(--slate-800); margin-bottom: 6px;">Học sinh khó khăn</h4>
+            <p style="font-size: 0.88rem; color: var(--slate-600);">Nhiều bạn học sinh có hoàn cảnh khó khăn không đủ điều kiện mua bộ sách mới, áo ấm đồng phục hay máy tính Casio để học tập.</p>
+          </div>
+          <div style="background: var(--slate-50); padding: 18px; border-radius: var(--radius-md); border-left: 4px solid #2563EB;">
+            <h4 style="font-size: 1rem; color: var(--slate-800); margin-bottom: 6px;">Thiếu nền tảng chung</h4>
+            <p style="font-size: 0.88rem; color: var(--slate-600);">Trước đây chưa có một kênh trường học đáng tin cậy để các bạn dễ dàng tìm nhau, trao đổi và luân chuyển tài liệu an toàn.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lợi ích mang lại -->
+      <div style="background: #FFFFFF; border: 1px solid var(--slate-200); border-radius: var(--radius-lg); padding: 32px;">
+        <h3 style="font-size: 1.3rem; color: var(--primary-700); font-weight: 800; margin-bottom: 16px;">Lợi ích mà Reschool mang lại</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+          <div style="text-align: center; padding: 16px; background: var(--primary-50); border-radius: var(--radius-md);">
+            <div style="font-size: 2rem; margin-bottom: 8px;">💰</div>
+            <strong style="color: var(--primary-800);">Tiết kiệm chi phí</strong>
+            <p style="font-size: 0.82rem; color: var(--slate-600); margin-top: 4px;">Giúp phụ huynh và học sinh giảm gánh nặng tài chính đầu năm học mới.</p>
+          </div>
+          <div style="text-align: center; padding: 16px; background: #ECFDF5; border-radius: var(--radius-md);">
+            <div style="font-size: 2rem; margin-bottom: 8px;">🌱</div>
+            <strong style="color: var(--primary-800);">Bảo vệ môi trường</strong>
+            <p style="font-size: 0.82rem; color: var(--slate-600); margin-top: 4px;">Kéo dài vòng đời vật dụng, hạn chế chặt cây làm bột giấy và xả rác.</p>
+          </div>
+          <div style="text-align: center; padding: 16px; background: var(--blue-50); border-radius: var(--radius-md);">
+            <div style="font-size: 2rem; margin-bottom: 8px;">❤️</div>
+            <strong style="color: var(--blue-800);">Giúp đỡ bạn bè</strong>
+            <p style="font-size: 0.82rem; color: var(--slate-600); margin-top: 4px;">Lan tỏa tinh thần tương thân tương ái, sẻ chia trong trường học.</p>
+          </div>
+          <div style="text-align: center; padding: 16px; background: var(--amber-50); border-radius: var(--radius-md);">
+            <div style="font-size: 2rem; margin-bottom: 8px;">🤝</div>
+            <strong style="color: var(--amber-800);">Cộng đồng văn minh</strong>
+            <p style="font-size: 0.82rem; color: var(--slate-600); margin-top: 4px;">Xây dựng thói quen sống xanh và trách nhiệm xã hội từ ghế nhà trường.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="main-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <h3>🌱 Reschool Vietnam</h3>
+        <p>Ngân hàng đồ cũ và Sách giáo khoa luân chuyển dành cho học sinh</p>
+      </div>
+      <div class="footer-links">
+        <a href="#explore" class="nav-tab-btn" data-tab="explore">Khám phá sách</a>
+        <a href="#map" class="nav-tab-btn" data-tab="map">Bản đồ trường học</a>
+        <a href="#matchmaking" class="nav-tab-btn" data-tab="matchmaking">Ghép cặp</a>
+        <a href="#about" class="nav-tab-btn" data-tab="about">Mục tiêu xanh</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       MODALS
+       ========================================================================== -->
+
+  <!-- 1. Modal Chi tiết Vật Phẩm -->
+  <div id="item-detail-modal" class="modal-container" role="dialog" aria-modal="true">
+    <!-- Content injected by items.js -->
+  </div>
+
+  <!-- 2. Modal Đăng tin Cho / Nhận mới -->
+  <div id="create-post-modal" class="modal-container" role="dialog" aria-modal="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <button class="modal-close-btn" aria-label="Đóng">&times;</button>
+        <h3 class="modal-title">Đăng tin đồ dùng học đường</h3>
+        <p class="modal-subtitle">Chia sẻ đồ cũ không dùng hoặc gửi lời nhắn tìm món đồ bạn cần.</p>
+
+        <form id="create-post-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Loại tin đăng <span class="required">*</span></label>
+              <select name="post-type" class="form-control" required>
+                <option value="GIVE">🎁 Cần tặng lại (Miễn phí 0đ)</option>
+                <option value="RECEIVE">🔍 Cần xin / Đang tìm kiếm</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Danh mục <span class="required">*</span></label>
+              <select name="post-category" class="form-control" required>
+                <option value="TEXTBOOK">📚 Sách giáo khoa</option>
+                <option value="UNIFORM">👕 Đồng phục học sinh</option>
+                <option value="STATIONERY">✏️ Dụng cụ học tập</option>
+                <option value="OTHER">📦 Đồ dùng khác</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Tiêu đề bài đăng <span class="required">*</span></label>
+            <input type="text" name="post-title" class="form-control" placeholder="Vd: Trọn bộ SGK Lớp 10 Kết Nối Tri Thức mới 95%" required minlength="5">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Khối lớp (nếu có)</label>
+              <select name="post-grade" class="form-control">
+                <option value="">Không phân theo lớp</option>
+                <option value="12">Lớp 12</option>
+                <option value="11">Lớp 11</option>
+                <option value="10">Lớp 10</option>
+                <option value="9">Lớp 9</option>
+                <option value="8">Lớp 8</option>
+                <option value="7">Lớp 7</option>
+                <option value="6">Lớp 6</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Tình trạng đồ dùng <span class="required">*</span></label>
+              <input type="text" name="post-condition" class="form-control" placeholder="Vd: Mới 90% - Bọc nilon, đủ trang" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Mô tả chi tiết đồ dùng <span class="required">*</span></label>
+            <textarea name="post-description" rows="3" class="form-control" placeholder="Mô tả cụ thể về số lượng, tình trạng, lý do tặng hoặc lý do cần xin..." required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Ảnh chụp đồ dùng (Chọn từ máy hoặc dùng ảnh mẫu)</label>
+            <div class="image-upload-dropzone" onclick="document.getElementById('post-image-file').click()">
+              <div class="upload-icon">📷</div>
+              <p style="font-size: 0.85rem; color: var(--slate-600); font-weight: 600;">Bấm để tải ảnh thật từ máy của bạn</p>
+              <span style="font-size: 0.75rem; color: var(--slate-400);">Hỗ trợ JPG, PNG (tối đa 5MB)</span>
+              <input type="file" id="post-image-file" accept="image/*" style="display: none;">
+              <div id="post-image-preview" style="margin-top: 10px;"></div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Tên trường học <span class="required">*</span></label>
+              <input type="text" name="post-school-name" id="post-school-name" class="form-control" placeholder="Vd: THPT Chu Văn An" required>
+            </div>
+            <div class="form-group">
+              <label>Quận/Huyện <span class="required">*</span></label>
+              <input type="text" name="post-district" class="form-control" placeholder="Vd: Tây Hồ" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Địa điểm hẹn gặp thuận tiện</label>
+            <input type="text" name="post-address" class="form-control" placeholder="Vd: Cổng chính số 10 Thụy Khuê sau giờ tan học">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Tên bạn học sinh <span class="required">*</span></label>
+              <input type="text" name="post-author-name" id="post-author-name" class="form-control" placeholder="Họ và tên" required>
+            </div>
+            <div class="form-group">
+              <label>Lớp học</label>
+              <input type="text" name="post-student-class" id="post-student-class" class="form-control" placeholder="Vd: 11A2">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Số điện thoại liên hệ <span class="required">*</span></label>
+              <input type="tel" name="post-phone" class="form-control" placeholder="0987654321" required>
+            </div>
+            <div class="form-group">
+              <label>Số Zalo trao đổi</label>
+              <input type="tel" name="post-zalo" class="form-control" placeholder="Trùng SĐT hoặc SĐT Zalo">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Từ khóa (cách nhau bằng dấu phẩy)</label>
+            <input type="text" name="post-tags" class="form-control" placeholder="Vd: Toán 10, Cánh Diều, Miễn phí">
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; margin-top: 8px;">
+            Hoàn tất đăng tin
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Modal Cấu hình Firebase API Key -->
+  <div id="firebase-config-modal" class="modal-container" role="dialog" aria-modal="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <button class="modal-close-btn" aria-label="Đóng">&times;</button>
+        <h3 class="modal-title">Cấu hình Firebase Project & API Key</h3>
+        <p class="modal-subtitle">Kết nối tới dự án Firebase riêng của bạn để đồng bộ Cloud Firestore và Firebase Auth.</p>
+
+        <form id="firebase-config-form">
+          <div class="form-group">
+            <label>Firebase Web API Key <span class="required">*</span></label>
+            <input type="text" id="fb-api-key" name="fb-api-key" class="form-control" placeholder="AIzaSy..." required>
+            <small style="color: var(--slate-500); font-size: 0.76rem;">Lấy từ Firebase Console > Project Settings > Web App</small>
+          </div>
+
+          <div class="form-group">
+            <label>Project ID <span class="required">*</span></label>
+            <input type="text" id="fb-project-id" name="fb-project-id" class="form-control" placeholder="reschool-reused-project" required>
+          </div>
+
+          <div class="form-group">
+            <label>Auth Domain</label>
+            <input type="text" id="fb-auth-domain" name="fb-auth-domain" class="form-control" placeholder="reschool-reused-project.firebaseapp.com">
+          </div>
+
+          <div style="background: var(--blue-50); padding: 12px; border-radius: var(--radius-sm); margin-bottom: 16px; font-size: 0.82rem; color: var(--blue-800);">
+            💡 <strong>Mẹo:</strong> Bạn cũng có thể mở trực tiếp file <code>frontend/js/firebase-config.js</code> để chỉnh sửa cấu hình mặc định. Khi chưa có API Key thật, ứng dụng vẫn hoạt động 100% đầy đủ chức năng ở chế độ Demo thông minh!
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px;">
+            Lưu cấu hình Firebase
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Modal Đăng Nhập Học Sinh -->
+  <div id="auth-modal" class="modal-container" role="dialog" aria-modal="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <button class="modal-close-btn" aria-label="Đóng">&times;</button>
+        <h3 class="modal-title">Đăng nhập tài khoản học sinh</h3>
+        <p class="modal-subtitle">Xác thực để đăng tin và nhắn tin trao đổi với các bạn cùng trường.</p>
+
+        <form id="quick-auth-form">
+          <div class="form-group">
+            <label>Họ và tên học sinh <span class="required">*</span></label>
+            <input type="text" name="student-name" class="form-control" value="Nguyễn Hoàng Nam" required>
+          </div>
+          <div class="form-group">
+            <label>Trường đang theo học <span class="required">*</span></label>
+            <input type="text" name="student-school" class="form-control" value="THPT Chu Văn An" required>
+          </div>
+          <div class="form-group">
+            <label>Lớp học</label>
+            <input type="text" name="student-class" class="form-control" value="11A2">
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; margin-top: 8px;">
+            Đăng nhập ngay
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaflet Map JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <!-- Application Main Script (ES Modules) -->
+  <script type="module" src="js/app.js"></script>
+</body>
 </html>
