@@ -80,7 +80,7 @@ class ReschoolAuth {
     });
   }
 
-  handleGoogleSuccess(baseUser) {
+  async handleGoogleSuccess(baseUser) {
     let profile = null;
     try {
       const storedProfile = localStorage.getItem(`reschool_student_profile_${baseUser.uid}`);
@@ -88,7 +88,15 @@ class ReschoolAuth {
         profile = JSON.parse(storedProfile);
       }
     } catch (e) {
-      console.warn("Lỗi đọc hồ sơ học sinh:", e);
+      console.warn("Lỗi đọc hồ sơ học sinh cục bộ:", e);
+    }
+
+    // Nếu chưa có cục bộ, tải trực tiếp từ Cloud Firestore
+    if (!profile) {
+      try {
+        const { api } = await import('./api.js');
+        profile = await api.getUserProfile(baseUser.uid);
+      } catch (e) {}
     }
 
     const fullUser = {

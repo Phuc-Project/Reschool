@@ -63,28 +63,54 @@ class ReschoolApi {
           if (json.data && json.data.length > 0) return json.data;
         }
       } catch (err) {
-        console.warn("Backend không phản hồi, dùng Local data:", err);
+        console.warn("Backend không phản hồi, thử tải từ Cloud Firestore:", err);
       }
     }
 
-    // 2. Fallback: LocalStorage + Mock Data (Đảm bảo luôn nhanh và ổn định)
+    // 2. Lấy trực tiếp từ Cloud Firestore Database (Dữ liệu đám mây thời gian thực)
+    try {
+      const db = await getFirestoreDb();
+      if (db) {
+        const { collection, getDocs } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
+        const snap = await getDocs(collection(db, "reschool_items"));
+        if (!snap.empty) {
+          const firestoreItems = [];
+          snap.forEach(docSnap => {
+            const data = docSnap.data();
+            data.id = docSnap.id;
+            // Chuyển đổi timestamp Firestore sang ISO string nếu cần
+            if (data.created_at && typeof data.created_at.toDate === 'function') {
+              data.created_at = data.created_at.toDate().toISOString();
+            }
+            if (data.updated_at && typeof data.updated_at.toDate === 'function') {
+              data.updated_at = data.updated_at.toDate().toISOString();
+            }
+            firestoreItems.push(data);
+          });
+
+          if (firestoreItems.length > 0) {
+            // Sắp xếp bài mới nhất lên đầu
+            firestoreItems.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+            // Cập nhật bộ nhớ đệm
+            try {
+              localStorage.setItem(this.storageKey, JSON.stringify(firestoreItems));
+            } catch (e) {}
+
+            return this.filterItemsInMemory(firestoreItems, filters);
+          }
+        }
+      }
+    } catch (firestoreErr) {
+      console.warn("Cloud Firestore offline hoặc lỗi tải, chuyển sang bộ nhớ cục bộ:", firestoreErr);
+    }
+
+    // 3. Fallback: LocalStorage + Mock Data (Đảm bảo hiển thị tức thì khi ngoại tuyến)
     return this.getLocalItems(filters);
   }
 
-  getLocalItems(filters = {}) {
-    let items = [...INITIAL_ITEMS_DATA];
-    try {
-      const stored = localStorage.getItem(this.storageKey);
-      if (stored) {
-        const customItems = JSON.parse(stored);
-        // Tránh trùng ID với mock items
-        const customIds = new Set(customItems.map(c => c.id));
-        const nonDuplicateMocks = items.filter(m => !customIds.has(m.id));
-        items = [...customItems, ...nonDuplicateMocks];
-      }
-    } catch (e) {
-      console.error("Lỗi đọc localStorage:", e);
-    }
+  // Bộ lọc dữ liệu trong bộ nhớ dùng chung cho Firestore & LocalStorage
+  filterItemsInMemory(rawItems, filters = {}) {
+    let items = [...rawItems];
 
     // Lọc theo keyword
     if (filters.keyword) {
@@ -92,7 +118,7 @@ class ReschoolApi {
       items = items.filter(i => 
         (i.title && i.title.toLowerCase().includes(kw)) ||
         (i.description && i.description.toLowerCase().includes(kw)) ||
-        (i.tags && i.tags.some(t => t.toLowerCase().includes(kw))) ||
+        (i.tags && Array.isArray(i.tags) && i.tags.some(t => t.toLowerCase().includes(kw))) ||
         (i.location && i.location.school_name && i.location.school_name.toLowerCase().includes(kw))
       );
     }
@@ -113,6 +139,23 @@ class ReschoolApi {
     }
 
     return items;
+  }
+
+  getLocalItems(filters = {}) {
+    let items = [...INITIAL_ITEMS_DATA];
+    try {
+      const stored = localStorage.getItem(this.storageKey);
+      if (stored) {
+        const customItems = JSON.parse(stored);
+        const customIds = new Set(customItems.map(c => c.id));
+        const nonDuplicateMocks = items.filter(m => !customIds.has(m.id));
+        items = [...customItems, ...nonDuplicateMocks];
+      }
+    } catch (e) {
+      console.error("Lỗi đọc localStorage:", e);
+    }
+
+    return this.filterItemsInMemory(items, filters);
   }
 
   // Thêm mới một bài đăng và lưu trữ đầy đủ các trường vào Database
@@ -316,6 +359,37 @@ class ReschoolApi {
     }
 
     return profile;
+  }
+
+  // Lấy thông tin hồ sơ học sinh từ Cloud Firestore hoặc bộ nhớ đệm
+  async getUserProfile(uid) {
+    if (!uid) return null;
+    
+    // 1. Thử lấy từ Cloud Firestore
+    try {
+      const db = await getFirestoreDb();
+      if (db) {
+        const { doc, getDoc } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
+        const docSnap = await getDoc(doc(db, "student_profiles", uid));
+        if (docSnap.exists()) {
+          const profile = docSnap.data();
+          try {
+            localStorage.setItem(`reschool_student_profile_${uid}`, JSON.stringify(profile));
+          } catch (e) {}
+          return profile;
+        }
+      }
+    } catch (e) {
+      console.warn("Lỗi đọc hồ sơ từ Cloud Firestore:", e);
+    }
+
+    // 2. Fallback: LocalStorage
+    try {
+      const stored = localStorage.getItem(`reschool_student_profile_${uid}`);
+      if (stored) return JSON.parse(stored);
+    } catch (e) {}
+
+    return null;
   }
 
   // Lấy danh sách gợi ý ghép cặp

@@ -5,13 +5,12 @@
 
 // Cấu hình dự án Firebase chính thức cho Reschool Web App
 export const DEFAULT_FIREBASE_CONFIG = {
-  apiKey: "AIzaSyCxqeXXTBqBx5EMvufU2gBcoR1iHGGUSJk",
-  authDomain: "gen-lang-client-0595612537.firebaseapp.com",
-  projectId: "gen-lang-client-0595612537",
-  storageBucket: "gen-lang-client-0595612537.firebasestorage.app",
-  messagingSenderId: "1022447215307",
-  appId: "1:1022447215307:web:116a65686aff96a2d2314e",
-  measurementId: "G-2H4BDCNFSC"
+  apiKey: "AIzaSyDSIZeq1heEofbXQ582g5H2aLjE8Puc2Yo",
+  authDomain: "reschool-reused-app.firebaseapp.com",
+  projectId: "reschool-reused-app",
+  storageBucket: "reschool-reused-app.firebasestorage.app",
+  messagingSenderId: "406277815676",
+  appId: "1:406277815676:web:9c44ccb7481126cc4578f9"
 };
 
 // Đọc cấu hình tùy biến từ LocalStorage nếu người dùng chỉnh sửa trong giao diện

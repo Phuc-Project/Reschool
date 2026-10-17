@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     ENVIRONMENT: str = "production"
     
     # Firebase
-    FIREBASE_PROJECT_ID: Optional[str] = "gen-lang-client-0595612537"
+    FIREBASE_PROJECT_ID: Optional[str] = "reschool-reused-app"
     FIREBASE_SERVICE_ACCOUNT_PATH: Optional[str] = "./serviceAccountKey.json"
     
     # CORS (Hỗ trợ Localhost, Vercel và Render)
