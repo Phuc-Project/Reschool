@@ -3,14 +3,14 @@
  * Tích hợp trực tiếp API Key và dự án Firebase của bạn.
  */
 
-// Cấu hình dự án Firebase chính thức cho Reschool Web App
+// Cấu hình dự án Firebase chính thức cho Reschool Web App (tmhp369@gmail.com)
 export const DEFAULT_FIREBASE_CONFIG = {
-  apiKey: "AIzaSyDSIZeq1heEofbXQ582g5H2aLjE8Puc2Yo",
-  authDomain: "reschool-reused-app.firebaseapp.com",
-  projectId: "reschool-reused-app",
-  storageBucket: "reschool-reused-app.firebasestorage.app",
-  messagingSenderId: "406277815676",
-  appId: "1:406277815676:web:9c44ccb7481126cc4578f9"
+  apiKey: "AIzaSyA3kbguBYRzEAeWrEIHCpVD5qWpCchzHPs",
+  authDomain: "reschool-reused-vn.firebaseapp.com",
+  projectId: "reschool-reused-vn",
+  storageBucket: "reschool-reused-vn.firebasestorage.app",
+  messagingSenderId: "738548997838",
+  appId: "1:738548997838:web:6331842cedacaa9daeba9f"
 };
 
 // Đọc cấu hình tùy biến từ LocalStorage nếu người dùng chỉnh sửa trong giao diện
