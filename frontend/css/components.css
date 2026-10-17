@@ -15,27 +15,28 @@
   font-weight: 600;
   font-size: 0.9rem;
   padding: 10px 18px;
-  border-radius: var(--radius-md);
+  border-radius: 4px;
   border: 1px solid transparent;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.15s ease;
   text-decoration: none;
   white-space: nowrap;
 }
 
 .btn:active {
-  transform: scale(0.98);
+  transform: scale(0.99);
 }
 
 .btn-primary {
   background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-500) 100%);
   color: #FFFFFF;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+  border: 1px solid rgba(5, 150, 105, 0.4);
+  box-shadow: 0 1px 3px rgba(16, 185, 129, 0.25);
 }
 
 .btn-primary:hover {
   background: linear-gradient(135deg, var(--primary-700) 0%, var(--primary-600) 100%);
-  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
+  box-shadow: 0 3px 8px rgba(16, 185, 129, 0.35);
   transform: translateY(-1px);
 }
 
@@ -54,7 +55,7 @@
 .btn-outline {
   background: #FFFFFF;
   color: var(--slate-700);
-  border: 1.5px solid var(--slate-300);
+  border: 1px solid var(--slate-300);
 }
 
 .btn-outline:hover {
@@ -67,19 +68,20 @@
 .btn-zalo {
   background: #0068FF;
   color: #FFFFFF;
-  box-shadow: 0 4px 12px rgba(0, 104, 255, 0.25);
+  border: 1px solid #0055D4;
+  box-shadow: 0 1px 3px rgba(0, 104, 255, 0.25);
 }
 
 .btn-zalo:hover {
   background: #0055D4;
-  box-shadow: 0 6px 16px rgba(0, 104, 255, 0.35);
+  box-shadow: 0 3px 8px rgba(0, 104, 255, 0.35);
   transform: translateY(-1px);
 }
 
 .btn-phone {
   background: #FFFFFF;
   color: var(--slate-800);
-  border: 1.5px solid var(--slate-300);
+  border: 1px solid var(--slate-300);
 }
 
 .btn-phone:hover {
@@ -90,7 +92,7 @@
 .btn-sm {
   padding: 6px 12px;
   font-size: 0.82rem;
-  border-radius: var(--radius-sm);
+  border-radius: 3px;
 }
 
 .btn-block {
@@ -100,7 +102,7 @@
 }
 
 /* ==========================================================================
-   BADGES & PILLS
+   BADGES & CHIPS (HÌNH KHỐI VUÔNG VỨC DOANH NGHIỆP)
    ========================================================================== */
 .badge {
   display: inline-flex;
@@ -108,8 +110,8 @@
   gap: 4px;
   font-size: 0.74rem;
   font-weight: 700;
-  padding: 4px 10px;
-  border-radius: var(--radius-full);
+  padding: 3px 8px;
+  border-radius: 2px;
   text-transform: uppercase;
   letter-spacing: 0.4px;
 }
@@ -125,8 +127,9 @@
 }
 
 .badge-category {
-  background: rgba(255, 255, 255, 0.94);
+  background: rgba(255, 255, 255, 0.95);
   color: var(--slate-800);
+  border: 1px solid var(--slate-200);
   backdrop-filter: blur(4px);
   box-shadow: var(--shadow-xs);
 }
@@ -135,12 +138,12 @@
   position: absolute;
   bottom: 10px;
   right: 10px;
-  background: rgba(15, 23, 42, 0.8);
+  background: rgba(15, 23, 42, 0.85);
   color: #FFFFFF;
   font-size: 0.74rem;
   font-weight: 600;
-  padding: 3px 8px;
-  border-radius: var(--radius-sm);
+  padding: 2px 7px;
+  border-radius: 2px;
   backdrop-filter: blur(4px);
 }
 
@@ -156,13 +159,13 @@
 .filters-toolbar {
   background: #FFFFFF;
   border: 1px solid var(--slate-200);
-  border-radius: var(--radius-lg);
-  padding: 18px 20px;
-  box-shadow: var(--shadow-sm);
-  margin-bottom: 28px;
+  border-radius: 4px;
+  padding: 16px 20px;
+  box-shadow: var(--shadow-xs);
+  margin-bottom: 24px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
 .search-primary-row {
@@ -189,14 +192,14 @@
 
 .search-input {
   width: 100%;
-  padding: 11px 14px 11px 40px;
-  border: 1.5px solid var(--slate-200);
-  border-radius: var(--radius-md);
+  padding: 10px 14px 10px 40px;
+  border: 1px solid var(--slate-300);
+  border-radius: 4px;
   font-family: var(--font-main);
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   color: var(--slate-800);
   outline: none;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
   background: var(--slate-50);
 }
 
@@ -212,11 +215,11 @@
 }
 
 .select-filter {
-  padding: 10px 38px 10px 14px;
-  border: 1.5px solid var(--slate-200);
-  border-radius: var(--radius-md);
+  padding: 9px 36px 9px 12px;
+  border: 1px solid var(--slate-300);
+  border-radius: 4px;
   font-family: var(--font-main);
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   font-weight: 600;
   color: var(--slate-700);
   background-color: var(--slate-50);
@@ -227,7 +230,7 @@
   -webkit-appearance: none;
   cursor: pointer;
   outline: none;
-  transition: border-color 0.2s ease;
+  transition: border-color 0.15s ease;
 }
 
 .select-filter:focus {
@@ -245,13 +248,13 @@
 .category-chip {
   background: var(--slate-50);
   border: 1px solid var(--slate-200);
-  padding: 7px 14px;
-  border-radius: var(--radius-full);
-  font-size: 0.84rem;
+  padding: 6px 12px;
+  border-radius: 3px;
+  font-size: 0.82rem;
   font-weight: 600;
   color: var(--slate-600);
   cursor: pointer;
-  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.15s ease;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -267,7 +270,7 @@
   background: var(--primary-600);
   color: #FFFFFF;
   border-color: var(--primary-600);
-  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.28);
+  box-shadow: 0 1px 4px rgba(16, 185, 129, 0.28);
 }
 
 .category-chip.active svg {
@@ -277,7 +280,7 @@
 .chip-indicator {
   width: 6px;
   height: 6px;
-  border-radius: 50%;
+  border-radius: 1px;
   background: currentColor;
 }
 
@@ -304,14 +307,14 @@
   background: var(--blue-50);
   color: var(--blue-700);
   border: 1px solid var(--blue-200);
-  padding: 4px 12px;
-  border-radius: var(--radius-full);
-  font-size: 0.8rem;
+  padding: 3px 10px;
+  border-radius: 2px;
+  font-size: 0.78rem;
   font-weight: 700;
 }
 
 /* ==========================================================================
-   ITEM CARDS & GRID
+   ITEM CARDS & GRID (VUÔNG VỨC DOANH NGHIỆP)
    ========================================================================== */
 .items-grid {
   display: grid;
@@ -322,18 +325,18 @@
 .item-card {
   background: #FFFFFF;
   border: 1px solid var(--slate-200);
-  border-radius: var(--radius-lg);
+  border-radius: 4px;
   overflow: hidden;
-  box-shadow: var(--shadow-xs);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
   cursor: pointer;
 }
 
 .item-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px -2px rgba(15, 23, 42, 0.1);
   border-color: var(--slate-300);
 }
 
@@ -407,7 +410,7 @@
   width: 6px;
   height: 6px;
   background: var(--primary-500);
-  border-radius: 50%;
+  border-radius: 1px;
   flex-shrink: 0;
 }
 
@@ -429,13 +432,21 @@
 .author-avatar-circle {
   width: 28px;
   height: 28px;
-  border-radius: 50%;
+  border-radius: 4px;
   background: var(--slate-100);
   color: var(--slate-600);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  overflow: hidden;
+}
+
+.author-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  object-fit: cover;
 }
 
 .author-name {
@@ -451,14 +462,14 @@
 }
 
 /* ==========================================================================
-   MATCHMAKING CARDS (GỢI Ý KẾT NỐI)
+   MATCHMAKING CARDS (GỢI Ý KẾT NỐI - CHUẨN DOANH NGHIỆP)
    ========================================================================== */
 .matchmaking-banner {
   background: linear-gradient(135deg, #1E3A8A 0%, #1D4ED8 50%, #059669 100%);
   color: #FFFFFF;
-  border-radius: var(--radius-lg);
-  padding: 28px 24px;
-  margin-bottom: 28px;
+  border-radius: 4px;
+  padding: 24px;
+  margin-bottom: 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -482,16 +493,16 @@
 .match-card {
   background: #FFFFFF;
   border: 1px solid var(--slate-200);
-  border-radius: var(--radius-lg);
-  padding: 22px;
-  box-shadow: var(--shadow-sm);
-  margin-bottom: 20px;
-  transition: all 0.2s ease;
+  border-radius: 4px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+  margin-bottom: 16px;
+  transition: all 0.15s ease;
 }
 
 .match-card:hover {
-  box-shadow: var(--shadow-md);
-  border-color: var(--primary-200);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.09);
+  border-color: var(--primary-300);
 }
 
 .match-card-header {
@@ -508,15 +519,16 @@
   background: var(--primary-50);
   color: var(--primary-700);
   border: 1px solid var(--primary-200);
-  padding: 5px 12px;
-  border-radius: var(--radius-full);
-  font-size: 0.86rem;
+  padding: 4px 10px;
+  border-radius: 2px;
+  font-size: 0.84rem;
+  font-weight: 700;
 }
 
 .match-score-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 1px;
   background: var(--primary-500);
   display: inline-block;
 }
@@ -540,8 +552,8 @@
 .reason-chip {
   background: var(--slate-100);
   color: var(--slate-700);
-  padding: 4px 10px;
-  border-radius: var(--radius-full);
+  padding: 3px 8px;
+  border-radius: 2px;
   font-size: 0.78rem;
   font-weight: 600;
   display: inline-flex;
@@ -556,7 +568,7 @@
   gap: 16px;
   background: var(--slate-50);
   border: 1px solid var(--slate-200);
-  border-radius: var(--radius-md);
+  border-radius: 4px;
   padding: 16px;
   margin-bottom: 18px;
 }
@@ -586,7 +598,7 @@
 .duo-item-preview img {
   width: 62px;
   height: 62px;
-  border-radius: var(--radius-sm);
+  border-radius: 3px;
   object-fit: cover;
   border: 1px solid var(--slate-200);
   flex-shrink: 0;
@@ -631,11 +643,11 @@
 }
 
 .connector-icon-circle {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
   background: #FFFFFF;
-  border: 1.5px solid var(--primary-200);
+  border: 1px solid var(--primary-200);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -651,7 +663,7 @@
 }
 
 /* ==========================================================================
-   ABOUT & SOCIAL IMPACT METRICS
+   ABOUT & SOCIAL IMPACT METRICS (GÓC VUÔNG DOANH NGHIỆP)
    ========================================================================== */
 .stats-cards-grid {
   display: grid;
@@ -663,18 +675,18 @@
 .stat-card {
   background: #FFFFFF;
   border: 1px solid var(--slate-200);
-  border-radius: var(--radius-lg);
-  padding: 22px;
-  box-shadow: var(--shadow-xs);
+  border-radius: 4px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
 .stat-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
+  width: 44px;
+  height: 44px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -703,10 +715,10 @@
 .about-card-container {
   background: #FFFFFF;
   border: 1px solid var(--slate-200);
-  border-radius: var(--radius-lg);
-  padding: 30px;
+  border-radius: 4px;
+  padding: 28px;
   margin-bottom: 24px;
-  box-shadow: var(--shadow-xs);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
 }
 
 .about-card-title {
@@ -724,8 +736,8 @@
 .about-box {
   background: var(--slate-50);
   padding: 20px;
-  border-radius: var(--radius-md);
-  border-left: 4px solid var(--primary-500);
+  border-radius: 4px;
+  border-left: 3px solid var(--primary-500);
 }
 
 .about-box.highlight-green { border-left-color: #10B981; }
@@ -756,7 +768,7 @@
   padding: 22px 16px;
   background: #FFFFFF;
   border: 1px solid var(--slate-200);
-  border-radius: var(--radius-md);
+  border-radius: 4px;
   transition: all 0.2s ease;
 }
 
@@ -769,7 +781,7 @@
 .benefit-icon-box {
   width: 46px;
   height: 46px;
-  border-radius: 12px;
+  border-radius: 4px;
   margin: 0 auto 12px;
   display: flex;
   align-items: center;
@@ -821,7 +833,8 @@
 .modal-dialog {
   position: relative;
   background: #FFFFFF;
-  border-radius: var(--radius-lg);
+  border-radius: 6px;
+  border: 1px solid var(--slate-200);
   width: 100%;
   max-width: 580px;
   max-height: 90vh;
@@ -850,10 +863,10 @@
   top: 18px;
   right: 18px;
   background: var(--slate-100);
-  border: none;
+  border: 1px solid var(--slate-200);
   width: 32px;
   height: 32px;
-  border-radius: 50%;
+  border-radius: 4px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -901,7 +914,7 @@
   width: 100%;
   padding: 10px 14px;
   border: 1.5px solid var(--slate-200);
-  border-radius: var(--radius-sm);
+  border-radius: 4px;
   font-family: var(--font-main);
   font-size: 0.9rem;
   color: var(--slate-800);
@@ -923,7 +936,7 @@
 
 .image-upload-dropzone {
   border: 2px dashed var(--slate-300);
-  border-radius: var(--radius-md);
+  border-radius: 4px;
   padding: 20px;
   text-align: center;
   cursor: pointer;
@@ -939,7 +952,7 @@
 .upload-icon-circle {
   width: 44px;
   height: 44px;
-  border-radius: 50%;
+  border-radius: 4px;
   background: var(--primary-100);
   color: var(--primary-700);
   display: flex;
@@ -967,7 +980,7 @@
 
 .preview-img-tag {
   max-height: 140px;
-  border-radius: 8px;
+  border-radius: 4px;
   border: 1px solid var(--slate-200);
 }
 
@@ -981,7 +994,7 @@
 .main-image-wrapper {
   width: 100%;
   height: 280px;
-  border-radius: var(--radius-md);
+  border-radius: 4px;
   overflow: hidden;
   background: var(--slate-100);
   margin-bottom: 12px;
@@ -1069,7 +1082,7 @@
   background: var(--slate-100);
   color: var(--slate-600);
   padding: 2px 8px;
-  border-radius: var(--radius-full);
+  border-radius: 2px;
   font-size: 0.76rem;
   font-weight: 600;
 }
@@ -1077,7 +1090,7 @@
 .contact-box {
   background: var(--slate-50);
   border: 1px solid var(--slate-200);
-  border-radius: var(--radius-md);
+  border-radius: 4px;
   padding: 16px;
 }
 
@@ -1091,7 +1104,7 @@
 .contact-avatar-circle {
   width: 42px;
   height: 42px;
-  border-radius: 50%;
+  border-radius: 4px;
   background: var(--blue-50);
   color: var(--blue-700);
   display: flex;
@@ -1119,7 +1132,7 @@
   color: var(--primary-700);
   border: 1px solid var(--primary-200);
   padding: 1px 7px;
-  border-radius: var(--radius-full);
+  border-radius: 2px;
 }
 
 .class-label {
@@ -1142,14 +1155,14 @@
   gap: 8px;
   background: var(--slate-100);
   padding: 4px 10px;
-  border-radius: var(--radius-full);
+  border-radius: 4px;
   border: 1px solid var(--slate-200);
 }
 
 .user-avatar-mini {
   width: 28px;
   height: 28px;
-  border-radius: 50%;
+  border-radius: 3px;
   object-fit: cover;
 }
 
@@ -1195,7 +1208,7 @@
   background: var(--slate-900);
   color: #FFFFFF;
   padding: 12px 20px;
-  border-radius: var(--radius-md);
+  border-radius: 4px;
   font-size: 0.88rem;
   font-weight: 600;
   box-shadow: var(--shadow-lg);
@@ -1216,14 +1229,14 @@
   padding: 48px 24px;
   background: #FFFFFF;
   border: 1px dashed var(--slate-300);
-  border-radius: var(--radius-lg);
+  border-radius: 4px;
   grid-column: 1 / -1;
 }
 
 .empty-icon-circle {
   width: 56px;
   height: 56px;
-  border-radius: 50%;
+  border-radius: 4px;
   background: var(--slate-100);
   color: var(--slate-500);
   display: flex;
@@ -1295,7 +1308,7 @@
   background: #FFFFFF;
   color: #3C4043;
   border: 1.5px solid #DADCE0;
-  border-radius: var(--radius-md);
+  border-radius: 4px;
   font-family: var(--font-main);
   font-size: 0.95rem;
   font-weight: 600;
@@ -1341,7 +1354,7 @@
   gap: 12px;
   background: var(--primary-50);
   border: 1px solid var(--primary-200);
-  border-radius: var(--radius-md);
+  border-radius: 4px;
   padding: 12px 16px;
   margin-bottom: 20px;
 }
@@ -1355,9 +1368,9 @@
 .preset-avatar-circle {
   width: 38px;
   height: 38px;
-  border-radius: 50%;
+  border-radius: 4px;
   overflow: hidden;
-  border: 2px solid #FFFFFF;
+  border: 1px solid var(--primary-200);
   box-shadow: var(--shadow-xs);
   flex-shrink: 0;
   background: var(--primary-100);
@@ -1394,7 +1407,7 @@
   font-size: 0.78rem;
   font-weight: 600;
   padding: 5px 12px;
-  border-radius: var(--radius-full);
+  border-radius: 3px;
   cursor: pointer;
   transition: all 0.15s ease;
   white-space: nowrap;
@@ -1412,7 +1425,7 @@
   color: var(--slate-500);
   cursor: pointer;
   padding: 4px;
-  border-radius: 50%;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1432,7 +1445,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 50%;
+  border-radius: 4px;
   display: block;
 }
 
@@ -1477,7 +1490,7 @@
 .owner-actions-box {
   background: var(--primary-50);
   border: 1px solid var(--primary-200);
-  border-radius: var(--radius-md);
+  border-radius: 4px;
   padding: 14px 16px;
   margin-bottom: 18px;
   display: flex;
@@ -1497,7 +1510,7 @@
   color: var(--primary-800);
   background: #FFFFFF;
   padding: 3px 8px;
-  border-radius: var(--radius-sm);
+  border-radius: 2px;
   border: 1px solid var(--primary-300);
   text-transform: uppercase;
 }
@@ -1518,7 +1531,7 @@
   border: 1px solid #FCA5A5;
   font-size: 0.82rem;
   padding: 6px 14px;
-  border-radius: var(--radius-sm);
+  border-radius: 4px;
   font-family: var(--font-main);
   font-weight: 600;
   cursor: pointer;
