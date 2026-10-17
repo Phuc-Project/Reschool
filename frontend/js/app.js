@@ -22,6 +22,12 @@ class ReschoolApp {
   }
 
   async init() {
+    // Kiểm tra đăng nhập: Bắt buộc đăng nhập trước khi sử dụng dịch vụ Reschool
+    if (!authManager.isLoggedIn()) {
+      window.location.replace("login.html");
+      return;
+    }
+
     this.cacheDom();
     this.bindEvents();
     await this.loadData();
@@ -360,13 +366,7 @@ class ReschoolApp {
   }
 
   openAuthModal() {
-    if (!this.authModal) return;
-    this.authModal.classList.add("active");
-    const closeBtn = this.authModal.querySelector(".modal-close-btn");
-    const backdrop = this.authModal.querySelector(".modal-backdrop");
-    const close = () => this.authModal.classList.remove("active");
-    if (closeBtn) closeBtn.onclick = close;
-    if (backdrop) backdrop.onclick = close;
+    window.location.href = "login.html";
   }
 
   async handleGoogleLogin() {
@@ -465,10 +465,8 @@ class ReschoolApp {
   setupAuthObserver() {
     authManager.onAuthStateChanged((user) => {
       const authContainer = document.getElementById("header-auth-box");
-      const authGateBanner = document.getElementById("auth-gate-banner");
 
       if (user) {
-        if (authGateBanner) authGateBanner.classList.add("hidden");
         document.body.classList.add("user-authenticated");
 
         if (authContainer) {
@@ -496,32 +494,13 @@ class ReschoolApp {
           if (logoutBtn) {
             logoutBtn.onclick = () => {
               authManager.logout();
-              this.showToast("Đã đăng xuất tài khoản.");
+              window.location.replace("login.html");
             };
           }
         }
       } else {
-        if (authGateBanner) authGateBanner.classList.remove("hidden");
         document.body.classList.remove("user-authenticated");
-
-        // Nếu học sinh đăng xuất khi đang ở Tab Bản đồ hoặc Ghép nối thì chuyển về Khám phá
-        if (this.currentTab === "map" || this.currentTab === "matchmaking") {
-          this.switchTab("explore");
-        }
-
-        if (authContainer) {
-          authContainer.innerHTML = `
-            <button id="btn-auth-trigger" class="btn btn-outline btn-sm">
-              <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-              </svg>
-              <span>Đăng nhập học sinh</span>
-            </button>
-          `;
-          const btn = document.getElementById("btn-auth-trigger");
-          if (btn) btn.onclick = () => this.openAuthModal();
-        }
+        window.location.replace("login.html");
       }
     });
   }

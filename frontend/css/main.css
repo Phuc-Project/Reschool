@@ -438,67 +438,7 @@ body {
 .dot-amber { background: #F59E0B; }
 .dot-teal { background: #14B8A6; }
 
-/* ==========================================================================
-   AUTH GATE BANNER (BẮT BUỘC ĐĂNG NHẬP ĐỂ SỬ DỤNG DỊCH VỤ)
-   ========================================================================== */
-.auth-gate-card {
-  background: linear-gradient(135deg, #ECFDF5 0%, #EFF6FF 100%);
-  border: 1px solid rgba(16, 185, 129, 0.35);
-  border-radius: 4px;
-  padding: 18px 24px;
-  margin-bottom: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  box-shadow: 0 2px 8px -2px rgba(16, 185, 129, 0.1);
-  transition: opacity 0.25s ease, transform 0.25s ease;
-}
 
-.auth-gate-card.hidden {
-  display: none !important;
-}
-
-.auth-gate-content {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.auth-gate-icon-badge {
-  width: 40px;
-  height: 40px;
-  border-radius: 4px;
-  background: #FFFFFF;
-  border: 1px solid var(--primary-200);
-  color: var(--primary-600);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  box-shadow: var(--shadow-xs);
-}
-
-.auth-gate-text h4 {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--slate-900);
-  margin-bottom: 2px;
-}
-
-.auth-gate-text p {
-  font-size: 0.84rem;
-  color: var(--slate-600);
-  margin: 0;
-}
-
-.btn-gate-login {
-  flex-shrink: 0;
-  padding: 10px 18px;
-  font-size: 0.88rem;
-  font-weight: 700;
-  border-radius: 4px;
-}
 
 /* ==========================================================================
    VIEW SECTIONS (TABS)
