@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" fill="none">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="leafGrad" x1="15%" y1="10%" x2="85%" y2="90%">
+      <stop offset="0%" stop-color="#34D399" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+
+    <linearGradient id="bookGrad" x1="10%" y1="15%" x2="90%" y2="85%">
+      <stop offset="0%" stop-color="#60A5FA" />
+      <stop offset="100%" stop-color="#2563EB" />
+    </linearGradient>
+
+    <linearGradient id="sparkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCD34D" />
+      <stop offset="100%" stop-color="#F59E0B" />
+    </linearGradient>
+
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F0FDF4" />
+      <stop offset="100%" stop-color="#EFF6FF" />
+    </linearGradient>
+
+    <!-- Subtle Drop Shadow -->
+    <filter id="logoShadow" x="-10%" y="-10%" width="130%" height="130%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0F172A" flood-opacity="0.12" />
+    </filter>
+  </defs>
+
+  <!-- Squircle Base Container -->
+  <rect x="8" y="8" width="104" height="104" rx="28" fill="url(#bgGrad)" stroke="#E2E8F0" stroke-width="1.5" filter="url(#logoShadow)" />
+
+  <!-- Outer Circulation Infinity Loop (Circular Economy / Reuse) -->
+  <path d="M34 68 C25 56 28 38 42 30 C56 22 68 34 60 48" 
+        stroke="url(#leafGrad)" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" />
+  
+  <path d="M86 52 C95 64 92 82 78 90 C64 98 52 86 60 72" 
+        stroke="url(#bookGrad)" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- Open Book Wings / Knowledge & Education -->
+  <!-- Left Page (Emerald Leaf-Book) -->
+  <path d="M60 76 C52 70 38 68 28 72 C28 54 38 50 54 52 C57 52.5 59 54 60 56 Z" 
+        fill="url(#leafGrad)" />
+  
+  <!-- Right Page (Royal Blue Knowledge Book) -->
+  <path d="M60 76 C68 70 82 68 92 72 C92 54 82 50 66 52 C63 52.5 61 54 60 56 Z" 
+        fill="url(#bookGrad)" />
+
+  <!-- Center Spine & Knowledge Bookmark Ribbon -->
+  <path d="M60 52 L60 84" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" />
+
+  <!-- Golden Sprout / Growth Spark at the top center -->
+  <path d="M60 26 C60 26 54 34 54 39 C54 42.3 56.7 45 60 45 C63.3 45 66 42.3 66 39 C66 34 60 26 60 26 Z" 
+        fill="url(#sparkGrad)" />
+  
+  <circle cx="60" cy="38" r="2" fill="#FFFFFF" opacity="0.9" />
+</svg>

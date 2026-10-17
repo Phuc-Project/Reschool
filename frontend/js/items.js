@@ -106,6 +106,21 @@ export function renderItemGrid(items, containerElement, onCardClick) {
 export function openItemDetailModal(item, modalElement, onDataChange) {
   if (!modalElement || !item) return;
 
+  // Kiểm tra quyền đăng nhập bắt buộc trước khi mở chi tiết đồ dùng
+  let currentUser = null;
+  try {
+    const raw = localStorage.getItem("reschool_auth_user");
+    if (raw) currentUser = JSON.parse(raw);
+  } catch {
+    currentUser = null;
+  }
+
+  if (!currentUser) {
+    const authModal = document.getElementById("auth-modal");
+    if (authModal) authModal.classList.add("active");
+    return;
+  }
+
   // Tăng lượt xem & cập nhật Database
   api.incrementViewCount(item.id);
   item.view_count = (item.view_count || 0) + 1;
@@ -115,15 +130,6 @@ export function openItemDetailModal(item, modalElement, onDataChange) {
   const typeClass = isGive ? "badge-give" : "badge-receive";
   const categoryName = CATEGORY_LABELS[item.category] || item.category;
   const isCompleted = item.status === "COMPLETED";
-
-  // Kiểm tra quyền sở hữu bài đăng
-  let currentUser = null;
-  try {
-    const raw = localStorage.getItem("reschool_auth_user");
-    if (raw) currentUser = JSON.parse(raw);
-  } catch {
-    currentUser = null;
-  }
 
   const isOwner = Boolean(
     currentUser && (

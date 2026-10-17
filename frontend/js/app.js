@@ -143,6 +143,10 @@ class ReschoolApp {
     if (googleLoginBtn) {
       googleLoginBtn.addEventListener("click", () => this.handleGoogleLogin());
     }
+    const gateAuthBtn = document.getElementById("btn-gate-auth-action");
+    if (gateAuthBtn) {
+      gateAuthBtn.addEventListener("click", () => this.openAuthModal());
+    }
 
     // Form Lưu hồ sơ học sinh (Onboarding Database)
     const profileForm = document.getElementById("profile-onboarding-form");
@@ -158,6 +162,14 @@ class ReschoolApp {
   }
 
   switchTab(tabId) {
+    // Bắt buộc đăng nhập để sử dụng các dịch vụ Bản đồ và Ghép nối
+    if ((tabId === "map" || tabId === "matchmaking") && !authManager.isLoggedIn()) {
+      const serviceName = tabId === "map" ? "Bản đồ trường học" : "Gợi ý ghép nối";
+      this.showToast(`Vui lòng đăng nhập với Google để sử dụng tính năng ${serviceName}!`);
+      this.openAuthModal();
+      return;
+    }
+
     this.currentTab = tabId;
     this.navTabs.forEach(btn => {
       btn.classList.toggle("active", btn.getAttribute("data-tab") === tabId);
@@ -188,6 +200,11 @@ class ReschoolApp {
     const filtered = api.getLocalItems(this.currentFilters);
     if (this.itemsGrid) {
       renderItemGrid(filtered, this.itemsGrid, (item) => {
+        if (!authManager.isLoggedIn()) {
+          this.showToast("Vui lòng đăng nhập với Google để xem thông tin chi tiết và liên hệ bạn học!");
+          this.openAuthModal();
+          return;
+        }
         openItemDetailModal(item, this.itemDetailModal, () => this.loadData());
       });
     }
@@ -448,48 +465,63 @@ class ReschoolApp {
   setupAuthObserver() {
     authManager.onAuthStateChanged((user) => {
       const authContainer = document.getElementById("header-auth-box");
-      if (!authContainer) return;
+      const authGateBanner = document.getElementById("auth-gate-banner");
 
       if (user) {
-        authContainer.innerHTML = `
-          <div class="user-profile-badge">
-            <img src="${user.photoURL}" alt="${user.displayName}" class="user-avatar-mini" />
-            <div class="user-meta-header" id="btn-header-edit-profile" style="cursor: pointer;" title="Xem & sửa thông tin hồ sơ">
-              <span class="user-name">${user.displayName}</span>
-              <span class="user-school-tag">${user.school || "Cập nhật hồ sơ"}</span>
+        if (authGateBanner) authGateBanner.classList.add("hidden");
+        document.body.classList.add("user-authenticated");
+
+        if (authContainer) {
+          authContainer.innerHTML = `
+            <div class="user-profile-badge">
+              <img src="${user.photoURL}" alt="${user.displayName}" class="user-avatar-mini" />
+              <div class="user-meta-header" id="btn-header-edit-profile" style="cursor: pointer;" title="Xem & sửa thông tin hồ sơ">
+                <span class="user-name">${user.displayName}</span>
+                <span class="user-school-tag">${user.school || "Cập nhật hồ sơ"}</span>
+              </div>
+              <button id="btn-logout" class="btn-logout" title="Đăng xuất" aria-label="Đăng xuất">
+                <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                  <polyline points="16 17 21 12 16 7"></polyline>
+                  <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+              </button>
             </div>
-            <button id="btn-logout" class="btn-logout" title="Đăng xuất" aria-label="Đăng xuất">
-              <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                <polyline points="16 17 21 12 16 7"></polyline>
-                <line x1="21" y1="12" x2="9" y2="12"></line>
-              </svg>
-            </button>
-          </div>
-        `;
-        const editHeaderBtn = document.getElementById("btn-header-edit-profile");
-        if (editHeaderBtn) {
-          editHeaderBtn.onclick = () => this.openProfileModal();
-        }
-        const logoutBtn = document.getElementById("btn-logout");
-        if (logoutBtn) {
-          logoutBtn.onclick = () => {
-            authManager.logout();
-            this.showToast("Đã đăng xuất tài khoản.");
-          };
+          `;
+          const editHeaderBtn = document.getElementById("btn-header-edit-profile");
+          if (editHeaderBtn) {
+            editHeaderBtn.onclick = () => this.openProfileModal();
+          }
+          const logoutBtn = document.getElementById("btn-logout");
+          if (logoutBtn) {
+            logoutBtn.onclick = () => {
+              authManager.logout();
+              this.showToast("Đã đăng xuất tài khoản.");
+            };
+          }
         }
       } else {
-        authContainer.innerHTML = `
-          <button id="btn-auth-trigger" class="btn btn-outline btn-sm">
-            <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-              <circle cx="12" cy="7" r="4"></circle>
-            </svg>
-            <span>Đăng nhập học sinh</span>
-          </button>
-        `;
-        const btn = document.getElementById("btn-auth-trigger");
-        if (btn) btn.onclick = () => this.openAuthModal();
+        if (authGateBanner) authGateBanner.classList.remove("hidden");
+        document.body.classList.remove("user-authenticated");
+
+        // Nếu học sinh đăng xuất khi đang ở Tab Bản đồ hoặc Ghép nối thì chuyển về Khám phá
+        if (this.currentTab === "map" || this.currentTab === "matchmaking") {
+          this.switchTab("explore");
+        }
+
+        if (authContainer) {
+          authContainer.innerHTML = `
+            <button id="btn-auth-trigger" class="btn btn-outline btn-sm">
+              <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <span>Đăng nhập học sinh</span>
+            </button>
+          `;
+          const btn = document.getElementById("btn-auth-trigger");
+          if (btn) btn.onclick = () => this.openAuthModal();
+        }
       }
     });
   }
