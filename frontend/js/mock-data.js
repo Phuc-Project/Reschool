@@ -6,6 +6,151 @@
 
 export const INITIAL_ITEMS_DATA = [
   {
+    id: "item-hp-001",
+    title: "Giáo trình Hàng hải & Bộ tài liệu Tiếng Anh chuyên ngành VMU (Năm 1 & 2)",
+    type: "GIVE",
+    category: "TEXTBOOK",
+    grade: 13,
+    condition: "Mới 92% - Giữ gìn cẩn thận, đầy đủ bài tập và ghi chú thực hành",
+    description: "Mình là sinh viên năm cuối Khoa Hàng hải - ĐH Hàng hải Việt Nam, xin tặng lại bộ giáo trình Đại cương Hàng hải, Toán cao cấp và Tiếng Anh chuyên ngành cho các bạn tân sinh viên khóa dưới.",
+    images: ["https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80"],
+    tags: ["ĐH Hàng hải", "VMU", "Hải Phòng", "Giáo trình", "Tặng 0đ"],
+    location: {
+      school_name: "Đại học Hàng hải Việt Nam (VMU)",
+      city: "Hải Phòng",
+      district: "Ngô Quyền",
+      address_detail: "484 Lạch Tray, Quận Ngô Quyền, Hải Phòng",
+      latitude: 20.8415,
+      longitude: 106.6963
+    },
+    contact: {
+      author_name: "Trần Đức Mạnh",
+      student_class: "K62 ĐK Tàu biển",
+      phone: "0936 888 777",
+      zalo: "0936888777",
+      email: "ducmanh.vmu@gmail.com"
+    },
+    status: "AVAILABLE",
+    created_at: "2026-10-18T08:00:00Z",
+    view_count: 89
+  },
+  {
+    id: "item-hp-002",
+    title: "Trọn bộ SGK Lớp 11 Kết Nối Tri Thức & Máy tính Casio 580VN X",
+    type: "GIVE",
+    category: "TEXTBOOK",
+    grade: 11,
+    condition: "Mới 95% - Bọc bìa bóng kính, máy tính còn đủ nắp trượt",
+    description: "Tặng lại cho các em khóa dưới tại Hải Phòng bộ sách giáo khoa lớp 11 kèm máy tính bỏ túi Casio fx-580VN X chính hãng. Ưu tiên các bạn học sinh có hoàn cảnh khó khăn hiếu học.",
+    images: ["https://images.unsplash.com/photo-1594980596870-8aa52a78d8cd?w=600&auto=format&fit=crop&q=80"],
+    tags: ["THPT Chuyên Trần Phú", "Hải Phòng", "Casio 580", "SGK 11"],
+    location: {
+      school_name: "THPT Chuyên Trần Phú",
+      city: "Hải Phòng",
+      district: "Hải An",
+      address_detail: "Lô 10A Lê Hồng Phong, Quận Hải An, Hải Phòng",
+      latitude: 20.8439,
+      longitude: 106.7115
+    },
+    contact: {
+      author_name: "Nguyễn Thảo Vy",
+      student_class: "12 Chuyên Toán",
+      phone: "0904 123 456",
+      zalo: "0904123456",
+      email: "thaovy.ctp@gmail.com"
+    },
+    status: "AVAILABLE",
+    created_at: "2026-10-18T08:30:00Z",
+    view_count: 112
+  },
+  {
+    id: "item-hp-003",
+    title: "Bộ bàn học sinh viên gấp gọn & Đèn LED học bài KTX ĐH Hải Phòng",
+    type: "GIVE",
+    category: "OTHER",
+    grade: null,
+    condition: "Tốt 90% - Chắc chắn, gọn nhẹ, chống cận thị",
+    description: "Mình chuyển trọ ngoài nên muốn tặng lại bàn học gấp gọn bằng gỗ chân sắt và đèn học LED rạng đông cho bạn tân sinh viên nào mới vào KTX trường Đại học Hải Phòng.",
+    images: ["https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=600&auto=format&fit=crop&q=80"],
+    tags: ["ĐH Hải Phòng", "Kiến An", "Bàn học sinh viên", "Miễn phí"],
+    location: {
+      school_name: "Đại học Hải Phòng",
+      city: "Hải Phòng",
+      district: "Kiến An",
+      address_detail: "171 Phan Đăng Lưu, Quận Kiến An, Hải Phòng",
+      latitude: 20.8037,
+      longitude: 106.6341
+    },
+    contact: {
+      author_name: "Lê Văn Thành",
+      student_class: "Năm 3 KTX Kiến An",
+      phone: "0978 654 999",
+      zalo: "0978654999",
+      email: "vanthanh.dhhpy@gmail.com"
+    },
+    status: "AVAILABLE",
+    created_at: "2026-10-18T07:15:00Z",
+    view_count: 76
+  },
+  {
+    id: "item-hp-004",
+    title: "Áo Blouse trắng sinh viên Y Dược Hải Phòng (Size L, còn mới 95%)",
+    type: "GIVE",
+    category: "UNIFORM",
+    grade: 14,
+    condition: "Mới 95% - Vải thô dày dặn, logo in sắc nét, không ố vàng",
+    description: "Thừa 1 áo blouse thực tập lâm sàng do được tặng thêm, nhượng lại 0đ cho bạn nào sinh viên Y Dược Hải Phòng năm 1 chuẩn bị đi bệnh viện thực tập.",
+    images: ["https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&auto=format&fit=crop&q=80"],
+    tags: ["ĐH Y Dược Hải Phòng", "Áo Blouse", "Đồng phục Y", "Hải Phòng"],
+    location: {
+      school_name: "Đại học Y Dược Hải Phòng",
+      city: "Hải Phòng",
+      district: "Ngô Quyền",
+      address_detail: "214 Ngô Quyền, Quận Ngô Quyền, Hải Phòng",
+      latitude: 20.8550,
+      longitude: 106.6998
+    },
+    contact: {
+      author_name: "Phạm Hồng Quân",
+      student_class: "Y Đa Khoa K42",
+      phone: "0915 222 333",
+      zalo: "0915222333",
+      email: "hongquan.hpmu@gmail.com"
+    },
+    status: "AVAILABLE",
+    created_at: "2026-10-18T07:45:00Z",
+    view_count: 64
+  },
+  {
+    id: "item-hp-005",
+    title: "Cần xin bộ SGK Lớp 10 Chân Trời Sáng Tạo cho học sinh khó khăn",
+    type: "RECEIVE",
+    category: "TEXTBOOK",
+    grade: 10,
+    condition: "Dùng được - Chỉ cần nguyên trang không rách nát",
+    description: "Gia đình em tại Lê Chân khó khăn, em vừa đỗ vào trường Ngô Quyền Hải Phòng. Em cần xin lại bộ sách lớp 10 chương trình mới để học. Em xin chân thành cảm ơn các anh chị!",
+    images: ["https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&auto=format&fit=crop&q=80"],
+    tags: ["THPT Ngô Quyền", "Hải Phòng", "Cần nhận gấp", "Chân Trời Sáng Tạo"],
+    location: {
+      school_name: "THPT Ngô Quyền (Hải Phòng)",
+      city: "Hải Phòng",
+      district: "Lê Chân",
+      address_detail: "Số 2 Mê Linh, Quận Lê Chân, Hải Phòng",
+      latitude: 20.8601,
+      longitude: 106.6852
+    },
+    contact: {
+      author_name: "Hoàng Minh Trang",
+      student_class: "10A5 THPT Ngô Quyền",
+      phone: "0945 999 111",
+      zalo: "0945999111",
+      email: "minhtrang.nq@gmail.com"
+    },
+    status: "AVAILABLE",
+    created_at: "2026-10-18T08:10:00Z",
+    view_count: 98
+  },
+  {
     id: "item-001",
     title: "Trọn bộ SGK Lớp 10 Kết Nối Tri Thức (12 cuốn, còn mới 95%)",
     type: "GIVE", // GIVE: Cần cho / Tặng, RECEIVE: Cần xin / Nhận

@@ -4,7 +4,7 @@
  */
 import { api } from './api.js';
 import { authManager } from './auth.js';
-import { initReschoolMap, renderMapMarkers, resizeMap } from './map.js';
+import { initReschoolMap, renderMapMarkers, resizeMap, focusLocation } from './map.js';
 import { renderItemGrid, openItemDetailModal } from './items.js';
 import { renderMatchmakingList } from './matchmaking.js';
 
@@ -174,6 +174,21 @@ class ReschoolApp {
     if (imageInput) {
       imageInput.addEventListener("change", (e) => this.handleImagePreview(e));
     }
+
+    // Quick School Selector for Hai Phong
+    const mapSchoolChips = document.querySelectorAll(".school-chip");
+    mapSchoolChips.forEach(chip => {
+      chip.addEventListener("click", () => {
+        mapSchoolChips.forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+        const lat = parseFloat(chip.getAttribute("data-lat"));
+        const lng = parseFloat(chip.getAttribute("data-lng"));
+        const zoom = parseInt(chip.getAttribute("data-zoom") || "15", 10);
+        if (!isNaN(lat) && !isNaN(lng)) {
+          focusLocation(lat, lng, zoom);
+        }
+      });
+    });
   }
 
   switchTab(tabId) {

@@ -263,7 +263,22 @@
             </div>
           </div>
         </div>
-        <!-- Bản đồ Leaflet -->
+        <!-- Quick School Selector for Hai Phong -->
+        <div class="map-school-selector">
+          <span class="selector-label">
+            <svg class="icon icon-sm" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Điểm trường Hải Phòng:
+          </span>
+          <div class="school-chip-list" id="map-school-chips">
+            <button type="button" class="school-chip active" data-lat="20.8449" data-lng="106.6881" data-zoom="13">Toàn TP Hải Phòng</button>
+            <button type="button" class="school-chip" data-lat="20.8415" data-lng="106.6963" data-zoom="16" data-id="item-hp-001">ĐH Hàng hải (VMU)</button>
+            <button type="button" class="school-chip" data-lat="20.8439" data-lng="106.7115" data-zoom="16" data-id="item-hp-002">THPT Chuyên Trần Phú</button>
+            <button type="button" class="school-chip" data-lat="20.8037" data-lng="106.6341" data-zoom="16" data-id="item-hp-003">ĐH Hải Phòng (Kiến An)</button>
+            <button type="button" class="school-chip" data-lat="20.8550" data-lng="106.6998" data-zoom="16" data-id="item-hp-004">ĐH Y Dược HP</button>
+            <button type="button" class="school-chip" data-lat="20.8601" data-lng="106.6852" data-zoom="16" data-id="item-hp-005">THPT Ngô Quyền</button>
+          </div>
+        </div>
+        <!-- Bản đồ Google Maps & Leaflet -->
         <div id="reschool-map"></div>
       </div>
     </section>

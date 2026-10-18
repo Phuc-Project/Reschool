@@ -1,6 +1,8 @@
+import { GOOGLE_MAPS_API_KEY } from "./firebase-config.js";
+
 /**
  * Reschool Interactive Map Module
- * Hiển thị vị trí các điểm trường học và vật phẩm luân chuyển trên nền bản đồ OpenStreetMap & Leaflet.
+ * Hiển thị vị trí các điểm trường học và vật phẩm luân chuyển trên nền bản đồ Google Maps & Leaflet.
  */
 
 let mapInstance = null;
@@ -15,20 +17,24 @@ export function initReschoolMap(containerId = "reschool-map", onMarkerClick = nu
   const container = document.getElementById(containerId);
   if (!container) return null;
 
-  // Tọa độ trung tâm Hà Nội (Khu vực có các trường THPT Chu Văn An, Phan Đình Phùng, Kim Liên...)
-  const defaultCoords = [21.0300, 105.8250];
+  // Tọa độ trung tâm TP Hải Phòng (Khu vực ĐH Hàng hải, THPT Chuyên Trần Phú, ĐH Y Dược HP)
+  const haiPhongCoords = [20.8449, 106.6881];
 
   mapInstance = L.map(containerId, {
-    center: defaultCoords,
+    center: haiPhongCoords,
     zoom: 13,
     zoomControl: true,
     attributionControl: false
   });
 
-  // Nền bản đồ CartoDB Voyager sáng sủa, thanh lịch, học đường
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    maxZoom: 19,
-    subdomains: 'abcd'
+  // Lớp bản đồ Google Maps sắc nét tích hợp trực tiếp qua API Key
+  const googleTileUrl = GOOGLE_MAPS_API_KEY
+    ? `https://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&key=${GOOGLE_MAPS_API_KEY}`
+    : `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`;
+
+  L.tileLayer(googleTileUrl, {
+    maxZoom: 20,
+    subdomains: ['0', '1', '2', '3']
   }).addTo(mapInstance);
 
   markersLayer = L.layerGroup().addTo(mapInstance);
@@ -116,5 +122,13 @@ export function resizeMap() {
     setTimeout(() => {
       mapInstance.invalidateSize();
     }, 250);
+  }
+}
+
+export function focusLocation(lat, lng, zoom = 15) {
+  if (mapInstance) {
+    mapInstance.flyTo([lat, lng], zoom, {
+      duration: 1.2
+    });
   }
 }

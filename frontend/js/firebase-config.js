@@ -13,6 +13,9 @@ export const DEFAULT_FIREBASE_CONFIG = {
   appId: "1:738548997838:web:6331842cedacaa9daeba9f"
 };
 
+// Google Maps API Key được kích hoạt trực tiếp từ dự án reschool-reused-vn
+export const GOOGLE_MAPS_API_KEY = "AIzaSyBkolaOMMo7b6eLgZLo1I-sa0VXfz9hirk";
+
 // Đọc cấu hình tùy biến từ LocalStorage nếu người dùng chỉnh sửa trong giao diện
 export function getActiveFirebaseConfig() {
   try {
