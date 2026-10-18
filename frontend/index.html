@@ -270,7 +270,8 @@
             Điểm trường Hải Phòng:
           </span>
           <div class="school-chip-list" id="map-school-chips">
-            <button type="button" class="school-chip active" data-lat="20.8449" data-lng="106.6881" data-zoom="13">Toàn TP Hải Phòng</button>
+            <button type="button" class="school-chip active" data-lat="20.9525" data-lng="106.3785" data-zoom="16" data-id="item-hp-aq-01">🏛️ THCS Ái Quốc (Hải Phòng)</button>
+            <button type="button" class="school-chip" data-lat="20.8449" data-lng="106.6881" data-zoom="13">Toàn TP Hải Phòng</button>
             <button type="button" class="school-chip" data-lat="20.8415" data-lng="106.6963" data-zoom="16" data-id="item-hp-001">ĐH Hàng hải (VMU)</button>
             <button type="button" class="school-chip" data-lat="20.8439" data-lng="106.7115" data-zoom="16" data-id="item-hp-002">THPT Chuyên Trần Phú</button>
             <button type="button" class="school-chip" data-lat="20.8037" data-lng="106.6341" data-zoom="16" data-id="item-hp-003">ĐH Hải Phòng (Kiến An)</button>
@@ -550,8 +551,8 @@
           </div>
 
           <div class="form-group">
-            <label>Địa điểm hẹn trao đổi / Vị trí rơi đồ</label>
-            <input type="text" name="post-address" id="post-address" class="form-control" placeholder="Ví dụ: Cổng chính trường sau giờ tan học">
+            <label>Trạm luân chuyển tiếp nhận tại trường</label>
+            <input type="text" name="post-address" id="post-address" class="form-control" placeholder="Mặc định: Thư viện / Phòng Đoàn Đội trường">
           </div>
 
           <div class="form-group">
@@ -611,12 +612,12 @@
 
           <div class="form-row">
             <div class="form-group">
-              <label>Số điện thoại liên hệ <span class="required">*</span></label>
-              <input type="tel" name="profile-phone" id="profile-phone" class="form-control" placeholder="0987654321" required>
+              <label>Số điện thoại liên hệ (Tùy chọn - Bảo mật 100%)</label>
+              <input type="tel" name="profile-phone" id="profile-phone" class="form-control" placeholder="Không công khai ra ngoài">
             </div>
             <div class="form-group">
-              <label>Số Zalo trao đổi</label>
-              <input type="tel" name="profile-zalo" id="profile-zalo" class="form-control" placeholder="Trùng SĐT hoặc SĐT Zalo">
+              <label>Trạm luân chuyển ưa thích</label>
+              <input type="text" name="profile-station" id="profile-station" class="form-control" placeholder="Thư viện / Phòng Đoàn Đội trường">
             </div>
           </div>
 
@@ -661,6 +662,72 @@
             <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
           </svg>
           <span>Xác thực an toàn • Không lưu mật khẩu</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Modal Phiếu Luân Chuyển Học Đường (Mô hình Trạm Luân Chuyển Thư viện / Phòng Đoàn Đội) -->
+  <div id="transit-ticket-modal" class="modal-container" role="dialog" aria-modal="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-dialog" style="max-width: 480px;">
+      <div class="modal-content transit-ticket-modal-content">
+        <button class="modal-close-btn" aria-label="Đóng">
+          <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+
+        <div class="transit-ticket-header">
+          <div class="ticket-station-badge">
+            <svg class="icon icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>MÔ HÌNH TRẠM LUÂN CHUYỂN HỌC ĐƯỜNG</span>
+          </div>
+          <h3 id="ticket-modal-title">Đăng ký luân chuyển thành công!</h3>
+          <p class="ticket-sub">Không công khai SĐT cá nhân • Bàn giao và nhận đồ an toàn tại trường</p>
+        </div>
+
+        <div class="transit-code-card">
+          <span class="transit-code-label">MÃ LUÂN CHUYỂN CỦA BẠN</span>
+          <div class="transit-code-value" id="display-transit-code">Mã SGK-01</div>
+          <button type="button" id="btn-copy-transit-code" class="btn-copy-code">
+            <svg class="icon icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <span>Sao chép mã</span>
+          </button>
+        </div>
+
+        <div class="transit-ticket-details">
+          <div class="ticket-detail-row">
+            <span class="detail-label">Vật phẩm:</span>
+            <strong id="ticket-item-title" class="detail-value text-primary">...</strong>
+          </div>
+          <div class="ticket-detail-row">
+            <span class="detail-label">Trạm luân chuyển:</span>
+            <strong id="ticket-station-name" class="detail-value">Thư viện / Phòng Đoàn Đội - Trường THCS Ái Quốc</strong>
+          </div>
+        </div>
+
+        <div class="transit-steps-guide">
+          <h4>Quy trình trao nhận an toàn tại trường:</h4>
+          <div class="transit-step-item">
+            <div class="step-num">1</div>
+            <div class="step-desc">
+              <strong>Học sinh cho đồ:</strong> Mang sách/đồ dùng đến gửi tại Trạm luân chuyển (Thư viện hoặc phòng Đoàn/Đội trường), đọc <strong>Mã luân chuyển</strong> cho Thủ thư hoặc Thầy/Cô phụ trách.
+            </div>
+          </div>
+          <div class="transit-step-item">
+            <div class="step-num">2</div>
+            <div class="step-desc">
+              <strong>Học sinh nhận đồ:</strong> Đến Trạm luân chuyển, đọc <strong>Mã luân chuyển</strong> để nhận sách/đồ dùng hoàn toàn miễn phí (0đ).
+            </div>
+          </div>
+        </div>
+
+        <div class="transit-modal-footer">
+          <button type="button" class="btn btn-primary btn-block btn-close-transit-modal">
+            Tôi đã ghi nhớ mã & Đóng
+          </button>
         </div>
       </div>
     </div>

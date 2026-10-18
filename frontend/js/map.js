@@ -83,7 +83,7 @@ export function renderMapMarkers(items, onSelectCallback) {
         </div>
         <img class="map-popup-img" src="${item.images[0] || 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300'}" alt="${item.title}" />
         <h4 class="map-popup-title">${item.title}</h4>
-        <div class="map-popup-meta">
+          <div class="map-popup-meta">
           <span class="map-school-row">
             <svg class="icon icon-sm text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M3 21h18"></path>
@@ -93,12 +93,13 @@ export function renderMapMarkers(items, onSelectCallback) {
             </svg>
             <span>${item.location.school_name}</span>
           </span>
-          <span class="map-popup-condition">
-            <span class="condition-dot"></span>
-            <span>${item.condition}</span>
+          <span class="map-popup-station">
+            🏛️ ${item.transit_station || 'Trạm Thư viện / Đoàn Đội'}
           </span>
         </div>
-        <button class="map-popup-btn" data-id="${item.id}">Xem bài đăng</button>
+        <button class="map-popup-btn" data-id="${item.id}">
+          ${isGive ? 'Đăng kí nhận đồ' : 'Tặng cho bạn'}
+        </button>
       </div>
     `;
 

@@ -109,14 +109,13 @@ class ReschoolLoginPage {
 
     const schoolName = form["onboard-school-name"].value.trim();
     const studentClass = form["onboard-class"].value.trim();
-    const district = form["onboard-district"].value.trim();
-    const phone = form["onboard-phone"].value.trim();
-    const zalo = form["onboard-zalo"].value.trim();
-    const address = form["onboard-address"].value.trim();
+    const district = form["onboard-district"] ? form["onboard-district"].value.trim() : "";
+    const phone = form["onboard-phone"] ? form["onboard-phone"].value.trim() : "";
+    const address = form["onboard-address"] ? form["onboard-address"].value.trim() : "";
     const authorName = form["onboard-student-name"].value.trim();
 
-    if (!schoolName || !studentClass || !phone) {
-      this.showToast("Vui lòng điền đầy đủ Trường, Khối lớp và Số điện thoại!");
+    if (!schoolName || !studentClass) {
+      this.showToast("Vui lòng điền đầy đủ Trường học và Khối lớp!");
       return;
     }
 
@@ -125,15 +124,17 @@ class ReschoolLoginPage {
       submitBtn.textContent = "Đang lưu hồ sơ...";
     }
 
+    const isHaiPhong = district.includes("Hải Phòng") || schoolName.includes("Ái Quốc") || schoolName.includes("Hàng hải");
+
     const profileData = {
       authorName: authorName,
       schoolName: schoolName,
       studentClass: studentClass,
-      district: district,
-      city: "Hà Nội",
-      phone: phone,
-      zalo: zalo || phone,
-      address: address
+      district: district || "Ái Quốc",
+      city: isHaiPhong ? "Hải Phòng" : "Hải Phòng",
+      phone: phone || "Bảo mật",
+      zalo: "",
+      address: address || "Thư viện / Phòng Đoàn Đội trường"
     };
 
     authManager.saveStudentProfile(profileData);

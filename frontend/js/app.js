@@ -361,13 +361,12 @@ class ReschoolApp {
         latitude: 21.0333 + (Math.random() - 0.5) * 0.04,
         longitude: 105.8400 + (Math.random() - 0.5) * 0.04
       },
+      transit_station: specificAddress || `Thư viện / Phòng Đoàn Đội - ${user.school || 'Trường THCS Ái Quốc'}`,
       contact: {
         user_id: user.uid || "anonymous",
         author_name: user.displayName,
         author_avatar: user.photoURL || "",
         student_class: user.studentClass || "",
-        phone: user.phone || "",
-        zalo: user.zalo || user.phone || "",
         email: user.email || ""
       }
     };
@@ -465,14 +464,15 @@ class ReschoolApp {
 
     const profileData = {
       schoolName: form["profile-school-name"].value.trim(),
-      district: form["profile-district"].value.trim(),
-      city: "Hà Nội",
+      district: form["profile-district"].value.trim() || "Ái Quốc",
+      city: "Hải Phòng",
       address: form["profile-address"].value.trim(),
       authorName: form["profile-student-name"].value.trim(),
       studentClass: studentClassStr,
       grade: parsedGrade,
-      phone: form["profile-phone"].value.trim(),
-      zalo: form["profile-zalo"].value.trim()
+      phone: form["profile-phone"] ? form["profile-phone"].value.trim() : "Bảo mật",
+      zalo: "",
+      transitStation: form["profile-station"] ? form["profile-station"].value.trim() : "Thư viện / Phòng Đoàn Đội trường"
     };
 
     authManager.saveStudentProfile(profileData);

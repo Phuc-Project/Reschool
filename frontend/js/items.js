@@ -244,41 +244,63 @@ export function openItemDetailModal(item, modalElement, onDataChange) {
               </div>
             ` : ''}
 
-            <!-- Khung liên hệ học sinh -->
-            <div class="contact-box">
-              <div class="contact-header">
-                <div class="contact-avatar-circle">
+            <!-- Trạm luân chuyển học đường & Hành động an toàn (Ý kiến khách hàng) -->
+            <div class="transit-station-card">
+              <div class="transit-station-badge">
+                <svg class="icon icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+                <span>MÔ HÌNH TRẠM LUÂN CHUYỂN (BẢO VỆ HỌC SINH THCS)</span>
+              </div>
+
+              <div class="transit-station-content">
+                <div class="station-icon-box">🏛️</div>
+                <div class="station-text-box">
+                  <div class="station-title">${item.transit_station || ('Thư viện / Phòng Đoàn Đội - ' + (item.location?.school_name || 'Trường THCS Ái Quốc'))}</div>
+                  <div class="station-desc">Tuyệt đối không để lộ SĐT cá nhân. Học sinh hai bên sẽ gửi và nhận đồ an toàn thông qua Trạm luân chuyển tại trường.</div>
+                </div>
+              </div>
+
+              <div class="transit-author-brief">
+                <div class="author-brief-avatar">
                   ${item.contact?.author_avatar ? `
-                    <img src="${item.contact.author_avatar}" alt="${item.contact.author_name}" class="contact-avatar-img" />
+                    <img src="${item.contact.author_avatar}" alt="${item.contact.author_name}" />
                   ` : `
-                    <svg class="icon icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                       <circle cx="12" cy="7" r="4"></circle>
                     </svg>
                   `}
                 </div>
-                <div>
-                  <div class="contact-name-row">
-                    <strong>${item.contact?.author_name || 'Học sinh'}</strong>
-                    <span class="verified-tag">Đã xác minh</span>
-                  </div>
-                  <span class="class-label">${item.contact?.student_class ? 'Lớp ' + item.contact.student_class : 'Học sinh'} • ${item.location?.school_name || ''}</span>
+                <div class="author-brief-text">
+                  <span>Học sinh đăng bài: <strong>${item.contact?.author_name || 'Học sinh'}</strong> (${item.contact?.student_class ? 'Lớp ' + item.contact.student_class : 'Đã xác minh'})</span>
+                  <span class="privacy-note">🔒 Tuyệt đối bảo mật thông tin cá nhân & Số điện thoại</span>
                 </div>
               </div>
 
-              <div class="contact-actions-grid">
-                <a href="tel:${(item.contact?.phone || '').replace(/\s+/g, '')}" class="btn btn-outline btn-phone">
-                  <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                  </svg>
-                  <span>Gọi điện: ${item.contact?.phone || 'Chưa cập nhật'}</span>
-                </a>
-                <a href="https://zalo.me/${(item.contact?.zalo || item.contact?.phone || '').replace(/\s+/g, '')}" target="_blank" rel="noopener noreferrer" class="btn btn-zalo">
-                  <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-                  </svg>
-                  <span>Nhắn tin qua Zalo</span>
-                </a>
+              <!-- Nút hành động duy nhất thay thế SĐT và Zalo theo yêu cầu khách -->
+              <div class="transit-action-container">
+                ${isCompleted ? `
+                  <button type="button" class="btn btn-block btn-secondary" disabled>
+                    <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Vật phẩm này đã hoàn tất luân chuyển</span>
+                  </button>
+                ` : item.status === 'IN_TRANSIT' ? `
+                  <button type="button" id="btn-view-transit-code" class="btn btn-block btn-warning-soft">
+                    <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <span>Đang luân chuyển qua Trạm • Bấm xem ${item.transit_code || 'Mã SGK-01'}</span>
+                  </button>
+                ` : isGive ? `
+                  <button type="button" id="btn-transit-action" class="btn btn-block btn-primary btn-transit-register">
+                    <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    <span>Đăng kí nhận đồ</span>
+                  </button>
+                ` : `
+                  <button type="button" id="btn-transit-action" class="btn btn-block btn-primary btn-transit-give">
+                    <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+                    <span>Tặng cho bạn</span>
+                  </button>
+                `}
               </div>
             </div>
           </div>
@@ -295,6 +317,70 @@ export function openItemDetailModal(item, modalElement, onDataChange) {
 
   if (closeBtn) closeBtn.addEventListener("click", closeModal);
   if (backdrop) backdrop.addEventListener("click", closeModal);
+
+  // Gắn sự kiện cho nút Đăng ký nhận đồ / Tặng cho bạn (Mô hình Trạm Luân Chuyển)
+  const transitActionBtn = modalElement.querySelector("#btn-transit-action");
+  if (transitActionBtn) {
+    transitActionBtn.addEventListener("click", async () => {
+      // 1. Kiểm tra đăng nhập
+      if (!currentUser) {
+        closeModal();
+        const authModal = document.getElementById("auth-modal");
+        if (authModal) authModal.classList.add("active");
+        return;
+      }
+
+      // 2. Sinh mã luân chuyển chuẩn theo định dạng khách yêu cầu (Ví dụ: Mã SGK-01)
+      const prefix = item.category === "TEXTBOOK" ? "Mã SGK" : (item.category === "UNIFORM" ? "Mã DP" : "Mã LC");
+      const randomNum = Math.floor(10 + Math.random() * 89);
+      const generatedCode = `${prefix}-${randomNum}`;
+
+      // 3. Cập nhật trạng thái vật phẩm
+      item.transit_code = generatedCode;
+      item.status = "IN_TRANSIT";
+      item.transit_receiver = currentUser.displayName || "Học sinh";
+      item.transit_at = new Date().toISOString();
+
+      // Lưu vé luân chuyển vào LocalStorage
+      try {
+        const savedTickets = JSON.parse(localStorage.getItem("reschool_transit_tickets") || "[]");
+        savedTickets.unshift({
+          code: generatedCode,
+          item_id: item.id,
+          item_title: item.title,
+          category: item.category,
+          type: item.type,
+          station: item.transit_station || `Thư viện / Phòng Đoàn Đội - ${item.location?.school_name || 'Trường THCS Ái Quốc'}`,
+          created_at: item.transit_at,
+          user_id: currentUser.uid,
+          user_name: currentUser.displayName
+        });
+        localStorage.setItem("reschool_transit_tickets", JSON.stringify(savedTickets));
+      } catch (err) {
+        console.warn("Lỗi lưu phiếu luân chuyển:", err);
+      }
+
+      // Lưu trạng thái vào Database qua API
+      if (api.updateItemStatus) {
+        await api.updateItemStatus(item.id, "IN_TRANSIT");
+      }
+
+      closeModal();
+      if (onDataChange) onDataChange();
+
+      // Mở Phiếu luân chuyển học đường
+      openTransitTicketModal(item, generatedCode, isGive ? "RECEIVER" : "GIVER");
+    });
+  }
+
+  // Nút xem lại mã luân chuyển đang hoạt động
+  const viewCodeBtn = modalElement.querySelector("#btn-view-transit-code");
+  if (viewCodeBtn) {
+    viewCodeBtn.addEventListener("click", () => {
+      closeModal();
+      openTransitTicketModal(item, item.transit_code || "Mã SGK-01", isGive ? "RECEIVER" : "GIVER");
+    });
+  }
 
   // Gắn sự kiện cho Owner Actions
   if (isOwner) {
@@ -320,4 +406,54 @@ export function openItemDetailModal(item, modalElement, onDataChange) {
       });
     }
   }
+}
+
+// Hàm mở Modal Phiếu Luân Chuyển Học Đường
+export function openTransitTicketModal(item, code, role = "RECEIVER") {
+  const modal = document.getElementById("transit-ticket-modal");
+  if (!modal) return;
+
+  const codeEl = modal.querySelector("#display-transit-code");
+  const titleEl = modal.querySelector("#ticket-modal-title");
+  const itemTitleEl = modal.querySelector("#ticket-item-title");
+  const stationNameEl = modal.querySelector("#ticket-station-name");
+  const copyBtn = modal.querySelector("#btn-copy-transit-code");
+  const closeBtn = modal.querySelector(".btn-close-transit-modal");
+  const modalCloseBtn = modal.querySelector(".modal-close-btn");
+  const backdrop = modal.querySelector(".modal-backdrop");
+
+  if (codeEl) codeEl.textContent = code;
+  if (titleEl) {
+    titleEl.textContent = role === "GIVER" 
+      ? "Đã cấp Mã luân chuyển cho người tặng!" 
+      : "Đăng ký nhận đồ thành công!";
+  }
+  if (itemTitleEl) itemTitleEl.textContent = item.title;
+  if (stationNameEl) {
+    stationNameEl.textContent = item.transit_station || `Thư viện / Phòng Đoàn Đội - ${item.location?.school_name || 'Trường THCS Ái Quốc'}`;
+  }
+
+  const closeModal = () => modal.classList.remove("active");
+  if (closeBtn) closeBtn.onclick = closeModal;
+  if (modalCloseBtn) modalCloseBtn.onclick = closeModal;
+  if (backdrop) backdrop.onclick = closeModal;
+
+  if (copyBtn) {
+    copyBtn.onclick = () => {
+      navigator.clipboard.writeText(code).then(() => {
+        copyBtn.innerHTML = `
+          <svg class="icon icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Đã sao chép!</span>
+        `;
+        setTimeout(() => {
+          copyBtn.innerHTML = `
+            <svg class="icon icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <span>Sao chép mã</span>
+          `;
+        }, 2000);
+      });
+    };
+  }
+
+  modal.classList.add("active");
 }
