@@ -1,11 +1,11 @@
 /* ==========================================================================
-   RESCHOOL MOBILE-FIRST APP STYLES (GIAO DIỆN CHUẨN ỨNG DỤNG DI ĐỘNG)
-   Biến đổi giao diện web thành trải nghiệm Native App mượt mà, sang xịn, hiện đại:
-   - Thanh điều hướng đáy màn hình (Bottom Navigation Bar)
-   - Nút Đăng tin nổi bật trung tâm (Center FAB)
-   - Lưới sản phẩm 2 cột chuẩn e-commerce (Shopee / Chợ Tốt / Carousell)
-   - Thanh tìm kiếm sticky & Category scroll vuốt ngang
-   - Bottom Sheet cho modal xem chi tiết & đăng bài
+   RESCHOOL MOBILE-FIRST APP STYLES (GIAO DIỆN CHUẨN NATIVE MOBILE APP)
+   Tối ưu hóa toàn diện cho màn hình điện thoại (360px - 430px):
+   - Header thông minh chống tràn, cân đối tỉ lệ vàng
+   - Thanh điều hướng đáy màn hình (Bottom Navigation Bar) kèm nút FAB trung tâm
+   - Lưới thẻ đồ dùng 2 cột tỷ lệ chuẩn e-commerce, bo góc tròn 18px hiện đại
+   - Modal xem chi tiết & biểu mẫu chuyển thành Bottom Sheet vuốt chạm mượt mà
+   - Badges, filters và toàn bộ nút bấm chuẩn Pill mềm mại, giàu cảm xúc
    ========================================================================== */
 
 /* Ẩn Bottom Navigation trên Desktop */
@@ -18,9 +18,9 @@
    ========================================================================== */
 @media (max-width: 768px) {
 
-  /* Toàn bộ trang có padding dưới để không bị Bottom Nav che mất */
+  /* 0. Toàn bộ trang có padding đáy để không bị Bottom Nav che mất */
   body {
-    padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)) !important;
+    padding-bottom: calc(68px + env(safe-area-inset-bottom, 0px)) !important;
     background-color: #F8FAFC;
     -webkit-tap-highlight-color: transparent;
   }
@@ -34,80 +34,118 @@
     display: none !important;
   }
 
-  .footer-reschool {
+  .footer-reschool, .main-footer {
     margin-bottom: 24px;
-    padding: 24px 16px;
+    padding: 24px 16px 40px;
   }
 
-  /* 1. Header chuẩn App di động */
-  .app-header {
+  /* ========================================================================
+     1. HEADER CHUẨN APP DI ĐỘNG (CHỐNG TRÀN, CÂN ĐỐI VÀNG)
+     ======================================================================== */
+  .main-header, .app-header {
     position: sticky !important;
     top: 0;
     z-index: 950;
-    background: rgba(255, 255, 255, 0.95) !important;
-    backdrop-filter: blur(14px) !important;
-    -webkit-backdrop-filter: blur(14px) !important;
-    border-bottom: 1px solid var(--slate-200);
+    background: rgba(255, 255, 255, 0.94) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8) !important;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04) !important;
   }
 
   .header-container {
     padding: 8px 14px !important;
-    height: 54px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    height: 56px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
   }
 
-  /* Ẩn tabs trên header (vì đã chuyển xuống Bottom Nav) */
+  /* Ẩn các tabs và nút đăng tin trên header desktop (vì đã có Bottom Nav) */
   .nav-tabs-wrapper {
     display: none !important;
   }
 
-  /* Ẩn nút đăng tin trên header (vì đã có nút FAB trung tâm ở Bottom Nav) */
   .btn-header-post {
     display: none !important;
   }
 
+  .brand-wrapper {
+    gap: 8px !important;
+  }
+
   .brand-logo-icon {
-    width: 34px !important;
-    height: 34px !important;
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 11px !important;
   }
 
   .brand-svg-new {
-    width: 32px !important;
-    height: 32px !important;
+    width: 30px !important;
+    height: 30px !important;
   }
 
   .brand-title {
-    font-size: 1.15rem !important;
+    font-size: 1.18rem !important;
+    line-height: 1.1 !important;
   }
 
   .brand-tagline {
-    font-size: 0.65rem !important;
+    display: none !important;
   }
 
-  .user-profile-badge {
-    padding: 3px 8px !important;
+  /* Khu vực icon bên phải: Chuông, Avatar, Menu gọn gàng không bị chật */
+  .header-actions {
+    display: flex !important;
+    align-items: center !important;
     gap: 6px !important;
   }
 
-  .user-name {
-    font-size: 0.78rem !important;
-    max-width: 80px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .btn-header-icon {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 50% !important;
+    border: 1px solid rgba(226, 232, 240, 0.9) !important;
+    background: #FFFFFF !important;
   }
 
-  .user-school-tag {
-    font-size: 0.65rem !important;
-    max-width: 80px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .header-icon-badge {
+    top: -2px !important;
+    right: -2px !important;
+    min-width: 16px !important;
+    height: 16px !important;
+    font-size: 0.6rem !important;
   }
 
-  /* 2. Thanh điều hướng đáy màn hình (Bottom Navigation Bar) */
+  /* Tối ưu badge user trên mobile: Ẩn tên và trường dài dòng, chỉ giữ avatar tròn xinh */
+  .user-profile-badge {
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    gap: 0 !important;
+  }
+
+  .user-avatar-mini {
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 50% !important;
+    border: 2px solid #ECFDF5 !important;
+    box-shadow: 0 1px 4px rgba(16, 185, 129, 0.2) !important;
+  }
+
+  .user-meta-header {
+    display: none !important;
+  }
+
+  .btn-logout {
+    display: none !important;
+  }
+
+  /* ========================================================================
+     2. THANH ĐIỀU HƯỚNG ĐÁY MÀN HÌNH (BOTTOM NAVIGATION BAR)
+     ======================================================================== */
   .mobile-bottom-nav {
     display: grid !important;
     grid-template-columns: repeat(5, 1fr);
@@ -115,13 +153,13 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: calc(56px + env(safe-area-inset-bottom, 0px));
+    height: calc(58px + env(safe-area-inset-bottom, 0px));
     padding-bottom: env(safe-area-inset-bottom, 0px);
-    background: rgba(255, 255, 255, 0.96) !important;
-    backdrop-filter: blur(18px) !important;
-    -webkit-backdrop-filter: blur(18px) !important;
-    border-top: 1px solid var(--slate-200);
-    box-shadow: 0 -2px 10px rgba(15, 23, 42, 0.05);
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-top: 1px solid rgba(226, 232, 240, 0.85);
+    box-shadow: 0 -4px 16px rgba(15, 23, 42, 0.06);
     z-index: 1000;
   }
 
@@ -133,7 +171,7 @@
     align-items: center;
     justify-content: center;
     gap: 2px;
-    padding: 4px 0;
+    padding: 6px 0;
     color: var(--slate-500);
     cursor: pointer;
     transition: all 0.15s ease;
@@ -149,13 +187,14 @@
     align-items: center;
     justify-content: center;
     height: 24px;
+    position: relative;
   }
 
   .bottom-nav-icon svg {
-    width: 20px;
-    height: 20px;
+    width: 21px;
+    height: 21px;
     stroke: var(--slate-400);
-    transition: stroke 0.15s ease;
+    transition: stroke 0.15s ease, transform 0.15s ease;
   }
 
   .bottom-nav-label {
@@ -171,59 +210,66 @@
   .bottom-nav-item.active .bottom-nav-icon svg {
     stroke: var(--primary-600);
     stroke-width: 2.3;
+    transform: scale(1.1);
   }
 
   .bottom-nav-item.active .bottom-nav-label {
     font-weight: 700;
   }
 
-  /* Nút FAB trung tâm: Đăng tin nổi bật */
+  /* Nút FAB trung tâm: Đăng tin nổi bật tròn mềm */
   .bottom-nav-fab {
     position: relative;
-    top: -12px;
+    top: -14px;
   }
 
   .fab-circle {
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     background: linear-gradient(135deg, #10B981 0%, #059669 100%);
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.45);
+    box-shadow: 0 6px 18px rgba(16, 185, 129, 0.45);
     border: 3px solid #FFFFFF;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.15s ease;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
 
   .fab-circle svg {
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px;
     stroke: #FFFFFF;
   }
 
   .bottom-nav-fab:active .fab-circle {
-    transform: scale(0.9);
+    transform: scale(0.92);
+    box-shadow: 0 3px 10px rgba(16, 185, 129, 0.35);
   }
 
   .bottom-nav-fab .bottom-nav-label {
-    margin-top: 1px;
+    margin-top: 2px;
     color: var(--primary-800);
     font-weight: 700;
   }
 
-  /* 3. Vùng nội dung chính (Main Content) */
+  /* ========================================================================
+     3. VÙNG NỘI DUNG CHÍNH (MAIN CONTENT)
+     ======================================================================== */
   .main-content {
-    padding: 10px 10px 30px 10px !important;
+    padding: 12px 12px 36px 12px !important;
   }
 
-  /* 4. Toolbar tìm kiếm & Danh mục vuốt ngang */
+  /* ========================================================================
+     4. TOOLBAR TÌM KIẾM & DANH MỤC CUỘN NGANG
+     ======================================================================== */
   .filters-toolbar {
-    padding: 10px !important;
-    margin-bottom: 14px !important;
-    border-radius: 6px !important;
-    background: #FFFFFF;
-    border: 1px solid var(--slate-200);
+    padding: 14px 12px !important;
+    margin-bottom: 16px !important;
+    border-radius: var(--radius-lg) !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(226, 232, 240, 0.85) !important;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04) !important;
   }
 
   .search-primary-row {
@@ -236,8 +282,9 @@
   }
 
   .search-input {
-    font-size: 0.86rem !important;
-    padding: 9px 12px 9px 36px !important;
+    font-size: 0.88rem !important;
+    padding: 10px 14px 10px 40px !important;
+    border-radius: var(--radius-full) !important;
   }
 
   .select-group-wrapper {
@@ -248,9 +295,10 @@
   }
 
   .select-filter {
-    font-size: 0.8rem !important;
-    padding: 7px 8px !important;
-    background-color: var(--slate-50);
+    font-size: 0.82rem !important;
+    padding: 8px 30px 8px 12px !important;
+    border-radius: var(--radius-full) !important;
+    background-color: var(--slate-50) !important;
   }
 
   /* Thanh danh mục cuộn ngang mượt mà kiểu App */
@@ -260,33 +308,36 @@
     border-top: 1px solid var(--slate-100);
   }
 
-  .categories-scroll-container {
+  .categories-scroll-container, .categories-chips-row {
     display: flex !important;
     overflow-x: auto !important;
     white-space: nowrap !important;
-    gap: 6px !important;
+    gap: 7px !important;
     padding-bottom: 4px;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
   }
 
-  .categories-scroll-container::-webkit-scrollbar {
+  .categories-scroll-container::-webkit-scrollbar,
+  .categories-chips-row::-webkit-scrollbar {
     display: none;
   }
 
   .category-chip {
-    padding: 5px 12px !important;
-    font-size: 0.78rem !important;
+    padding: 6px 14px !important;
+    font-size: 0.8rem !important;
     flex-shrink: 0;
-    border-radius: 4px !important;
+    border-radius: var(--radius-full) !important;
   }
 
-  .feed-status-bar {
-    margin-bottom: 10px !important;
-    font-size: 0.78rem !important;
+  .feed-status-bar, .feed-header-info {
+    margin-bottom: 12px !important;
+    font-size: 0.8rem !important;
   }
 
-  /* 5. Lưới sản phẩm 2 CỘT CHUẨN APP DI ĐỘNG */
+  /* ========================================================================
+     5. LƯỚI SẢN PHẨM 2 CỘT CHUẨN APP DI ĐỘNG (BO GÓC 18PX, TỶ LỆ ĐẸP)
+     ======================================================================== */
   .items-grid {
     display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
@@ -294,40 +345,44 @@
   }
 
   .item-card {
-    border-radius: 4px !important;
-    border: 1px solid var(--slate-200) !important;
-    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
-    background: #FFFFFF;
-    transition: transform 0.15s ease;
+    border-radius: 18px !important;
+    border: 1px solid rgba(226, 232, 240, 0.85) !important;
+    box-shadow: 0 3px 12px -2px rgba(15, 23, 42, 0.05) !important;
+    background: #FFFFFF !important;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    overflow: hidden !important;
   }
 
   .item-card:active {
-    transform: scale(0.98);
+    transform: scale(0.97);
   }
 
-  /* Ảnh tỉ lệ vuông 1:1 chuẩn mobile feed */
+  /* Ảnh tỉ lệ vuông vức nhẹ với bo góc con bên trong */
   .item-card-image-box {
     height: 140px !important;
-    position: relative;
-    background: var(--slate-100);
+    margin: 6px 6px 0 !important;
+    border-radius: 13px !important;
+    overflow: hidden !important;
+    position: relative !important;
+    background: var(--slate-100) !important;
   }
 
   .item-card-image-box img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
   }
 
   .card-badges-top {
     top: 6px !important;
     left: 6px !important;
-    gap: 3px !important;
+    gap: 4px !important;
   }
 
   .badge {
     font-size: 0.65rem !important;
-    padding: 2px 6px !important;
-    border-radius: 2px !important;
+    padding: 3px 7px !important;
+    border-radius: var(--radius-full) !important;
     font-weight: 700 !important;
   }
 
@@ -335,42 +390,43 @@
     bottom: 6px !important;
     right: 6px !important;
     font-size: 0.65rem !important;
-    padding: 1px 5px !important;
+    padding: 2px 6px !important;
+    border-radius: var(--radius-full) !important;
   }
 
   /* Thân card nhỏ gọn, tinh tế */
   .item-card-body {
-    padding: 8px !important;
+    padding: 8px 10px 10px !important;
   }
 
   .item-school-meta {
-    font-size: 0.7rem !important;
-    margin-bottom: 3px !important;
+    font-size: 0.72rem !important;
+    margin-bottom: 4px !important;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
   .school-name {
-    font-size: 0.7rem !important;
+    font-size: 0.72rem !important;
     color: var(--blue-700) !important;
   }
 
   .item-card-title {
-    font-size: 0.84rem !important;
-    line-height: 1.3 !important;
-    margin-bottom: 4px !important;
+    font-size: 0.86rem !important;
+    line-height: 1.35 !important;
+    margin-bottom: 5px !important;
     font-weight: 700 !important;
     display: -webkit-box !important;
     -webkit-line-clamp: 2 !important;
     -webkit-box-orient: vertical !important;
     overflow: hidden !important;
-    height: 2.2em;
+    height: 2.3em;
   }
 
   .item-condition-row {
     font-size: 0.7rem !important;
-    margin-bottom: 8px !important;
+    margin-bottom: 6px !important;
     gap: 4px !important;
   }
 
@@ -385,16 +441,20 @@
   .item-card-footer {
     padding-top: 6px !important;
     border-top: 1px solid var(--slate-100);
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
   }
 
   .author-avatar-circle {
-    width: 20px !important;
-    height: 20px !important;
+    width: 22px !important;
+    height: 22px !important;
+    border-radius: 50% !important;
   }
 
   .author-name {
-    font-size: 0.7rem !important;
-    max-width: 65px;
+    font-size: 0.72rem !important;
+    max-width: 70px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -405,7 +465,15 @@
     display: none !important;
   }
 
-  /* 6. Bản đồ học đường trên điện thoại */
+  /* ========================================================================
+     6. BẢN ĐỒ HỌC ĐƯỜNG TRÊN ĐIỆN THOẠI
+     ======================================================================== */
+  .map-view-wrapper {
+    border-radius: 20px !important;
+    overflow: hidden !important;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06) !important;
+  }
+
   #reschool-map {
     height: calc(100vh - 220px) !important;
   }
@@ -415,62 +483,234 @@
   }
 
   .map-view-header h3 {
-    font-size: 1rem !important;
+    font-size: 1.05rem !important;
   }
 
   .map-view-header p {
-    font-size: 0.75rem !important;
+    font-size: 0.76rem !important;
   }
 
-  /* 7. MODALS CHUYỂN THÀNH BOTTOM SHEET TRÊN ĐIỆN THOẠI */
+  .quick-school-btn {
+    border-radius: var(--radius-full) !important;
+    padding: 6px 12px !important;
+    font-size: 0.78rem !important;
+  }
+
+  /* ========================================================================
+     7. MODAL CHUYỂN THÀNH BOTTOM SHEET TRÊN ĐIỆN THOẠI (CHUẨN CHỈNH)
+     ======================================================================== */
   .modal-container {
     align-items: flex-end !important;
     padding: 0 !important;
   }
 
   .modal-dialog {
-    border-radius: 16px 16px 0 0 !important;
-    max-height: 88vh !important;
+    border-radius: 26px 26px 0 0 !important;
+    max-height: 92vh !important;
     width: 100% !important;
     max-width: 100% !important;
     margin: 0 !important;
-    box-shadow: 0 -8px 30px rgba(15, 23, 42, 0.18) !important;
+    box-shadow: 0 -10px 40px rgba(15, 23, 42, 0.22) !important;
     animation: slideUpSheet 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    overflow-y: auto !important;
+    position: relative !important;
   }
 
+  /* Thanh vuốt chạm kéo Bottom Sheet */
   .modal-dialog::before {
     content: '';
     display: block;
-    width: 40px;
-    height: 4px;
+    width: 44px;
+    height: 5px;
     background: #CBD5E1;
-    border-radius: 2px;
-    margin: 10px auto 4px auto;
+    border-radius: var(--radius-full);
+    margin: 12px auto 6px auto;
+  }
+
+  /* Nút đóng modal tròn mờ (Frosted Circle Button) không che ảnh */
+  .modal-close-btn {
+    position: absolute !important;
+    top: 14px !important;
+    right: 14px !important;
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 50% !important;
+    background: rgba(15, 23, 42, 0.55) !important;
+    color: #FFFFFF !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    z-index: 25 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+    transition: transform 0.15s ease, background 0.15s ease !important;
+  }
+
+  .modal-close-btn:active {
+    transform: scale(0.92) !important;
+    background: rgba(15, 23, 42, 0.75) !important;
+  }
+
+  .modal-close-btn svg {
+    stroke: #FFFFFF !important;
+    width: 18px !important;
+    height: 18px !important;
   }
 
   .modal-content {
-    padding: 16px 20px 28px 20px !important;
+    padding: 12px 16px 40px 16px !important;
   }
 
   .item-modal-layout {
     grid-template-columns: 1fr !important;
-    gap: 16px !important;
+    gap: 14px !important;
   }
 
   .main-image-wrapper {
     height: 220px !important;
+    border-radius: 18px !important;
+    overflow: hidden !important;
+    margin-bottom: 10px !important;
+    position: relative !important;
+  }
+
+  .item-badges-stack {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .item-badges-stack .badge {
+    border-radius: var(--radius-full) !important;
+    padding: 4px 10px !important;
+    font-size: 0.72rem !important;
+  }
+
+  .modal-item-title {
+    font-size: 1.15rem !important;
+    line-height: 1.35 !important;
+    margin-bottom: 8px !important;
+  }
+
+  .modal-school-header {
+    font-size: 0.8rem !important;
+    margin-bottom: 6px !important;
+  }
+
+  .item-database-meta {
+    flex-wrap: wrap !important;
+    gap: 6px 10px !important;
+    font-size: 0.75rem !important;
+    margin-bottom: 14px !important;
+  }
+
+  .condition-highlight-card {
+    border-radius: 14px !important;
+    padding: 12px 14px !important;
+    margin-bottom: 14px !important;
   }
 
   .contact-actions-grid {
     grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+  }
+
+  .btn-request-item-action {
+    border-radius: var(--radius-full) !important;
+    padding: 13px 20px !important;
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+  }
+
+  /* ========================================================================
+     8. VIEW "ĐỒ DÙNG CỦA TÔI" & "YÊU CẦU" TRÊN MOBILE
+     ======================================================================== */
+  .my-items-summary-strip {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+    margin-bottom: 16px !important;
+  }
+
+  .my-items-stat-card {
+    border-radius: 14px !important;
+    padding: 12px 14px !important;
+    border: 1px solid rgba(226, 232, 240, 0.85) !important;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03) !important;
+  }
+
+  .my-items-filter-bar {
+    display: flex !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    gap: 6px !important;
+    padding-bottom: 6px !important;
+    margin-bottom: 14px !important;
+    scrollbar-width: none;
+  }
+
+  .my-items-filter-btn {
+    border-radius: var(--radius-full) !important;
+    padding: 6px 14px !important;
+    font-size: 0.8rem !important;
+    flex-shrink: 0;
+  }
+
+  /* Subtabs Yêu cầu: Pill Segmented bar */
+  .requests-nav-tabs {
+    border-radius: var(--radius-full) !important;
+    padding: 4px !important;
+    margin-bottom: 16px !important;
+    background: var(--slate-100) !important;
+  }
+
+  .requests-nav-tab {
+    border-radius: var(--radius-full) !important;
+    padding: 8px 12px !important;
+    font-size: 0.82rem !important;
+  }
+
+  .request-card {
+    border-radius: 18px !important;
+    padding: 14px !important;
+    margin-bottom: 12px !important;
+    border: 1px solid rgba(226, 232, 240, 0.85) !important;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04) !important;
+  }
+
+  .request-action-btn {
+    border-radius: var(--radius-full) !important;
+    padding: 8px 14px !important;
+    font-size: 0.82rem !important;
+    font-weight: 700 !important;
+  }
+
+  /* Drawer Sidebar trên Mobile */
+  .drawer-menu-dialog {
+    width: 300px !important;
+    border-radius: 24px 0 0 24px !important;
+  }
+
+  .drawer-user-card {
+    border-radius: 16px !important;
+    padding: 14px !important;
+  }
+
+  .drawer-menu-item {
+    border-radius: 12px !important;
+    padding: 10px 14px !important;
   }
 }
 
-/* Hiệu ứng kéo Bottom Sheet từ dưới lên */
+/* Hiệu ứng kéo Bottom Sheet từ dưới lên mượt mà */
 @keyframes slideUpSheet {
   from {
     transform: translateY(100%);
-    opacity: 0.5;
+    opacity: 0.4;
   }
   to {
     transform: translateY(0);
