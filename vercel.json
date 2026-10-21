@@ -3,6 +3,10 @@
   "outputDirectory": "frontend",
   "rewrites": [
     {
+      "source": "/login",
+      "destination": "/login.html"
+    },
+    {
       "source": "/((?!css|js|assets|favicon|.*\\..*).*)",
       "destination": "/index.html"
     }

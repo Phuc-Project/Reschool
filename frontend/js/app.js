@@ -547,7 +547,8 @@ class ReschoolApp {
     setTimeout(() => {
       toast.classList.remove("show");
       setTimeout(() => toast.remove(), 300);
-    }
+    }, 3200);
+  }
 
   // =========================================================================
   // ĐỒ DÙNG CỦA TÔI (THEO YÊU CẦU CỦA KHÁCH HÀNG)
@@ -1063,8 +1064,6 @@ class ReschoolApp {
     const modal = document.getElementById("notifications-modal");
     if (modal) modal.classList.remove("active");
     if (target) this.switchTab(target);
-  }
-, 3200);
   }
 }
 

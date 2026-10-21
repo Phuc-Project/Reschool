@@ -7,7 +7,7 @@ import { INITIAL_ITEMS_DATA } from './mock-data.js';
 import { DEFAULT_FIREBASE_CONFIG } from './firebase-config.js';
 
 const DEFAULT_PROD_API = "https://reschool-backend.onrender.com/api/v1";
-const BACKEND_BASE_URL = window.RESCHOOL_API_URL || 
+let BACKEND_BASE_URL = window.RESCHOOL_API_URL || 
   (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
     ? "http://localhost:8000/api/v1" 
     : DEFAULT_PROD_API);
@@ -35,15 +35,30 @@ class ReschoolApi {
   }
 
   async checkBackend() {
-    const healthUrl = BACKEND_BASE_URL.replace(/\/api\/v1\/?$/, "");
-    try {
-      const res = await fetch(healthUrl, { signal: AbortSignal.timeout(1500) });
-      if (res.ok) {
-        this.backendAvailable = true;
-      }
-    } catch {
-      this.backendAvailable = false;
+    const candidates = [];
+    if (window.RESCHOOL_API_URL) {
+      candidates.push(window.RESCHOOL_API_URL);
+    } else if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      candidates.push("http://localhost:8000/api/v1", "http://localhost:8001/api/v1");
+    } else {
+      candidates.push(DEFAULT_PROD_API);
     }
+
+    for (const url of candidates) {
+      const healthUrl = url.replace(/\/api\/v1\/?$/, "");
+      try {
+        const res = await fetch(healthUrl, { signal: AbortSignal.timeout(1200) });
+        if (res.ok) {
+          const data = await res.json().catch(() => null);
+          if (data && (data.status === "online" || (typeof data.app === "string" && data.app.includes("Reschool")))) {
+            BACKEND_BASE_URL = url;
+            this.backendAvailable = true;
+            return;
+          }
+        }
+      } catch {}
+    }
+    this.backendAvailable = false;
   }
 
   // Lấy toàn bộ items (kết hợp Backend, Cloud Firestore và LocalStorage)
