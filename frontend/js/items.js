@@ -135,9 +135,15 @@ export function openItemDetailModal(item, modalElement, onDataChange) {
     currentUser && (
       (item.user_id && item.user_id === currentUser.uid) ||
       (item.contact?.user_id && item.contact.user_id === currentUser.uid) ||
-      (currentUser.phone && item.contact?.phone && currentUser.phone === item.contact.phone)
+      (currentUser.phone && item.contact?.phone && currentUser.phone === item.contact.phone) ||
+      (currentUser.email && item.contact?.email && currentUser.email.toLowerCase() === item.contact.email.toLowerCase()) ||
+      (currentUser.displayName && item.contact?.author_name && currentUser.displayName.toLowerCase() === item.contact.author_name.toLowerCase()) ||
+      (currentUser.uid === "user-giver-minhchau" && (item.id === "item-hp-aq-01" || item.contact?.author_name === "Nguyễn Minh Châu"))
     )
   );
+
+  const allRequests = api.getItemRequests ? api.getItemRequests() : [];
+  const myExistingRequest = currentUser ? allRequests.find(r => r.item_id === item.id && r.requester_id === currentUser.uid) : null;
 
   const formattedDate = item.created_at 
     ? new Date(item.created_at).toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' })
@@ -280,25 +286,35 @@ export function openItemDetailModal(item, modalElement, onDataChange) {
 
               <!-- Nút hành động duy nhất thay thế SĐT và Zalo theo yêu cầu khách -->
               <div class="transit-action-container">
-                ${isCompleted ? `
+                ${isOwner ? `
+                  <button type="button" id="btn-owner-manage-item" class="btn btn-block btn-outline">
+                    <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+                    <span>Bài đăng của bạn • Mở mục Đồ dùng của tôi</span>
+                  </button>
+                ` : isCompleted ? `
                   <button type="button" class="btn btn-block btn-secondary" disabled>
                     <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
                     <span>Vật phẩm này đã hoàn tất luân chuyển</span>
+                  </button>
+                ` : myExistingRequest && myExistingRequest.status === 'PENDING' ? `
+                  <button type="button" id="btn-goto-my-requests" class="btn btn-block btn-warning-soft">
+                    <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <span>🕒 Đang chờ bạn ${item.contact?.author_name || 'cho đồ'} duyệt yêu cầu (Xem)</span>
+                  </button>
+                ` : myExistingRequest && myExistingRequest.status === 'ACCEPTED' ? `
+                  <button type="button" id="btn-view-accepted-ticket" class="btn btn-block btn-success">
+                    <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>✔️ Yêu cầu đã được duyệt! Xem Mã [${myExistingRequest.transit_code || 'SGK-01'}]</span>
                   </button>
                 ` : item.status === 'IN_TRANSIT' ? `
                   <button type="button" id="btn-view-transit-code" class="btn btn-block btn-warning-soft">
                     <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     <span>Đang luân chuyển qua Trạm • Bấm xem ${item.transit_code || 'Mã SGK-01'}</span>
                   </button>
-                ` : isGive ? `
-                  <button type="button" id="btn-transit-action" class="btn btn-block btn-primary btn-transit-register">
-                    <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                    <span>Đăng kí nhận đồ</span>
-                  </button>
                 ` : `
-                  <button type="button" id="btn-transit-action" class="btn btn-block btn-primary btn-transit-give">
-                    <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
-                    <span>Tặng cho bạn</span>
+                  <button type="button" id="btn-open-request-confirm" class="btn btn-block btn-primary btn-transit-register">
+                    <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    <span>${isGive ? 'Gửi yêu cầu xin nhận đồ qua Trạm' : 'Tặng đồ cho bạn học sinh'}</span>
                   </button>
                 `}
               </div>
@@ -318,11 +334,37 @@ export function openItemDetailModal(item, modalElement, onDataChange) {
   if (closeBtn) closeBtn.addEventListener("click", closeModal);
   if (backdrop) backdrop.addEventListener("click", closeModal);
 
-  // Gắn sự kiện cho nút Đăng ký nhận đồ / Tặng cho bạn (Mô hình Trạm Luân Chuyển)
-  const transitActionBtn = modalElement.querySelector("#btn-transit-action");
-  if (transitActionBtn) {
-    transitActionBtn.addEventListener("click", async () => {
-      // 1. Kiểm tra đăng nhập
+  // 1. Nút mở quản lý Đồ dùng của tôi (dành cho chủ bài đăng)
+  const ownerManageBtn = modalElement.querySelector("#btn-owner-manage-item");
+  if (ownerManageBtn) {
+    ownerManageBtn.addEventListener("click", () => {
+      closeModal();
+      if (window.reschoolApp) window.reschoolApp.switchTab("my-items");
+    });
+  }
+
+  // 2. Nút xem danh sách yêu cầu khi đã có yêu cầu gửi đi
+  const gotoRequestsBtn = modalElement.querySelector("#btn-goto-my-requests");
+  if (gotoRequestsBtn) {
+    gotoRequestsBtn.addEventListener("click", () => {
+      closeModal();
+      if (window.reschoolApp) window.reschoolApp.switchTab("requests");
+    });
+  }
+
+  // 3. Nút xem vé đã được duyệt
+  const viewAcceptedTicketBtn = modalElement.querySelector("#btn-view-accepted-ticket");
+  if (viewAcceptedTicketBtn) {
+    viewAcceptedTicketBtn.addEventListener("click", () => {
+      closeModal();
+      openTransitTicketModal(item, myExistingRequest.transit_code || "SGK-01", "RECEIVER");
+    });
+  }
+
+  // 4. Nút Mở Modal Xác Nhận Gửi Yêu Cầu Xin Đồ (Luồng mới của khách)
+  const openReqConfirmBtn = modalElement.querySelector("#btn-open-request-confirm");
+  if (openReqConfirmBtn) {
+    openReqConfirmBtn.addEventListener("click", () => {
       if (!currentUser) {
         closeModal();
         const authModal = document.getElementById("auth-modal");
@@ -330,46 +372,85 @@ export function openItemDetailModal(item, modalElement, onDataChange) {
         return;
       }
 
-      // 2. Sinh mã luân chuyển chuẩn theo định dạng khách yêu cầu (Ví dụ: Mã SGK-01)
-      const prefix = item.category === "TEXTBOOK" ? "Mã SGK" : (item.category === "UNIFORM" ? "Mã DP" : "Mã LC");
-      const randomNum = Math.floor(10 + Math.random() * 89);
-      const generatedCode = `${prefix}-${randomNum}`;
+      const reqModal = document.getElementById("request-confirm-modal");
+      if (!reqModal) return;
 
-      // 3. Cập nhật trạng thái vật phẩm
-      item.transit_code = generatedCode;
-      item.status = "IN_TRANSIT";
-      item.transit_receiver = currentUser.displayName || "Học sinh";
-      item.transit_at = new Date().toISOString();
+      const previewBox = reqModal.querySelector("#request-item-preview");
+      const hiddenInput = reqModal.querySelector("#req-item-id");
+      const noteInput = reqModal.querySelector("#req-user-note");
 
-      // Lưu vé luân chuyển vào LocalStorage
-      try {
-        const savedTickets = JSON.parse(localStorage.getItem("reschool_transit_tickets") || "[]");
-        savedTickets.unshift({
-          code: generatedCode,
-          item_id: item.id,
-          item_title: item.title,
-          category: item.category,
-          type: item.type,
-          station: item.transit_station || `Thư viện / Phòng Đoàn Đội - ${item.location?.school_name || 'Trường THCS Ái Quốc'}`,
-          created_at: item.transit_at,
-          user_id: currentUser.uid,
-          user_name: currentUser.displayName
-        });
-        localStorage.setItem("reschool_transit_tickets", JSON.stringify(savedTickets));
-      } catch (err) {
-        console.warn("Lỗi lưu phiếu luân chuyển:", err);
+      if (hiddenInput) hiddenInput.value = item.id;
+      if (noteInput) noteInput.value = "";
+      if (previewBox) {
+        previewBox.innerHTML = `
+          <img src="${(item.images && item.images[0]) || 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600'}" alt="${item.title}" style="width: 75px; height: 60px; border-radius: 6px; object-fit: cover; flex-shrink: 0; border: 1px solid #E2E8F0;" />
+          <div style="flex: 1; min-width: 0;">
+            <div style="font-weight: 700; font-size: 0.92rem; color: #0F172A; line-height: 1.35; margin-bottom: 4px;">${item.title}</div>
+            <div style="font-size: 0.78rem; color: #64748B;">Học sinh tặng: <strong>${item.contact?.author_name || 'Bạn học sinh'}</strong> (${item.contact?.student_class ? 'Lớp ' + item.contact.student_class : 'THCS Ái Quốc'})</div>
+            <div style="font-size: 0.75rem; color: #2563EB; margin-top: 2px;">Trạm tiếp nhận: ${item.transit_station || 'Thư viện / Phòng Đoàn Đội trường'}</div>
+          </div>
+        `;
       }
 
-      // Lưu trạng thái vào Database qua API
-      if (api.updateItemStatus) {
-        await api.updateItemStatus(item.id, "IN_TRANSIT");
+      reqModal.classList.add("active");
+
+      const closeReqBtn = reqModal.querySelector(".modal-close-btn");
+      const cancelReqBtn = reqModal.querySelector(".btn-close-req-modal");
+      const backdropReq = reqModal.querySelector(".modal-backdrop");
+      const closeReqModal = () => reqModal.classList.remove("active");
+
+      if (closeReqBtn) closeReqBtn.onclick = closeReqModal;
+      if (cancelReqBtn) cancelReqBtn.onclick = closeReqModal;
+      if (backdropReq) backdropReq.onclick = closeReqModal;
+
+      const reqForm = reqModal.querySelector("#form-send-item-request");
+      if (reqForm) {
+        reqForm.onsubmit = async (e) => {
+          e.preventDefault();
+          const note = noteInput ? noteInput.value.trim() : "";
+          const submitBtn = reqModal.querySelector("#btn-submit-send-request");
+          if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Đang gửi yêu cầu...";
+          }
+
+          try {
+            await api.createItemRequest({
+              item_id: item.id,
+              item_title: item.title,
+              item_image: (item.images && item.images[0]) || 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600',
+              item_category: item.category,
+              giver_id: item.user_id || item.contact?.user_id || (item.id === "item-hp-aq-01" ? "user-giver-minhchau" : "user-giver-default"),
+              giver_name: item.contact?.author_name || "Người cho",
+              giver_class: item.contact?.student_class || "8A2",
+              requester_id: currentUser.uid,
+              requester_name: currentUser.displayName,
+              requester_class: currentUser.studentClass || "7A1",
+              requester_school: currentUser.school || "Trường THCS Ái Quốc",
+              requester_avatar: currentUser.photoURL || "",
+              requester_note: note || "Em xin chào anh/chị, em muốn xin lại đồ dùng này để học tập ạ.",
+              transit_station: item.transit_station || `Thư viện / Phòng Đoàn Đội - ${item.location?.school_name || 'Trường THCS Ái Quốc'}`,
+              transit_code: null
+            });
+
+            closeReqModal();
+            closeModal();
+
+            if (window.reschoolApp) {
+              window.reschoolApp.showToast(`Đã gửi yêu cầu tới bạn ${item.contact?.author_name || 'cho đồ'}!`);
+              window.reschoolApp.switchTab("requests");
+              await window.reschoolApp.loadData();
+            }
+          } catch (err) {
+            console.error("Lỗi gửi yêu cầu:", err);
+          } finally {
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.textContent = "Xác nhận gửi yêu cầu";
+            }
+          }
+        };
       }
-
-      closeModal();
-      if (onDataChange) onDataChange();
-
-      // Mở Phiếu luân chuyển học đường
-      openTransitTicketModal(item, generatedCode, isGive ? "RECEIVER" : "GIVER");
     });
   }
 

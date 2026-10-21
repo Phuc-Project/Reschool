@@ -337,6 +337,193 @@
 }
 
 /* ==========================================================================
+   MULTI-OPTION AUTH TABS & DEMO ROLES
+   ========================================================================== */
+
+.auth-method-tabs {
+  display: flex;
+  background: var(--slate-100);
+  padding: 4px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  border: 1px solid var(--slate-200);
+  gap: 4px;
+}
+
+.auth-method-tab {
+  flex: 1;
+  padding: 8px 10px;
+  border: none;
+  background: transparent;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--slate-600);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.auth-method-tab:hover {
+  color: var(--slate-900);
+}
+
+.auth-method-tab.active {
+  background: #FFFFFF;
+  color: var(--primary-700);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+  font-weight: 700;
+}
+
+.auth-tab-panel {
+  display: none;
+  animation: fadeIn 0.2s ease;
+}
+
+.auth-tab-panel.active {
+  display: block;
+}
+
+.auth-panel-hint {
+  font-size: 0.76rem;
+  color: var(--slate-500);
+  text-align: center;
+  margin-top: 10px;
+  line-height: 1.4;
+}
+
+/* Credentials Form */
+.credentials-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.credentials-login-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+}
+
+.credentials-login-form label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--slate-700);
+}
+
+.credentials-login-form .form-control {
+  padding: 10px 12px;
+  border: 1px solid var(--slate-300);
+  border-radius: 4px;
+  font-size: 0.88rem;
+  color: var(--slate-800);
+  transition: border-color 0.2s;
+}
+
+.credentials-login-form .form-control:focus {
+  outline: none;
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+}
+
+/* Demo Role Cards */
+.demo-accounts-lead {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--slate-600);
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.demo-accounts-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-demo-account-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: #FFFFFF;
+  border: 1px solid var(--slate-200);
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.btn-demo-account-card:hover {
+  border-color: var(--primary-400);
+  background: var(--primary-50);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(16, 185, 129, 0.12);
+}
+
+.demo-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--primary-200);
+  flex-shrink: 0;
+}
+
+.demo-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.demo-name-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.86rem;
+  color: var(--slate-800);
+}
+
+.role-pill {
+  font-size: 0.68rem;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-weight: 700;
+}
+
+.role-pill.role-giver {
+  background: #DCFCE7;
+  color: #15803D;
+  border: 1px solid #BBF7D0;
+}
+
+.role-pill.role-receiver {
+  background: #DBEAFE;
+  color: #1D4ED8;
+  border: 1px solid #BFDBFE;
+}
+
+.role-pill.role-station {
+  background: #FEF3C7;
+  color: #B45309;
+  border: 1px solid #FDE68A;
+}
+
+.demo-school {
+  font-size: 0.74rem;
+  color: var(--slate-500);
+  margin-top: 2px;
+}
+
+.demo-desc {
+  font-size: 0.72rem;
+  color: var(--primary-700);
+  font-style: italic;
+  margin-top: 3px;
+}
+
+/* ==========================================================================
    MOBILE APP SIGN-IN ADAPTATION (< 600px)
    ========================================================================== */
 @media (max-width: 600px) {

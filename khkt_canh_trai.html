@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Cánh Trái Poster KHKT (50cm x 120cm) - Dự Án Reschool</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-navy: #0F172A;
+      --secondary-navy: #1E293B;
+      --academic-blue: #1E40AF;
+      --academic-blue-light: #3B82F6;
+      --academic-tint: #EFF6FF;
+      --eco-green: #047857;
+      --eco-tint: #ECFDF5;
+      --slate-800: #1E293B;
+      --slate-700: #334155;
+      --slate-600: #475569;
+      --slate-400: #94A3B8;
+      --slate-300: #CBD5E1;
+      --slate-200: #E2E8F0;
+      --slate-100: #F1F5F9;
+      --font-heading: 'Plus Jakarta Sans', sans-serif;
+      --font-body: 'Be Vietnam Pro', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+    body {
+      width: 500px;
+      height: 1200px;
+      background: #FFFFFF;
+      font-family: var(--font-body);
+      color: var(--secondary-navy);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 10px;
+      padding: 16px 18px;
+      overflow: hidden;
+      border: 2px solid var(--primary-navy);
+    }
+    .wing-header {
+      background: linear-gradient(135deg, #1E293B, #0F172A);
+      color: #FFFFFF;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border-left: 5px solid var(--academic-blue);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2px;
+    }
+    .wing-title {
+      font-family: var(--font-heading);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .wing-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 800;
+      background: rgba(255,255,255,0.2);
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .module-box {
+      background: #FFFFFF;
+      border: 1.5px solid var(--slate-300);
+      border-radius: 7px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+      display: flex;
+      flex-direction: column;
+    }
+    .module-head {
+      padding: 5px 10px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: #FFFFFF;
+      font-family: var(--font-heading);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .head-blue { background: linear-gradient(90deg, #1E3A8A, #1D4ED8); }
+    .head-green { background: linear-gradient(90deg, #065F46, #047857); }
+    .head-slate { background: linear-gradient(90deg, #0F172A, #334155); }
+    .head-idx {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 1px 5px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.25);
+    }
+    .module-body {
+      padding: 8px 10px;
+      font-size: 11px;
+      line-height: 1.42;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .callout-alert {
+      background: #FEF2F2;
+      border-left: 3.5px solid #EF4444;
+      padding: 5px 8px;
+      border-radius: 0 4px 4px 0;
+      font-size: 10.5px;
+      color: #991B1B;
+      line-height: 1.35;
+    }
+    .callout-success {
+      background: var(--eco-tint);
+      border-left: 3.5px solid var(--eco-green);
+      padding: 5px 8px;
+      border-radius: 0 4px 4px 0;
+      font-size: 10.5px;
+      color: #065F46;
+      line-height: 1.35;
+    }
+    .callout-hypo {
+      background: var(--academic-tint);
+      border: 1px dashed var(--academic-blue-light);
+      border-radius: 5px;
+      padding: 5px 8px;
+      font-size: 10.5px;
+      color: #1E3A8A;
+      line-height: 1.35;
+    }
+    .survey-stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin: 2px 0;
+    }
+    .survey-stat-card {
+      background: var(--slate-100);
+      border: 1px solid var(--slate-200);
+      border-radius: 5px;
+      padding: 5px 4px;
+      text-align: center;
+    }
+    .stat-pct {
+      font-family: var(--font-heading);
+      font-size: 16px;
+      font-weight: 900;
+      color: var(--academic-blue);
+      line-height: 1.1;
+    }
+    .stat-lbl {
+      font-size: 8.5px;
+      color: var(--slate-600);
+      line-height: 1.2;
+    }
+    .point-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .point-list li {
+      position: relative;
+      padding-left: 12px;
+      font-size: 10.5px;
+      line-height: 1.35;
+      color: var(--slate-700);
+    }
+    .point-list li::before {
+      content: "▪";
+      position: absolute;
+      left: 0;
+      color: var(--eco-green);
+      font-size: 13px;
+      line-height: 1;
+    }
+    .method-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 9.5px;
+    }
+    .method-table th {
+      background: var(--slate-100);
+      padding: 4px 5px;
+      border: 1px solid var(--slate-300);
+      text-align: left;
+      font-family: var(--font-mono);
+      font-size: 9px;
+    }
+    .method-table td {
+      padding: 4px 5px;
+      border: 1px solid var(--slate-200);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Banner Đầu Cánh Trái -->
+  <div class="wing-header">
+    <div class="wing-title">CÁNH TRÁI // TỔNG QUAN, LÝ DO &amp; MỤC TIÊU</div>
+    <div class="wing-tag">50 x 120 CM</div>
+  </div>
+
+  <!-- Module 1: Lý do chọn đề tài & Tính cấp thiết -->
+  <div class="module-box">
+    <div class="module-head head-blue">
+      <span class="head-idx">01</span>
+      <span>Lý Do Chọn Đề Tài &amp; Tính Cấp Thiết</span>
+    </div>
+    <div class="module-body">
+      <div class="callout-alert">
+        <strong>Thực trạng học đường:</strong> Sau mỗi niên khóa, hàng triệu cuốn SGK mới (Chương trình GDPT 2018) và đồng phục học sinh vẫn còn giá trị sử dụng trên 90% nhưng bị bỏ quên hoặc bán phế liệu, gây lãng phí tài nguyên và ô nhiễm môi trường.
+      </div>
+      <p style="text-align:justify; color:var(--slate-700);">
+        Nhiều bạn học sinh khó khăn thiếu sách ôn thi vào 10 và áo ấm đồng phục mùa đông. Các hội nhóm mạng xã hội hiện tại mang tính <strong>tự phát, phân tán, thiếu kiểm duyệt an toàn</strong> và không có định vị trường học lân cận.
+      </p>
+
+      <!-- Số liệu khảo sát 350+ học sinh -->
+      <div class="survey-stats-row">
+        <div class="survey-stat-card">
+          <div class="stat-pct">82.4%</div>
+          <div class="stat-lbl">Học sinh muốn tặng lại SGK còn mới</div>
+        </div>
+        <div class="survey-stat-card">
+          <div class="stat-pct">68.7%</div>
+          <div class="stat-lbl">Gặp khó khăn khi tìm kiếm đồ cần xin</div>
+        </div>
+        <div class="survey-stat-card">
+          <div class="stat-pct">94.5%</div>
+          <div class="stat-lbl">Muốn trạm hẹn an toàn tại thư viện trường</div>
+        </div>
+      </div>
+
+      <div class="callout-success">
+        <strong>Giải pháp:</strong> Xây dựng nền tảng số hóa tuần hoàn học đường 0đ, tự động kết nối qua định vị GIS và trạm thư viện trường.
+      </div>
+    </div>
+  </div>
+
+  <!-- Module 2: Câu hỏi & Giả thuyết khoa học -->
+  <div class="module-box">
+    <div class="module-head head-slate">
+      <span class="head-idx">02</span>
+      <span>Câu Hỏi &amp; Giả Thuyết Khoa Học</span>
+    </div>
+    <div class="module-body">
+      <div class="callout-hypo">
+        <strong>Câu hỏi nghiên cứu:</strong> Có thể ứng dụng giải thuật tính khoảng cách trắc địa kết hợp khớp ngữ nghĩa tiêu đề để tự động kết nối người cho - người nhận sách đạt độ chính xác >90% hay không?
+      </div>
+      <div class="callout-hypo" style="background:#F0FDF4; border-color:#86EFAC; color:#065F46;">
+        <strong>Giả thuyết khoa học:</strong> Nền tảng tích hợp <em>Bản đồ GIS Leaflet</em> và <em>Thuật toán Haversine đa tiêu chí</em> sẽ rút ngắn thời gian khớp nối xuống dưới 5 phút, đảm bảo an toàn tuyệt đối qua Trạm Thư viện.
+      </div>
+    </div>
+  </div>
+
+  <!-- Module 3: Mục tiêu & Nhiệm vụ nghiên cứu -->
+  <div class="module-box">
+    <div class="module-head head-blue">
+      <span class="head-idx">03</span>
+      <span>Mục Tiêu &amp; Nhiệm Vụ Nghiên Cứu</span>
+    </div>
+    <div class="module-body">
+      <ul class="point-list">
+        <li><strong>Mục tiêu tổng quát:</strong> Xây dựng hệ thống phần mềm Reschool hoàn chỉnh, giải quyết bài toán tuần hoàn tài nguyên học đường và kết nối an toàn cho học sinh.</li>
+        <li><strong>Nhiệm vụ 1:</strong> Thiết kế kiến trúc Web SPA kết hợp RESTful API phi trạng thái và Cloud Firestore NoSQL.</li>
+        <li><strong>Nhiệm vụ 2:</strong> Hiện thực hóa giải thuật ghép cặp thông minh Haversine đa tiêu chí đạt độ chính xác >95%.</li>
+        <li><strong>Nhiệm vụ 3:</strong> Tích hợp bản đồ số GIS trường học và xây dựng quy trình 4 bước qua Trạm Thư viện an toàn.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Module 4: Đối tượng & Phạm vi nghiên cứu -->
+  <div class="module-box">
+    <div class="module-head head-green">
+      <span class="head-idx">04</span>
+      <span>Đối Tượng &amp; Phạm Vi Thực Nghiệm</span>
+    </div>
+    <div class="module-body">
+      <ul class="point-list">
+        <li><strong>Đối tượng tài nguyên:</strong> SGK khối 1-12 (Kết Nối Tri Thức, Cánh Diều, Chân Trời); Áo khoác đồng phục; Máy tính Casio 580; Dụng cụ học tập.</li>
+        <li><strong>Khách thể nghiên cứu:</strong> Học sinh trung học (THCS, THPT) và phụ huynh.</li>
+        <li><strong>Địa bàn thực nghiệm:</strong> 5+ điểm trường tại TP. Hải Phòng (THCS Ái Quốc, THPT Chuyên Trần Phú, VMU...) và Hà Nội.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Module 5: Phương pháp nghiên cứu -->
+  <div class="module-box">
+    <div class="module-head head-slate">
+      <span class="head-idx">05</span>
+      <span>Phương Pháp Nghiên Cứu Thực Hiện</span>
+    </div>
+    <div class="module-body">
+      <table class="method-table">
+        <thead>
+          <tr>
+            <th>Phương pháp</th>
+            <th>Nội dung áp dụng</th>
+            <th>Kết quả đầu ra</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Khảo sát xã hội học</strong></td>
+            <td>Khảo sát 350+ học sinh và phụ huynh</td>
+            <td>Dữ liệu thực trạng và nhu cầu trao đổi</td>
+          </tr>
+          <tr>
+            <td><strong>Phát triển phần mềm</strong></td>
+            <td>Mô hình lặp Agile/Scrum qua 4 sprints</td>
+            <td>Bộ mã nguồn Frontend + Backend hoàn chỉnh</td>
+          </tr>
+          <tr>
+            <td><strong>Thực nghiệm đối chứng</strong></td>
+            <td>Đo đạc thuật toán trên tập dữ liệu thực tế</td>
+            <td>Độ chính xác ghép cặp 98.4%, trễ &lt;120ms</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</body>
+</html>

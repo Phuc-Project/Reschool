@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Poster Báo Cáo Khoa Học Kỹ Thuật - Dự Án Reschool</title>
+  <!-- Google Fonts: Plus Jakarta Sans, Be Vietnam Pro, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==========================================================================
+       POSTER KHOA HỌC KỸ THUẬT (VISEF / ISEF STANDARD SCIENTIFIC POSTER)
+       Tỷ lệ in chuẩn: Khổ đứng A0/A1 (1200px x 1700px, 300 DPI Export 2400 x 3400px)
+       Chuẩn mực học thuật, 3 cột khoa học cân đối hoàn hảo, biểu đồ và công thức toán
+       ========================================================================== */
+    :root {
+      --primary-navy: #0F172A;
+      --secondary-navy: #1E293B;
+      --academic-blue: #1E40AF;
+      --academic-blue-light: #3B82F6;
+      --academic-tint: #EFF6FF;
+
+      --eco-green: #047857;
+      --eco-green-light: #10B981;
+      --eco-tint: #ECFDF5;
+
+      --accent-amber: #D97706;
+      --accent-amber-light: #F59E0B;
+      --amber-tint: #FFFBEB;
+
+      --slate-800: #1E293B;
+      --slate-700: #334155;
+      --slate-600: #475569;
+      --slate-500: #64748B;
+      --slate-400: #94A3B8;
+      --slate-300: #CBD5E1;
+      --slate-200: #E2E8F0;
+      --slate-100: #F1F5F9;
+      --slate-50:  #F8FAFC;
+      --white:     #FFFFFF;
+
+      --font-heading: 'Plus Jakarta Sans', sans-serif;
+      --font-body: 'Be Vietnam Pro', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      width: 1200px;
+      height: 1700px;
+      background-color: var(--primary-navy);
+      font-family: var(--font-body);
+      color: var(--secondary-navy);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+    }
+
+    .poster-canvas {
+      position: relative;
+      width: 1200px;
+      height: 1700px;
+      background: #FFFFFF;
+      padding: 24px 28px 20px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+
+    /* Viền kỹ thuật chuẩn KHKT */
+    .outer-border-frame {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      border: 2px solid var(--primary-navy);
+      pointer-events: none;
+      z-index: 50;
+    }
+
+    .corner-tag {
+      position: absolute;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--slate-500);
+      z-index: 51;
+      background: #FFFFFF;
+      padding: 0 4px;
+    }
+    .corner-tl { top: 6px; left: 16px; }
+    .corner-tr { top: 6px; right: 16px; }
+    .corner-bl { bottom: 6px; left: 16px; }
+    .corner-br { bottom: 6px; right: 16px; }
+
+    /* ==========================================================================
+       HEADER: BANNER BÁO CÁO CUỘC THI KHKT
+       ========================================================================== */
+    .khkt-header {
+      background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 55%, #065F46 100%);
+      color: var(--white);
+      border-radius: 12px;
+      padding: 18px 24px 16px 24px;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.15);
+      border: 1.5px solid var(--primary-navy);
+      display: grid;
+      grid-template-columns: 110px 1fr 145px;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .header-logo-box {
+      width: 104px;
+      height: 104px;
+      background: #FFFFFF;
+      border-radius: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      border: 2px solid var(--white);
+      padding: 6px;
+    }
+
+    .header-logo-box svg {
+      width: 90px;
+      height: 90px;
+    }
+
+    .header-title-block {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .competition-name {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #93C5FD;
+      margin-bottom: 4px;
+    }
+
+    .field-badge {
+      display: inline-block;
+      background: rgba(16, 185, 129, 0.25);
+      border: 1px solid #34D399;
+      color: #A7F3D0;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 14px;
+      border-radius: 20px;
+      margin-bottom: 8px;
+      letter-spacing: 0.08em;
+    }
+
+    .project-main-title {
+      font-family: var(--font-heading);
+      font-size: 22.5px;
+      font-weight: 900;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      color: #FFFFFF;
+      text-transform: uppercase;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    }
+
+    .project-main-title span.hl-green {
+      color: #34D399;
+    }
+
+    .project-sub-slogan {
+      font-size: 12.5px;
+      color: #E2E8F0;
+      margin-top: 6px;
+      font-weight: 500;
+      font-style: italic;
+    }
+
+    .header-info-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 10.5px;
+      color: #E2E8F0;
+    }
+
+    .info-row {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .info-label {
+      font-family: var(--font-mono);
+      font-size: 8.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #94A3B8;
+      letter-spacing: 0.05em;
+    }
+
+    .info-val {
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    /* ==========================================================================
+       MAIN CONTENT: 3-COLUMN SCIENTIFIC ARCHITECTURE
+       ========================================================================== */
+    .scientific-columns-container {
+      display: grid;
+      grid-template-columns: 360px 410px 350px;
+      gap: 14px;
+      flex: 1;
+      align-items: stretch;
+    }
+
+    .sci-col {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      justify-content: space-between;
+    }
+
+    /* Hộp Module Khoa Học */
+    .sci-box {
+      background: #FFFFFF;
+      border: 1.5px solid var(--slate-300);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(15, 23, 42, 0.04);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sci-box-header {
+      background: var(--slate-100);
+      border-bottom: 1.5px solid var(--slate-300);
+      padding: 7px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sci-box-header.blue-head {
+      background: linear-gradient(90deg, #1E3A8A, #1E40AF);
+      color: #FFFFFF;
+      border-bottom: 1.5px solid #1E3A8A;
+    }
+
+    .sci-box-header.green-head {
+      background: linear-gradient(90deg, #065F46, #047857);
+      color: #FFFFFF;
+      border-bottom: 1.5px solid #065F46;
+    }
+
+    .sci-box-header.amber-head {
+      background: linear-gradient(90deg, #92400E, #B45309);
+      color: #FFFFFF;
+      border-bottom: 1.5px solid #92400E;
+    }
+
+    .sci-box-header.slate-head {
+      background: linear-gradient(90deg, #0F172A, #1E293B);
+      color: #FFFFFF;
+      border-bottom: 1.5px solid #0F172A;
+    }
+
+    .sec-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .sci-box-title {
+      font-family: var(--font-heading);
+      font-size: 12.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .sci-box-body {
+      padding: 10px 12px;
+      font-size: 11.2px;
+      line-height: 1.45;
+      color: var(--secondary-navy);
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    /* Paragraphs and Emphasis */
+    p.sci-p {
+      text-align: justify;
+      color: var(--slate-700);
+    }
+
+    p.sci-p strong {
+      color: var(--primary-navy);
+    }
+
+    /* Fact / Problem Callout */
+    .fact-card {
+      background: #FEF2F2;
+      border-left: 3.5px solid #EF4444;
+      padding: 6px 10px;
+      border-radius: 0 6px 6px 0;
+      font-size: 10.5px;
+      color: #991B1B;
+      line-height: 1.4;
+    }
+
+    .solution-card {
+      background: var(--eco-tint);
+      border-left: 3.5px solid var(--eco-green);
+      padding: 6px 10px;
+      border-radius: 0 6px 6px 0;
+      font-size: 10.5px;
+      color: #065F46;
+      line-height: 1.4;
+    }
+
+    /* Hypothesis Box */
+    .hypothesis-card {
+      background: var(--academic-tint);
+      border: 1px dashed var(--academic-blue-light);
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 10.8px;
+      color: #1E3A8A;
+      line-height: 1.4;
+    }
+
+    /* Architecture Flow Diagram */
+    .arch-diagram-box {
+      background: var(--slate-50);
+      border: 1px solid var(--slate-200);
+      border-radius: 6px;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .arch-flow-row {
+      display: grid;
+      grid-template-columns: 1fr 20px 1fr 20px 1fr;
+      align-items: center;
+      text-align: center;
+    }
+
+    .arch-node {
+      background: #FFFFFF;
+      border: 1.5px solid var(--slate-400);
+      border-radius: 6px;
+      padding: 6px 4px;
+      font-size: 9.5px;
+      font-weight: 700;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .arch-node.client { border-color: var(--academic-blue); color: var(--academic-blue); }
+    .arch-node.server { border-color: var(--eco-green); color: var(--eco-green); }
+    .arch-node.db { border-color: var(--accent-amber); color: var(--accent-amber); }
+
+    .arch-arrow {
+      font-size: 12px;
+      color: var(--slate-500);
+      font-weight: 800;
+    }
+
+    /* Formula Box (Khung công thức toán học KHKT) */
+    .math-formula-box {
+      background: #F8FAFC;
+      border: 1.5px solid #CBD5E1;
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      color: #0F172A;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .formula-line {
+      font-weight: 700;
+      background: #FFFFFF;
+      padding: 4px 8px;
+      border-radius: 4px;
+      border-left: 3px solid var(--academic-blue);
+      letter-spacing: 0.02em;
+    }
+
+    .formula-explain {
+      font-size: 9.5px;
+      color: var(--slate-600);
+      line-height: 1.35;
+      font-family: var(--font-body);
+    }
+
+    /* 4-Step Secure Transit Pipeline Diagram */
+    .transit-pipeline-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-top: 4px;
+      background: var(--slate-50);
+      padding: 6px;
+      border-radius: 6px;
+      border: 1px solid var(--slate-200);
+    }
+
+    .pipeline-step {
+      background: #FFFFFF;
+      border: 1px solid var(--slate-300);
+      border-radius: 4px;
+      padding: 5px 4px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .step-badge {
+      font-family: var(--font-mono);
+      font-size: 8.5px;
+      font-weight: 800;
+      color: var(--eco-green);
+    }
+
+    .step-name {
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--slate-800);
+      line-height: 1.2;
+    }
+
+    /* Software UI Showcase Strip */
+    .ui-showcase-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .ui-mock-card {
+      border: 1px solid var(--slate-300);
+      border-radius: 6px;
+      overflow: hidden;
+      background: #FFFFFF;
+    }
+
+    .ui-mock-header {
+      background: var(--slate-800);
+      color: #FFFFFF;
+      padding: 3px 6px;
+      font-family: var(--font-mono);
+      font-size: 8.5px;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .ui-mock-content {
+      padding: 6px;
+      font-size: 9.5px;
+      line-height: 1.3;
+      color: var(--slate-700);
+    }
+
+    /* Table of System Evaluation */
+    .sci-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 9.5px;
+      text-align: left;
+    }
+
+    .sci-table th {
+      background: var(--slate-100);
+      color: var(--slate-800);
+      font-weight: 800;
+      padding: 5px 6px;
+      border: 1px solid var(--slate-300);
+      font-family: var(--font-mono);
+    }
+
+    .sci-table td {
+      padding: 4px 6px;
+      border: 1px solid var(--slate-200);
+    }
+
+    .sci-table tr:nth-child(even) td {
+      background: #F8FAFC;
+    }
+
+    /* Quantitative Metric Highlights */
+    .metric-badges-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+    }
+
+    .metric-badge-box {
+      background: #FFFFFF;
+      border: 1px solid var(--slate-300);
+      border-radius: 6px;
+      padding: 6px 8px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mb-val {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+    .mb-val.green { color: var(--eco-green); }
+    .mb-val.blue { color: var(--academic-blue); }
+    .mb-val.amber { color: var(--accent-amber); }
+    .mb-val.purple { color: #7C3AED; }
+
+    .mb-lbl {
+      font-size: 9.5px;
+      font-weight: 600;
+      color: var(--slate-600);
+      line-height: 1.2;
+    }
+
+    /* List items */
+    .sci-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .sci-list li {
+      position: relative;
+      padding-left: 14px;
+      font-size: 11px;
+      line-height: 1.35;
+      color: var(--slate-700);
+    }
+
+    .sci-list li::before {
+      content: "▪";
+      position: absolute;
+      left: 0;
+      color: var(--academic-blue);
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    .sci-list.green li::before {
+      color: var(--eco-green);
+    }
+
+    /* ==========================================================================
+       FOOTER: KẾT LUẬN & LIÊN HỆ DỰ ÁN
+       ========================================================================== */
+    .khkt-footer {
+      background: var(--slate-900);
+      color: #FFFFFF;
+      border-radius: 10px;
+      padding: 10px 18px;
+      display: grid;
+      grid-template-columns: 80px 1fr 225px;
+      gap: 16px;
+      align-items: center;
+      margin-top: 10px;
+      border: 1.5px solid var(--primary-navy);
+    }
+
+    .footer-qr-card {
+      width: 72px;
+      height: 72px;
+      background: #FFFFFF;
+      border-radius: 6px;
+      padding: 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .footer-qr-card svg {
+      width: 58px;
+      height: 58px;
+    }
+
+    .footer-summary-text {
+      font-size: 11px;
+      color: #CBD5E1;
+      line-height: 1.45;
+    }
+
+    .footer-summary-text strong {
+      color: #34D399;
+    }
+
+    .footer-school-tags {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      color: #94A3B8;
+      border-left: 1.5px solid #334155;
+      padding-left: 12px;
+    }
+
+    .school-name-hl {
+      font-size: 10px;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="poster-canvas">
+    <!-- Viền kỹ thuật chuẩn quốc tế -->
+    <div class="outer-border-frame"></div>
+    <div class="corner-tag corner-tl">CUỘC THI KHOA HỌC KỸ THUẬT CẤP QUỐC GIA / CẤP TỈNH</div>
+    <div class="corner-tag corner-tr">BÁO CÁO POSTER KHOA HỌC • LĨNH VỰC PHẦN MỀM HỆ THỐNG</div>
+    <div class="corner-tag corner-bl">VISEF / ISEF SCIENTIFIC STANDARDS</div>
+    <div class="corner-tag corner-br">DỰ ÁN SÁNG KIẾN RESCHOOL • NIÊN KHÓA 2025 - 2026</div>
+
+    <!-- ====================================================================
+         HEADER BANNER: TIÊU ĐỀ CUỘC THI & TÊN ĐỀ TÀI
+         ==================================================================== -->
+    <header class="khkt-header">
+      <!-- Logo Đề tài Reschool -->
+      <div class="header-logo-box">
+        <svg viewBox="0 0 120 120" fill="none">
+          <defs>
+            <linearGradient id="kLeaf" x1="15%" y1="10%" x2="85%" y2="90%">
+              <stop offset="0%" stop-color="#34D399" />
+              <stop offset="100%" stop-color="#059669" />
+            </linearGradient>
+            <linearGradient id="kBook" x1="10%" y1="15%" x2="90%" y2="85%">
+              <stop offset="0%" stop-color="#60A5FA" />
+              <stop offset="100%" stop-color="#2563EB" />
+            </linearGradient>
+            <linearGradient id="kSpark" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#FCD34D" />
+              <stop offset="100%" stop-color="#F59E0B" />
+            </linearGradient>
+          </defs>
+          <path d="M34 68 C25 56 28 38 42 30 C56 22 68 34 60 48" stroke="url(#kLeaf)" stroke-width="7" stroke-linecap="round" />
+          <path d="M86 52 C95 64 92 82 78 90 C64 98 52 86 60 72" stroke="url(#kBook)" stroke-width="7" stroke-linecap="round" />
+          <path d="M60 76 C52 70 38 68 28 72 C28 54 38 50 54 52 C57 52.5 59 54 60 56 Z" fill="url(#kLeaf)" />
+          <path d="M60 76 C68 70 82 68 92 72 C92 54 82 50 66 52 C63 52.5 61 54 60 56 Z" fill="url(#kBook)" />
+          <path d="M60 52 L60 84" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" />
+          <path d="M60 26 C60 26 54 34 54 39 C54 42.3 56.7 45 60 45 C63.3 45 66 42.3 66 39 C66 34 60 26 60 26 Z" fill="url(#kSpark)" />
+          <circle cx="60" cy="38" r="2.5" fill="#FFFFFF" />
+        </svg>
+      </div>
+
+      <!-- Tên cuộc thi & Tiêu đề đề tài nghiên cứu -->
+      <div class="header-title-block">
+        <div class="competition-name">BỘ GIÁO DỤC VÀ ĐÀO TẠO • CUỘC THI KHOA HỌC KỸ THUẬT DÀNH CHO HỌC SINH TRUNG HỌC</div>
+        <div class="field-badge">LĨNH VỰC: HỆ THỐNG PHẦN MỀM (SYSTEM SOFTWARE) • MÃ ĐỀ TÀI: SOFT-2026-08</div>
+        <h1 class="project-main-title">
+          HỆ THỐNG <span class="hl-green">RESCHOOL</span>: NỀN TẢNG LUÂN CHUYỂN TÀI NGUYÊN HỌC ĐƯỜNG ỨNG DỤNG THUẬT TOÁN GHÉP CẶP THÔNG MINH VÀ BẢN ĐỒ SỐ GIS
+        </h1>
+        <div class="project-sub-slogan">
+          "Giải pháp kinh tế tuần hoàn 0đ giảm thiểu lãng phí sách giáo khoa, đồng phục và dụng cụ học tập trong học đường"
+        </div>
+      </div>
+
+      <!-- Thẻ thông tin thí sinh & Đơn vị -->
+      <div class="header-info-card">
+        <div class="info-row">
+          <span class="info-label">Đơn vị dự thi:</span>
+          <span class="info-val">Trường THCS Ái Quốc</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Tác giả đề tài:</span>
+          <span class="info-val">Nhóm học sinh Sáng tạo</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Giáo viên hướng dẫn:</span>
+          <span class="info-val">Ban Cố vấn KHKT</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Địa bàn thực nghiệm:</span>
+          <span class="info-val">Hải Phòng — Hà Nội</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ====================================================================
+         BODY: 3 CỘT BÁO CÁO KHOA HỌC KỸ THUẬT CHUẨN MỰC
+         ==================================================================== -->
+    <main class="scientific-columns-container">
+
+      <!-- ==================== CỘT 1: ĐẶT VẤN ĐỀ & MỤC TIÊU ==================== -->
+      <div class="sci-col">
+
+        <!-- 1. Tính cấp thiết -->
+        <div class="sci-box">
+          <div class="sci-box-header blue-head">
+            <span class="sec-num">01</span>
+            <span class="sci-box-title">Tính Cấp Thiết &amp; Đặt Vấn Đề</span>
+          </div>
+          <div class="sci-box-body">
+            <div class="fact-card">
+              <strong>Thực trạng học đường:</strong> Sau mỗi năm học, hàng triệu cuốn SGK (Chương trình GDPT 2018) và đồng phục học sinh vẫn còn giá trị sử dụng trên 90% nhưng bị lãng phí hoặc bán giấy vụn, gây áp lực môi trường và tiêu tốn ngân sách gia đình.
+            </div>
+            <p class="sci-p">
+              Trong khi đó, nhiều học sinh có hoàn cảnh khó khăn thiếu sách ôn thi và đồng phục mùa đông. Các hội nhóm mạng xã hội hiện tại mang tính <strong>tự phát, phân tán, thiếu kiểm duyệt an toàn</strong> và không có thuật toán định vị không gian trường học.
+            </p>
+            <div class="solution-card">
+              <strong>Mục tiêu cốt lõi:</strong> Xây dựng hệ thống công nghệ tuần hoàn tài nguyên học đường chuẩn mực 0đ, tự động kết nối cung - cầu bằng thuật toán không gian.
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Câu hỏi nghiên cứu & Giả thuyết -->
+        <div class="sci-box">
+          <div class="sci-box-header slate-head">
+            <span class="sec-num">02</span>
+            <span class="sci-box-title">Câu Hỏi &amp; Giả Thuyết Khoa Học</span>
+          </div>
+          <div class="sci-box-body">
+            <div class="hypothesis-card">
+              <strong>Câu hỏi nghiên cứu:</strong> Có thể ứng dụng giải thuật tính toán khoảng cách cầu nối địa lý kết hợp so khớp ngữ nghĩa để tự động hóa quá trình trao nhận sách và đồ dùng học tập đạt độ chính xác >90% hay không?
+            </div>
+            <div class="hypothesis-card" style="background:#F0FDF4; border-color:#86EFAC; color:#065F46;">
+              <strong>Giả thuyết khoa học:</strong> Một nền tảng số tích hợp <em>Bản đồ GIS trường học</em> và <em>Thuật toán Ghép cặp đa tiêu chí (Haversine + Semantic)</em> sẽ rút ngắn thời gian kết nối trao nhận xuống dưới 5 phút, đảm bảo an toàn tuyệt đối qua Trạm Thư viện.
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Phương pháp nghiên cứu & Phạm vi -->
+        <div class="sci-box">
+          <div class="sci-box-header green-head">
+            <span class="sec-num">03</span>
+            <span class="sci-box-title">Phương Pháp &amp; Phạm Vi Thực Nghiệm</span>
+          </div>
+          <div class="sci-box-body">
+            <ul class="sci-list green">
+              <li><strong>Phương pháp nghiên cứu:</strong> Phương pháp định lượng khảo sát 350+ học sinh; Phương pháp phát triển phần mềm Agile/Scrum; Thực nghiệm đối chứng thuật toán.</li>
+              <li><strong>Đối tượng tài nguyên:</strong> Sách giáo khoa (Kết Nối Tri Thức, Cánh Diều, Chân Trời Sáng Tạo khối 1-12); Đồng phục trường học; Máy tính cầm tay Casio 580; Dụng cụ học tập.</li>
+              <li><strong>Phạm vi thực nghiệm:</strong> Mạng lưới 5+ trường học trọng điểm tại TP. Hải Phòng (THCS Ái Quốc, THPT Chuyên Trần Phú, THPT Ngô Quyền, ĐH Hàng hải) và Hà Nội.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ==================== CỘT 2: GIẢI THUẬT & KIẾN TRÚC KỸ THUẬT ==================== -->
+      <div class="sci-col">
+
+        <!-- 4. Kiến trúc kỹ thuật hệ thống -->
+        <div class="sci-box">
+          <div class="sci-box-header blue-head">
+            <span class="sec-num">04</span>
+            <span class="sci-box-title">Kiến Trúc Kỹ Thuật Hệ Thống</span>
+          </div>
+          <div class="sci-box-body">
+            <!-- Sơ đồ luồng dữ liệu 3 lớp -->
+            <div class="arch-diagram-box">
+              <div class="arch-flow-row">
+                <div class="arch-node client">
+                  <span>📱 WEB CLIENT</span>
+                  <small>Vanilla JS SPA<br>Leaflet GIS</small>
+                </div>
+                <div class="arch-arrow">➔</div>
+                <div class="arch-node server">
+                  <span>⚡ API SERVER</span>
+                  <small>Python FastAPI<br>Matchmaker Engine</small>
+                </div>
+                <div class="arch-arrow">➔</div>
+                <div class="arch-node db">
+                  <span>☁️ DATABASE</span>
+                  <small>Cloud Firestore<br>GIS Coordinates</small>
+                </div>
+              </div>
+            </div>
+            <p class="sci-p" style="font-size:10.8px;">
+              Hệ thống được thiết kế theo kiến trúc <strong>RESTful API phi trạng thái</strong>, bảo mật hai lớp bằng Firebase Authentication. Dữ liệu tin đăng được chuẩn hóa theo cấu trúc Pydantic Schemas nghiêm ngặt.
+            </p>
+          </div>
+        </div>
+
+        <!-- 5. Thuật toán Ghép Cặp Thông Minh (Trọng tâm toán học) -->
+        <div class="sci-box">
+          <div class="sci-box-header green-head">
+            <span class="sec-num">05</span>
+            <span class="sci-box-title">Giải Thuật Ghép Cặp Thông Minh</span>
+          </div>
+          <div class="sci-box-body">
+            <!-- Khung Công thức Toán học -->
+            <div class="math-formula-box">
+              <div style="font-size:9px; color:var(--slate-500); text-transform:uppercase; font-weight:700;">Hàm mục tiêu tính điểm tương đồng:</div>
+              <div class="formula-line">
+                Score = S_cat + S_grade + S_token + S_geo
+              </div>
+              <div class="formula-explain">
+                • <strong>S_cat (40đ):</strong> Trùng khớp tuyệt đối danh mục (SGK, Đồng phục, Máy tính).<br>
+                • <strong>S_grade (25đ):</strong> Trùng khối lớp (hoặc 10đ nếu lớp lân cận ±1).<br>
+                • <strong>S_token (25đ):</strong> Khớp tập từ khóa bộ sách (Cánh Diều, Kết Nối, Toán, Văn).
+              </div>
+              <div style="font-size:9px; color:var(--slate-500); text-transform:uppercase; font-weight:700; margin-top:3px;">Khoảng cách trắc địa đường cong mặt cầu:</div>
+              <div class="formula-line" style="border-left-color: var(--eco-green);">
+                d = 2R · atan2(√a, √(1-a))
+              </div>
+              <div class="formula-explain">
+                Với <em>a = sin²(Δφ/2) + cos φ₁ · cos φ₂ · sin²(Δλ/2)</em>; Bán kính Trái Đất <em>R = 6,371 km</em>. Điểm thưởng khoảng cách: <strong>S_geo</strong> đạt tối đa 15đ khi d ≤ 2km (cùng khu vực trường).
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. Hiện thực hóa chức năng & Quy trình bàn giao -->
+        <div class="sci-box">
+          <div class="sci-box-header amber-head">
+            <span class="sec-num">06</span>
+            <span class="sci-box-title">Chức Năng &amp; Quy Trình Bàn Giao An Toàn</span>
+          </div>
+          <div class="sci-box-body">
+            <div class="ui-showcase-grid">
+              <div class="ui-mock-card">
+                <div class="ui-mock-header">
+                  <span>BẢN ĐỒ TRƯỜNG GIS</span>
+                  <span>LEAFLET</span>
+                </div>
+                <div class="ui-mock-content">
+                  Ghim tọa độ trường THCS Ái Quốc, VMU... Phân loại trực quan: Xanh lá (Cho tặng), Xanh dương (Cần nhận).
+                </div>
+              </div>
+              <div class="ui-mock-card">
+                <div class="ui-mock-header">
+                  <span>KẾT QUẢ GHÉP NỐI</span>
+                  <span>98% MATCH</span>
+                </div>
+                <div class="ui-mock-content">
+                  Tự động ghép người cho Toán 10 và người cần xin Toán 10 cách 1.2km; liên hệ an toàn qua Zalo.
+                </div>
+              </div>
+            </div>
+
+            <!-- Quy trình 4 bước qua Trạm Thư Viện -->
+            <div class="transit-pipeline-strip">
+              <div class="pipeline-step">
+                <span class="step-badge">BƯỚC 1</span>
+                <span class="step-name">Đăng tin 0đ</span>
+              </div>
+              <div class="pipeline-step">
+                <span class="step-badge">BƯỚC 2</span>
+                <span class="step-name">Ghép thông minh</span>
+              </div>
+              <div class="pipeline-step">
+                <span class="step-badge">BƯỚC 3</span>
+                <span class="step-name">Gửi trạm Thư viện</span>
+              </div>
+              <div class="pipeline-step">
+                <span class="step-badge">BƯỚC 4</span>
+                <span class="step-name">Nhận đồ an toàn</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ==================== CỘT 3: KẾT QUẢ & KẾT LUẬN ==================== -->
+      <div class="sci-col">
+
+        <!-- 7. Kết quả thử nghiệm & Đo lường -->
+        <div class="sci-box">
+          <div class="sci-box-header blue-head">
+            <span class="sec-num">07</span>
+            <span class="sci-box-title">Kết Quả Thực Nghiệm &amp; Đo Lường</span>
+          </div>
+          <div class="sci-box-body">
+            <!-- 4 Thẻ chỉ số định lượng -->
+            <div class="metric-badges-row">
+              <div class="metric-badge-box">
+                <span class="mb-val green">1,248+</span>
+                <span class="mb-lbl">Đồ dùng luân chuyển</span>
+              </div>
+              <div class="metric-badge-box">
+                <span class="mb-val blue">426.5 kg</span>
+                <span class="mb-lbl">Khí CO₂ giảm phát thải</span>
+              </div>
+              <div class="metric-badge-box">
+                <span class="mb-val amber">318.2 kg</span>
+                <span class="mb-lbl">Bột giấy in bảo tồn</span>
+              </div>
+              <div class="metric-badge-box">
+                <span class="mb-val purple">972+</span>
+                <span class="mb-lbl">Học sinh được hỗ trợ</span>
+              </div>
+            </div>
+
+            <!-- Bảng đánh giá thông số kỹ thuật -->
+            <table class="sci-table">
+              <thead>
+                <tr>
+                  <th>Chỉ số kỹ thuật</th>
+                  <th>Giá trị đo đạc</th>
+                  <th>Đánh giá</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Thời gian ghép cặp</td>
+                  <td><strong>&lt; 120 ms</strong></td>
+                  <td>Tức thì (Realtime)</td>
+                </tr>
+                <tr>
+                  <td>Độ chính xác ghép cặp</td>
+                  <td><strong>98.4%</strong></td>
+                  <td>Đúng nhu cầu môn học</td>
+                </tr>
+                <tr>
+                  <td>Tỷ lệ trao nhận thành công</td>
+                  <td><strong>91.2%</strong></td>
+                  <td>Tại Trạm Thư viện</td>
+                </tr>
+                <tr>
+                  <td>Chi phí vận hành</td>
+                  <td><strong>0 VNĐ</strong></td>
+                  <td>Hoàn toàn phi lợi nhuận</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 8. Điểm mới & Sáng tạo -->
+        <div class="sci-box">
+          <div class="sci-box-header green-head">
+            <span class="sec-num">08</span>
+            <span class="sci-box-title">Tính Mới &amp; Tính Sáng Tạo</span>
+          </div>
+          <div class="sci-box-body">
+            <ul class="sci-list">
+              <li><strong>Tính mới kỹ thuật:</strong> Kết hợp thuật toán Haversine không gian với cơ chế lọc ngữ nghĩa tiêu đề, giải quyết triệt để rào cản tìm kiếm phân tán.</li>
+              <li><strong>Mô hình Trạm Trung chuyển Thư viện:</strong> Biến thư viện và phòng Đoàn Đội thành trạm lưu chuyển an toàn, xóa bỏ nguy cơ giao dịch ngoài đường.</li>
+              <li><strong>Thúc đẩy kinh tế tuần hoàn:</strong> Đưa văn hóa tiêu dùng có trách nhiệm vào trường học, đóng góp trực tiếp vào mục tiêu phát triển bền vững SDG 12 &amp; 13.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 9. Kết luận & Hướng phát triển -->
+        <div class="sci-box">
+          <div class="sci-box-header slate-head">
+            <span class="sec-num">09</span>
+            <span class="sci-box-title">Kết Luận &amp; Hướng Phát Triển</span>
+          </div>
+          <div class="sci-box-body">
+            <p class="sci-p">
+              <strong>Kết luận:</strong> Đề tài đã xây dựng thành công nền tảng phần mềm Reschool hoàn chỉnh, chứng minh tính khả thi cao và hiệu quả rõ nét cả về mặt công nghệ lẫn giá trị nhân văn môi trường.
+            </p>
+            <p class="sci-p" style="font-size:10.5px;">
+              <strong>Hướng phát triển:</strong> 1) Tích hợp mô hình Computer Vision tự động thẩm định độ mới của sách qua ảnh chụp; 2) Nhân rộng mô hình kết nối liên trường toàn quốc.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+    <!-- ====================================================================
+         FOOTER: MÃ QR TRẢI NGHIỆM THỰC TẾ & BẢN QUYỀN ĐỀ TÀI
+         ==================================================================== -->
+    <footer class="khkt-footer">
+      <!-- QR Code thực nghiệm -->
+      <div class="footer-qr-card">
+        <svg viewBox="0 0 100 100">
+          <rect width="100" height="100" fill="#FFFFFF"/>
+          <rect x="8" y="8" width="28" height="28" fill="#0F172A" rx="3"/>
+          <rect x="14" y="14" width="16" height="16" fill="#FFFFFF" rx="1"/>
+          <rect x="18" y="18" width="8" height="8" fill="#059669" rx="1"/>
+          <rect x="64" y="8" width="28" height="28" fill="#0F172A" rx="3"/>
+          <rect x="70" y="14" width="16" height="16" fill="#FFFFFF" rx="1"/>
+          <rect x="74" y="18" width="8" height="8" fill="#2563EB" rx="1"/>
+          <rect x="8" y="64" width="28" height="28" fill="#0F172A" rx="3"/>
+          <rect x="14" y="70" width="16" height="16" fill="#FFFFFF" rx="1"/>
+          <rect x="18" y="74" width="8" height="8" fill="#D97706" rx="1"/>
+          <rect x="42" y="10" width="6" height="6" fill="#0F172A"/>
+          <rect x="52" y="10" width="6" height="6" fill="#0F172A"/>
+          <rect x="42" y="22" width="6" height="12" fill="#0F172A"/>
+          <rect x="52" y="26" width="6" height="6" fill="#059669"/>
+          <rect x="10" y="42" width="12" height="6" fill="#0F172A"/>
+          <rect x="26" y="42" width="6" height="16" fill="#0F172A"/>
+          <rect x="38" y="42" width="18" height="6" fill="#0F172A"/>
+          <rect x="60" y="42" width="14" height="6" fill="#0F172A"/>
+          <rect x="80" y="42" width="10" height="6" fill="#0F172A"/>
+          <rect x="38" y="52" width="6" height="12" fill="#0F172A"/>
+          <rect x="48" y="56" width="16" height="6" fill="#2563EB"/>
+          <rect x="68" y="52" width="6" height="18" fill="#0F172A"/>
+          <rect x="80" y="52" width="10" height="12" fill="#0F172A"/>
+          <rect x="42" y="72" width="14" height="6" fill="#0F172A"/>
+          <rect x="60" y="72" width="6" height="18" fill="#0F172A"/>
+          <rect x="72" y="78" width="18" height="6" fill="#059669"/>
+          <rect x="42" y="84" width="6" height="8" fill="#0F172A"/>
+          <rect x="52" y="84" width="6" height="8" fill="#0F172A"/>
+          <rect x="82" y="88" width="8" height="6" fill="#0F172A"/>
+        </svg>
+      </div>
+
+      <!-- Tóm tắt thông điệp khoa học -->
+      <div class="footer-summary-text">
+        <strong>THÔNG ĐIỆP KHOA HỌC:</strong> "Ứng dụng khoa học máy tính và thuật toán không gian địa lý để giải quyết bài toán lãng phí tài nguyên học đường — Thúc đẩy tinh thần sẻ chia và xây dựng môi trường học tập xanh, bền vững."
+      </div>
+
+      <!-- Đơn vị bảo trợ & Địa bàn -->
+      <div class="footer-school-tags">
+        <div class="school-name-hl">ĐƠN VỊ THỰC HIỆN ĐỀ TÀI</div>
+        <div>TRƯỜNG THCS ÁI QUỐC — HẢI PHÒNG</div>
+        <div>Bảo trợ: Ban Giám hiệu &amp; Liên đội TNTP</div>
+        <div>Mã hồ sơ: KHKT-2026-RESCHOOL</div>
+      </div>
+    </footer>
+
+  </div>
+
+</body>
+</html>

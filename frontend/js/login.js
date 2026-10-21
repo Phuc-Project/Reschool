@@ -11,6 +11,9 @@ class ReschoolLoginPage {
     this.btnGoogleLogin = document.getElementById("btn-google-login-action");
     this.profileForm = document.getElementById("login-profile-form");
     this.btnSwitchAccount = document.getElementById("btn-switch-account");
+    this.credentialsForm = document.getElementById("form-credentials-login");
+    this.authTabs = document.querySelectorAll(".auth-method-tab");
+    this.demoButtons = document.querySelectorAll(".btn-demo-account-card");
 
     this.init();
   }
@@ -31,8 +34,39 @@ class ReschoolLoginPage {
   }
 
   bindEvents() {
+    // Chuyển đổi giữa các phương thức đăng nhập: Google, Học sinh, Vai trò mẫu
+    if (this.authTabs) {
+      this.authTabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+          this.authTabs.forEach(t => t.classList.remove("active"));
+          document.querySelectorAll(".auth-tab-panel").forEach(p => p.classList.remove("active"));
+
+          tab.classList.add("active");
+          const targetPanelId = tab.getAttribute("data-tab-panel");
+          const targetPanel = document.getElementById(targetPanelId);
+          if (targetPanel) targetPanel.classList.add("active");
+        });
+      });
+    }
+
+    // Đăng nhập 1-chạm Google
     if (this.btnGoogleLogin) {
       this.btnGoogleLogin.addEventListener("click", () => this.handleGoogleLogin());
+    }
+
+    // Đăng nhập bằng mã học sinh / email & mật khẩu
+    if (this.credentialsForm) {
+      this.credentialsForm.addEventListener("submit", (e) => this.handleCredentialsLogin(e));
+    }
+
+    // Đăng nhập 1-chạm bằng vai trò mẫu (Cho khách hàng / Ban giám khảo kiểm thử)
+    if (this.demoButtons) {
+      this.demoButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          const role = btn.getAttribute("data-demo-role");
+          this.handleDemoLogin(role);
+        });
+      });
     }
 
     if (this.profileForm) {
@@ -45,6 +79,55 @@ class ReschoolLoginPage {
         this.stepProfile.classList.remove("active");
         this.stepAuth.classList.add("active");
       });
+    }
+  }
+
+  async handleDemoLogin(roleKey) {
+    try {
+      const user = authManager.loginWithDemoRole(roleKey);
+      if (user) {
+        this.showToast(`Đăng nhập thành công với vai trò: ${user.displayName} (${user.roleTitle || user.studentClass})`);
+        setTimeout(() => {
+          window.location.replace("index.html");
+        }, 500);
+      }
+    } catch (err) {
+      console.error("Lỗi đăng nhập vai trò mẫu:", err);
+      this.showToast("Không thể đăng nhập tài khoản mẫu. Vui lòng thử lại!");
+    }
+  }
+
+  async handleCredentialsLogin(e) {
+    e.preventDefault();
+    const form = e.target;
+    const identifier = form["cred-identifier"].value.trim();
+    const password = form["cred-password"].value;
+    const submitBtn = document.getElementById("btn-credentials-submit");
+
+    if (!identifier || !password) {
+      this.showToast("Vui lòng nhập đầy đủ mã học sinh / email và mật khẩu!");
+      return;
+    }
+
+    try {
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Đang xác thực...";
+      }
+
+      const user = await authManager.loginWithCredentials(identifier, password);
+      this.showToast(`Đăng nhập thành công! Chào bạn ${user.displayName}.`);
+      setTimeout(() => {
+        window.location.replace("index.html");
+      }, 500);
+    } catch (err) {
+      console.error("Lỗi đăng nhập tài khoản trường:", err);
+      this.showToast(err.message || "Đăng nhập thất bại. Vui lòng thử lại!");
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Đăng nhập tài khoản học sinh";
+      }
     }
   }
 

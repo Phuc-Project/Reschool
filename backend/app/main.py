@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
 from app.core.config import settings
 from app.core.firebase import firebase_manager
-from app.api.endpoints import items, matchmaking, stats, users
+from app.api.endpoints import items, matchmaking, stats, users, requests
 
 # Cấu hình logging
 logging.basicConfig(
@@ -53,6 +53,7 @@ app.include_router(items.router, prefix=settings.API_V1_PREFIX)
 app.include_router(matchmaking.router, prefix=settings.API_V1_PREFIX)
 app.include_router(stats.router, prefix=settings.API_V1_PREFIX)
 app.include_router(users.router, prefix=settings.API_V1_PREFIX)
+app.include_router(requests.router, prefix=settings.API_V1_PREFIX)
 
 @app.get("/", tags=["Health Check"])
 def root_check():

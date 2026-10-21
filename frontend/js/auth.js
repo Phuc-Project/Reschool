@@ -25,6 +25,60 @@ async function getFirebaseAuthInstance() {
   }
 }
 
+/**
+ * Danh sách tài khoản thử nghiệm nhanh (Dành cho kiểm thử & Khách hàng trải nghiệm)
+ */
+export const DEMO_ACCOUNTS = {
+  giver: {
+    uid: "user-giver-minhchau",
+    displayName: "Nguyễn Minh Châu",
+    email: "minhchau.thcsaiquoc@gmail.com",
+    photoURL: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80",
+    school: "Trường THCS Ái Quốc",
+    studentClass: "8A2",
+    district: "Ái Quốc",
+    city: "Hải Phòng",
+    phone: "Bảo mật",
+    zalo: "Bảo mật",
+    defaultAddress: "Thư viện / Phòng Đoàn Đội - Trường THCS Ái Quốc",
+    role: "GIVER",
+    roleTitle: "Học sinh cho đồ (Đã đăng SGK Lớp 7)",
+    profileCompleted: true
+  },
+  receiver: {
+    uid: "user-receiver-an",
+    displayName: "Trần Minh An",
+    email: "minhan.thcsaiquoc@gmail.com",
+    photoURL: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80",
+    school: "Trường THCS Ái Quốc",
+    studentClass: "7A1",
+    district: "Ái Quốc",
+    city: "Hải Phòng",
+    phone: "Bảo mật",
+    zalo: "Bảo mật",
+    defaultAddress: "Thư viện trường THCS Ái Quốc",
+    role: "RECEIVER",
+    roleTitle: "Học sinh xin đồ (Đang cần xin SGK & Đồng phục)",
+    profileCompleted: true
+  },
+  station: {
+    uid: "user-lan-library",
+    displayName: "Cô Hoàng Mai Lan",
+    email: "thuvien.thcsaiquoc@gmail.com",
+    photoURL: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&auto=format&fit=crop&q=80",
+    school: "Trường THCS Ái Quốc",
+    studentClass: "Phụ trách Thư viện trường",
+    district: "Ái Quốc",
+    city: "Hải Phòng",
+    phone: "Bảo mật",
+    zalo: "Bảo mật",
+    defaultAddress: "Trạm luân chuyển Thư viện THCS Ái Quốc",
+    role: "STATION_MANAGER",
+    roleTitle: "Cán bộ quản lý Trạm Thư viện trường",
+    profileCompleted: true
+  }
+};
+
 class ReschoolAuth {
   constructor() {
     this.currentUser = null;
@@ -50,6 +104,60 @@ class ReschoolAuth {
 
   notify() {
     this.listeners.forEach(cb => cb(this.currentUser));
+  }
+
+  // Đăng nhập 1 chạm với tài khoản demo mẫu (Người cho / Người xin / Thư viện)
+  loginWithDemoRole(roleKey) {
+    const demo = DEMO_ACCOUNTS[roleKey];
+    if (!demo) return null;
+    this.currentUser = { ...demo };
+    localStorage.setItem("reschool_auth_user", JSON.stringify(this.currentUser));
+    this.notify();
+    return this.currentUser;
+  }
+
+  // Đăng nhập bằng Email / Mã học sinh & Mật khẩu
+  async loginWithCredentials(identifier, password) {
+    if (!identifier || !password) {
+      throw new Error("Vui lòng nhập đầy đủ tài khoản và mật khẩu");
+    }
+
+    const cleanId = identifier.trim().toLowerCase();
+    let storedUsers = {};
+    try {
+      storedUsers = JSON.parse(localStorage.getItem("reschool_custom_users") || "{}");
+    } catch (e) {
+      storedUsers = {};
+    }
+    
+    let user = storedUsers[cleanId];
+    if (!user) {
+      const isEmail = cleanId.includes("@");
+      const baseName = isEmail ? cleanId.split("@")[0] : cleanId;
+      const formattedName = baseName.charAt(0).toUpperCase() + baseName.slice(1);
+      user = {
+        uid: `std-${Date.now()}`,
+        displayName: `Học sinh ${formattedName}`,
+        email: isEmail ? cleanId : `${cleanId}@thcsaiquoc.edu.vn`,
+        studentId: cleanId,
+        photoURL: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80",
+        school: "Trường THCS Ái Quốc",
+        studentClass: "7A1",
+        district: "Ái Quốc",
+        city: "Hải Phòng",
+        phone: "Bảo mật",
+        profileCompleted: true
+      };
+      storedUsers[cleanId] = user;
+      try {
+        localStorage.setItem("reschool_custom_users", JSON.stringify(storedUsers));
+      } catch (e) {}
+    }
+
+    this.currentUser = user;
+    localStorage.setItem("reschool_auth_user", JSON.stringify(user));
+    this.notify();
+    return user;
   }
 
   // Đăng nhập 1 chạm với Google (không cần gõ mật khẩu)

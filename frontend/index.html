@@ -86,6 +86,21 @@
           </svg>
           <span>Ghép nối</span>
         </button>
+        <button class="nav-tab-btn" data-tab="my-items">
+          <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+          </svg>
+          <span>Đồ dùng của tôi</span>
+        </button>
+        <button class="nav-tab-btn" data-tab="requests">
+          <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <span>Yêu cầu</span>
+          <span class="nav-badge-pill" id="header-requests-badge">1</span>
+        </button>
         <button class="nav-tab-btn" data-tab="about">
           <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"></circle>
@@ -105,6 +120,24 @@
           </svg>
           <span>Đăng tin</span>
         </button>
+        <!-- Nút Thông báo -->
+        <button type="button" class="btn-header-icon" id="btn-header-notifs" title="Thông báo học đường" aria-label="Thông báo">
+          <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <span class="header-icon-badge" id="header-notifs-badge">2</span>
+        </button>
+
+        <!-- Nút Menu Sidebar Drawer (Theo mẫu ảnh khách gửi) -->
+        <button type="button" class="btn-header-icon btn-hamburger-menu" id="btn-open-drawer" title="Danh mục & Cài đặt" aria-label="Menu hệ thống">
+          <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+
         <div id="header-auth-box">
           <!-- Rendered by auth.js -->
         </div>
@@ -426,6 +459,144 @@
       </div>
     </section>
 
+    <!-- VIEW 5: ĐỒ DÙNG CỦA TÔI (THEO YÊU CẦU CỦA KHÁCH HÀNG) -->
+    <section id="view-my-items" class="view-section">
+      <div class="view-header-strip">
+        <div class="view-header-title">
+          <div class="view-icon-badge">📦</div>
+          <div>
+            <h3>Đồ dùng của tôi</h3>
+            <p>Quản lý các bài đăng trao tặng SGK, đồ dùng học tập và theo dõi tình trạng luân chuyển tại trường.</p>
+          </div>
+        </div>
+        <button type="button" class="btn btn-primary" id="btn-my-items-create">
+          <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <span>Đăng thêm đồ dùng</span>
+        </button>
+      </div>
+
+      <!-- Thống kê nhanh đồ dùng cá nhân -->
+      <div class="my-items-stats-bar">
+        <div class="my-items-stat-card">
+          <span class="stat-number" id="my-items-total-count">0</span>
+          <span class="stat-lbl">Tổng bài đăng</span>
+        </div>
+        <div class="my-items-stat-card">
+          <span class="stat-number" id="my-items-available-count">0</span>
+          <span class="stat-lbl">Đang sẵn sàng</span>
+        </div>
+        <div class="my-items-stat-card highlight-card">
+          <span class="stat-number" id="my-items-pending-requests-count">0</span>
+          <span class="stat-lbl">Yêu cầu chờ duyệt</span>
+        </div>
+        <div class="my-items-stat-card">
+          <span class="stat-number" id="my-items-transit-count">0</span>
+          <span class="stat-lbl">Đang qua Trạm</span>
+        </div>
+      </div>
+
+      <!-- Bộ lọc đồ dùng của tôi -->
+      <div class="my-items-filter-tabs">
+        <button type="button" class="my-items-filter-btn active" data-my-filter="ALL">Tất cả đồ dùng</button>
+        <button type="button" class="my-items-filter-btn" data-my-filter="GIVE">Đồ tôi tặng (Cho)</button>
+        <button type="button" class="my-items-filter-btn" data-my-filter="RECEIVE">Đồ tôi cần (Xin)</button>
+        <button type="button" class="my-items-filter-btn" data-my-filter="IN_TRANSIT">Đang qua Trạm</button>
+      </div>
+
+      <!-- Lưới đồ dùng của tôi -->
+      <div id="my-items-grid" class="items-grid">
+        <!-- Rendered by app.js -->
+      </div>
+    </section>
+
+    <!-- VIEW 6: QUẢN LÝ YÊU CẦU CHO / NHẬN ĐỒ (THEO ĐÚNG MẪU KHÁCH HÀNG GỬI) -->
+    <section id="view-requests" class="view-section">
+      <div class="view-header-strip">
+        <div class="view-header-title">
+          <div class="view-icon-badge">💬</div>
+          <div>
+            <h3>Quản lý Yêu cầu trao nhận</h3>
+            <p>Xác nhận cho nhận khi có học sinh xin đồ, phê duyệt cấp Mã luân chuyển qua Thư viện trường an toàn.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sub-tabs: Yêu cầu nhận được vs Yêu cầu đã gửi -->
+      <div class="requests-nav-tabs">
+        <button type="button" class="requests-nav-tab active" data-requests-subtab="received">
+          <span>📥 Yêu cầu nhận được (Cần bạn duyệt)</span>
+          <span class="subtab-badge-count" id="badge-received-requests-count">1</span>
+        </button>
+        <button type="button" class="requests-nav-tab" data-requests-subtab="sent">
+          <span>📤 Yêu cầu tôi đã gửi (Đang chờ phản hồi)</span>
+          <span class="subtab-badge-count" id="badge-sent-requests-count">0</span>
+        </button>
+      </div>
+
+      <!-- Tab Content: Yêu cầu nhận được (Dành cho người cho đồ duyệt) -->
+      <div id="subtab-received-container" class="requests-subtab-content active">
+        <div id="received-requests-list" class="requests-cards-list">
+          <!-- Rendered by app.js with exact badges: Đang chờ, Chấp nhận, Từ chối -->
+        </div>
+      </div>
+
+      <!-- Tab Content: Yêu cầu đã gửi (Dành cho người xin đồ theo dõi) -->
+      <div id="subtab-sent-container" class="requests-subtab-content">
+        <div id="sent-requests-list" class="requests-cards-list">
+          <!-- Rendered by app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 7: THỐNG KÊ TUẦN HOÀN (MỤC THỐNG KÊ THEO ẢNH KHÁCH HÀNG) -->
+    <section id="view-stats" class="view-section">
+      <div class="view-header-strip">
+        <div class="view-header-title">
+          <div class="view-icon-badge">📊</div>
+          <div>
+            <h3>Thống kê tuần hoàn học đường</h3>
+            <p>Báo cáo số lượng SGK và đồ dùng được luân chuyển, tiết kiệm chi phí cho phụ huynh và bảo vệ môi trường.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-overview-grid">
+        <div class="stat-box-hero">
+          <div class="stat-box-val">1.248+</div>
+          <div class="stat-box-title">Đồ dùng &amp; Sách đã luân chuyển</div>
+          <div class="stat-box-sub">Thông qua các Trạm Thư viện trường</div>
+        </div>
+        <div class="stat-box-hero">
+          <div class="stat-box-val">186.500.000 đ</div>
+          <div class="stat-box-title">Chi phí tiết kiệm cho phụ huynh</div>
+          <div class="stat-box-sub">Dựa trên đơn giá SGK &amp; đồng phục mới</div>
+        </div>
+        <div class="stat-box-hero">
+          <div class="stat-box-val">2.840 kg</div>
+          <div class="stat-box-title">Rác thải giấy &amp; nhựa giảm thiểu</div>
+          <div class="stat-box-sub">Góp phần xây dựng trường học sinh thái xanh</div>
+        </div>
+      </div>
+
+      <div class="stats-cards-row">
+        <div class="stats-card">
+          <h4>Top danh mục trao đổi nhiều nhất</h4>
+          <ul class="stats-list">
+            <li><span>Sách giáo khoa Kết Nối Tri Thức (Lớp 6, 7, 8, 9)</span><strong>54%</strong></li>
+            <li><span>Đồng phục học sinh THCS Ái Quốc</span><strong>26%</strong></li>
+            <li><span>Dụng cụ học tập &amp; Máy tính cầm tay</span><strong>14%</strong></li>
+            <li><span>Đồ dùng học đường khác</span><strong>6%</strong></li>
+          </ul>
+        </div>
+        <div class="stats-card">
+          <h4>Mô hình Trạm luân chuyển an toàn</h4>
+          <p class="stats-card-text">
+            100% các cuộc trao nhận được thực hiện thông qua <strong>Thư viện trường</strong> và <strong>Phòng Đoàn Đội</strong>. Học sinh chỉ cần xuất trình <strong>Mã luân chuyển (VD: SGK-01)</strong> để nhận sách, hoàn toàn không cần chia sẻ số điện thoại cá nhân ra ngoài.
+          </p>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- FOOTER -->
@@ -733,6 +904,199 @@
     </div>
   </div>
 
+  <!-- 6. Modal Xác nhận gửi Yêu cầu xin đồ (Theo yêu cầu khách hàng) -->
+  <div id="request-confirm-modal" class="modal-container" role="dialog" aria-modal="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-dialog" style="max-width: 480px;">
+      <div class="modal-content">
+        <button class="modal-close-btn" aria-label="Đóng">
+          <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+
+        <div class="request-modal-header">
+          <div class="request-modal-icon">💬</div>
+          <h3 class="modal-title">Gửi yêu cầu nhận đồ dùng</h3>
+          <p class="modal-subtitle">Yêu cầu của bạn sẽ được gửi tới bạn học sinh tặng đồ để xác nhận.</p>
+        </div>
+
+        <div class="request-item-preview-card" id="request-item-preview">
+          <!-- Filled by items.js -->
+        </div>
+
+        <form id="form-send-item-request">
+          <input type="hidden" id="req-item-id">
+          <div class="form-group">
+            <label for="req-user-note">Lời nhắn gửi bạn tặng đồ (Tùy chọn)</label>
+            <textarea id="req-user-note" class="form-control" rows="3" placeholder="Vd: Em chào anh/chị, em học lớp 7A1 muốn xin lại bộ sách này để học kỳ này học tập tốt. Em xin hẹn nhận qua Trạm Thư viện trường ạ..."></textarea>
+          </div>
+
+          <div class="request-transit-safety-box">
+            <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            <span>Bàn giao an toàn qua Trạm luân chuyển Thư viện / Phòng Đoàn Đội trường. Không công khai số điện thoại.</span>
+          </div>
+
+          <div class="modal-actions-dual">
+            <button type="button" class="btn btn-outline btn-close-req-modal">Hủy bỏ</button>
+            <button type="submit" class="btn btn-primary" id="btn-submit-send-request">Xác nhận gửi yêu cầu</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Modal Thông báo học đường -->
+  <div id="notifications-modal" class="modal-container" role="dialog" aria-modal="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-dialog" style="max-width: 480px;">
+      <div class="modal-content">
+        <button class="modal-close-btn" aria-label="Đóng">
+          <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+        <div class="notif-modal-header">
+          <div class="notif-icon-badge">🔔</div>
+          <h3 class="modal-title">Thông báo học đường</h3>
+        </div>
+        <div id="notifications-list-container" class="notifications-list">
+          <!-- Rendered by app.js -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESCHOOL SIDEBAR DRAWER (THEO ĐÚNG HÌNH ẢNH MENU CỦA KHÁCH HÀNG) -->
+  <div id="reschool-sidebar-drawer" class="drawer-container">
+    <div class="drawer-backdrop" id="drawer-backdrop"></div>
+    <div class="drawer-panel">
+      <!-- Drawer User Header -->
+      <div class="drawer-user-header">
+        <div class="drawer-user-avatar-wrap">
+          <img id="drawer-user-avatar" src="" alt="Avatar" class="drawer-user-avatar">
+          <span class="drawer-user-role-badge" id="drawer-user-role">Học sinh</span>
+        </div>
+        <div class="drawer-user-info">
+          <h4 id="drawer-user-name" class="drawer-user-name">Tên học sinh</h4>
+          <p id="drawer-user-school" class="drawer-user-school">Trường THCS Ái Quốc · 8A2</p>
+        </div>
+        <button class="drawer-close-btn" id="btn-close-drawer" aria-label="Đóng menu">
+          <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Quick Switch Demo Account Bar (Cho khách hàng / BGK kiểm thử 2 vai trò) -->
+      <div class="drawer-quick-switch">
+        <span class="quick-switch-label">Đổi vai trò test nhanh:</span>
+        <div class="quick-switch-buttons">
+          <button type="button" class="btn-quick-switch" data-switch-role="giver" title="Chuyển sang Em Châu (Người cho SGK)">
+            <span>👤 Em Châu (Cho)</span>
+          </button>
+          <button type="button" class="btn-quick-switch" data-switch-role="receiver" title="Chuyển sang Em An (Người xin đồ)">
+            <span>👤 Em An (Xin)</span>
+          </button>
+          <button type="button" class="btn-quick-switch" data-switch-role="station" title="Chuyển sang Cô Lan (Thư viện)">
+            <span>🏫 Cô Thư viện</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Menu Items List (Đúng chuẩn 6 mục theo ảnh khách gửi) -->
+      <nav class="drawer-menu-list">
+        <!-- 1. Đăng đồ dùng -->
+        <button type="button" class="drawer-menu-item" id="drawer-menu-post">
+          <div class="drawer-menu-icon icon-post">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="16"></line>
+              <line x1="8" y1="12" x2="16" y2="12"></line>
+            </svg>
+          </div>
+          <span class="drawer-menu-title">Đăng đồ dùng</span>
+        </button>
+
+        <!-- 2. Đồ dùng của tôi -->
+        <button type="button" class="drawer-menu-item" id="drawer-menu-my-items" data-tab="my-items">
+          <div class="drawer-menu-icon icon-items">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+              <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            </svg>
+          </div>
+          <span class="drawer-menu-title">Đồ dùng của tôi</span>
+          <span class="drawer-badge" id="drawer-my-items-count">0</span>
+        </button>
+
+        <!-- 3. Yêu cầu -->
+        <button type="button" class="drawer-menu-item" id="drawer-menu-requests" data-tab="requests">
+          <div class="drawer-menu-icon icon-requests">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+          </div>
+          <span class="drawer-menu-title">Yêu cầu</span>
+          <span class="drawer-badge badge-alert" id="drawer-requests-count">1</span>
+        </button>
+
+        <!-- 4. Thông báo -->
+        <button type="button" class="drawer-menu-item" id="drawer-menu-notifications">
+          <div class="drawer-menu-icon icon-notif">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+          </div>
+          <span class="drawer-menu-title">Thông báo</span>
+          <span class="drawer-badge" id="drawer-notifications-count">2</span>
+        </button>
+
+        <!-- 5. Thống kê -->
+        <button type="button" class="drawer-menu-item" id="drawer-menu-stats" data-tab="stats">
+          <div class="drawer-menu-icon icon-stats">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+          </div>
+          <span class="drawer-menu-title">Thống kê</span>
+        </button>
+
+        <!-- 6. Cài đặt -->
+        <button type="button" class="drawer-menu-item" id="drawer-menu-settings">
+          <div class="drawer-menu-icon icon-settings">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+          </div>
+          <span class="drawer-menu-title">Cài đặt</span>
+        </button>
+      </nav>
+
+      <!-- Drawer Footer -->
+      <div class="drawer-footer">
+        <button type="button" class="btn-drawer-logout" id="btn-drawer-logout">
+          <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          <span>Đăng xuất tài khoản</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- MOBILE BOTTOM NAVIGATION (Thanh điều hướng ứng dụng di động) -->
   <nav class="mobile-bottom-nav" aria-label="Điều hướng di động">
     <button class="bottom-nav-item nav-tab-btn active" data-tab="explore">
@@ -767,27 +1131,25 @@
       <span class="bottom-nav-label">Đăng tin</span>
     </button>
 
-    <button class="bottom-nav-item nav-tab-btn" data-tab="matchmaking">
+    <button class="bottom-nav-item nav-tab-btn" data-tab="requests">
       <div class="bottom-nav-icon">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="17 1 21 5 17 9"></polyline>
-          <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
-          <polyline points="7 23 3 19 7 15"></polyline>
-          <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
         </svg>
+        <span class="bottom-nav-badge" id="mobile-requests-badge">1</span>
       </div>
-      <span class="bottom-nav-label">Ghép nối</span>
+      <span class="bottom-nav-label">Yêu cầu</span>
     </button>
 
-    <button class="bottom-nav-item nav-tab-btn" data-tab="about">
+    <button class="bottom-nav-item" id="btn-mobile-open-menu" aria-label="Menu cá nhân">
       <div class="bottom-nav-icon">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"></circle>
-          <line x1="12" y1="16" x2="12" y2="12"></line>
-          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
         </svg>
       </div>
-      <span class="bottom-nav-label">Về dự án</span>
+      <span class="bottom-nav-label">Menu</span>
     </button>
   </nav>
 

@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Reschool Masterpiece Poster - Ngân Hàng Đồ Cũ & Sách Giáo Khoa Luân Chuyển</title>
+  <!-- Google Fonts: Plus Jakarta Sans, Be Vietnam Pro, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==========================================================================
+       RESCHOOL EXHIBITION POSTER - MASTERPIECE GRADE (SWISS MODERNISM)
+       Dimensions: 1200px x 1700px (ISO A-Ratio Vertical Canvas)
+       Crafted with painstaking attention to typography, spatial rhythm & iconography
+       ========================================================================== */
+    :root {
+      --primary-dark: #064E3B;
+      --primary: #059669;
+      --primary-light: #10B981;
+      --primary-soft: #D1FAE5;
+      --primary-tint: #ECFDF5;
+
+      --blue-dark: #1E3A8A;
+      --blue: #2563EB;
+      --blue-light: #60A5FA;
+      --blue-soft: #DBEAFE;
+      --blue-tint: #EFF6FF;
+
+      --amber-dark: #92400E;
+      --amber: #F59E0B;
+      --amber-light: #FCD34D;
+      --amber-soft: #FEF3C7;
+
+      --purple-dark: #5B21B6;
+      --purple: #7C3AED;
+      --purple-soft: #EDE9FE;
+
+      --slate-950: #090D16;
+      --slate-900: #0F172A;
+      --slate-800: #1E293B;
+      --slate-700: #334155;
+      --slate-600: #475569;
+      --slate-500: #64748B;
+      --slate-400: #94A3B8;
+      --slate-300: #CBD5E1;
+      --slate-200: #E2E8F0;
+      --slate-100: #F1F5F9;
+      --slate-50:  #F8FAFC;
+      --white:     #FFFFFF;
+
+      --font-heading: 'Plus Jakarta Sans', sans-serif;
+      --font-body: 'Be Vietnam Pro', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      width: 1200px;
+      height: 1700px;
+      background-color: var(--slate-950);
+      font-family: var(--font-body);
+      color: var(--slate-800);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* THE POSTER CANVAS */
+    .poster-canvas {
+      position: relative;
+      width: 1200px;
+      height: 1700px;
+      background: radial-gradient(circle at 12% 10%, #F0FDF4 0%, #FAFAF9 32%, #F8FAFC 65%, #EFF6FF 100%);
+      padding: 42px 48px 38px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+
+    /* Architectural Coordinate Grid Background */
+    .bg-grid-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(to right, rgba(15, 23, 42, 0.032) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(15, 23, 42, 0.032) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Subtle Geometric Topographic Aura */
+    .bg-aura-green {
+      position: absolute;
+      top: -120px;
+      right: -100px;
+      width: 750px;
+      height: 750px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.075) 0%, rgba(37, 99, 235, 0.035) 45%, transparent 70%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .bg-aura-amber {
+      position: absolute;
+      bottom: 140px;
+      left: -180px;
+      width: 650px;
+      height: 650px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.065) 0%, rgba(16, 185, 129, 0.035) 50%, transparent 75%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Swiss Poster Precision Crop Marks & Outer Margin */
+    .poster-outer-frame {
+      position: absolute;
+      top: 22px;
+      left: 22px;
+      right: 22px;
+      bottom: 22px;
+      border: 1px solid rgba(15, 23, 42, 0.18);
+      pointer-events: none;
+      z-index: 50;
+    }
+
+    .crop-mark {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-color: var(--slate-900);
+      border-style: solid;
+      pointer-events: none;
+      z-index: 51;
+    }
+    .crop-tl { top: 16px; left: 16px; border-width: 2.5px 0 0 2.5px; }
+    .crop-tr { top: 16px; right: 16px; border-width: 2.5px 2.5px 0 0; }
+    .crop-bl { bottom: 16px; left: 16px; border-width: 0 0 2.5px 2.5px; }
+    .crop-br { bottom: 16px; right: 16px; border-width: 0 2.5px 2.5px 0; }
+
+    /* CONTENT LAYOUT CONTAINER */
+    .poster-inner {
+      position: relative;
+      z-index: 10;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* ==========================================================================
+       1. TOP META HEADER
+       ========================================================================== */
+    .meta-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 15px;
+      border-bottom: 2.5px solid var(--slate-900);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      color: var(--slate-700);
+    }
+
+    .meta-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .meta-pill {
+      background: var(--slate-900);
+      color: var(--white);
+      padding: 4px 10px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      border-radius: 3px;
+    }
+
+    .meta-center {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--primary-dark);
+      font-weight: 700;
+    }
+
+    .meta-center .dot-live {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      box-shadow: 0 0 10px var(--primary-light);
+      display: inline-block;
+    }
+
+    .meta-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--slate-600);
+    }
+
+    /* ==========================================================================
+       2. BRAND IDENTITY & HERO TITLE
+       ========================================================================== */
+    .hero-brand-section {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: 148px 1fr;
+      gap: 34px;
+      align-items: center;
+    }
+
+    .brand-mark-card {
+      width: 148px;
+      height: 148px;
+      background: linear-gradient(135deg, #FFFFFF 0%, #F0FDF4 100%);
+      border: 2.5px solid var(--slate-900);
+      border-radius: 32px;
+      box-shadow: 8px 8px 0px var(--slate-900);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .brand-mark-svg {
+      width: 120px;
+      height: 120px;
+    }
+
+    .brand-text-block {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .brand-eyebrow::before {
+      content: "";
+      width: 26px;
+      height: 2.5px;
+      background: var(--primary);
+    }
+
+    .brand-main-title {
+      font-family: var(--font-heading);
+      font-size: 68px;
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      color: var(--slate-900);
+      margin-bottom: 6px;
+    }
+
+    .brand-main-title span.title-green {
+      color: var(--primary);
+      position: relative;
+    }
+
+    .brand-sub-title {
+      font-family: var(--font-heading);
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--blue-dark);
+      margin-bottom: 12px;
+    }
+
+    .brand-slogan-strip {
+      display: inline-flex;
+      align-items: center;
+      background: #FFFFFF;
+      border: 1.5px solid var(--slate-900);
+      box-shadow: 4px 4px 0px var(--slate-900);
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-size: 14.5px;
+      font-weight: 600;
+      color: var(--slate-800);
+      max-width: fit-content;
+    }
+
+    .brand-slogan-strip strong {
+      color: var(--primary-dark);
+      margin-right: 6px;
+    }
+
+    /* ==========================================================================
+       3. THE HEART: CIRCULAR KNOWLEDGE ECOSYSTEM
+       ========================================================================== */
+    .central-infographic-box {
+      margin-top: 22px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border: 2.5px solid var(--slate-900);
+      border-radius: 22px;
+      box-shadow: 8px 8px 0px var(--slate-900);
+      padding: 24px 28px 22px 28px;
+      position: relative;
+    }
+
+    .infographic-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 14px;
+      border-bottom: 1.5px dashed var(--slate-300);
+      margin-bottom: 18px;
+    }
+
+    .info-header-title {
+      font-family: var(--font-heading);
+      font-size: 16px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--slate-900);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .info-header-badge {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      background: var(--amber-soft);
+      border: 1.5px solid var(--amber);
+      color: var(--amber-dark);
+      padding: 4px 12px;
+      border-radius: 5px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Circular Flow Vector Diagram Connecting 4 Hubs */
+    .circular-ecosystem-grid {
+      display: grid;
+      grid-template-columns: 1fr 190px 1fr;
+      grid-template-rows: auto auto;
+      gap: 16px 20px;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Hub Card Styling */
+    .hub-node-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--slate-800);
+      border-radius: 12px;
+      padding: 14px 16px;
+      position: relative;
+      box-shadow: 3px 3px 0px var(--slate-800);
+    }
+
+    .hub-node-card.green-theme { border-top: 5px solid var(--primary); }
+    .hub-node-card.blue-theme { border-top: 5px solid var(--blue); }
+    .hub-node-card.amber-theme { border-top: 5px solid var(--amber); }
+    .hub-node-card.purple-theme { border-top: 5px solid var(--purple); }
+
+    .hub-node-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .hub-icon-circle {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #FFFFFF;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .icon-green { background: var(--primary); }
+    .icon-blue { background: var(--blue); }
+    .icon-amber { background: var(--amber); }
+    .icon-purple { background: var(--purple); }
+
+    .hub-node-title {
+      font-family: var(--font-heading);
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--slate-900);
+      line-height: 1.2;
+    }
+
+    .hub-node-desc {
+      font-size: 12.5px;
+      color: var(--slate-600);
+      line-height: 1.45;
+    }
+
+    .hub-tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .hub-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2.5px 7.5px;
+      border-radius: 4px;
+      background: var(--slate-100);
+      color: var(--slate-700);
+      border: 1px solid var(--slate-200);
+    }
+
+    /* Center Vortex / Engine Core with Dynamic Flow Accents */
+    .ecosystem-center-core {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 16px 10px;
+      background: radial-gradient(circle, #FFFFFF 45%, var(--primary-tint) 100%);
+      border: 2.5px solid var(--primary);
+      border-radius: 50%;
+      width: 178px;
+      height: 178px;
+      margin: 0 auto;
+      box-shadow: 0 0 28px rgba(16, 185, 129, 0.28), inset 0 0 14px rgba(16, 185, 129, 0.12);
+      position: relative;
+    }
+
+    /* Visual Curved Flow Rings */
+    .core-orbit-ring {
+      position: absolute;
+      width: 202px;
+      height: 202px;
+      border-radius: 50%;
+      border: 2px dashed var(--primary);
+      opacity: 0.75;
+      pointer-events: none;
+    }
+
+    .core-orbit-dots {
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      border: 1px dotted var(--blue-light);
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .core-mini-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: var(--primary-dark);
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .core-number {
+      font-family: var(--font-heading);
+      font-size: 34px;
+      font-weight: 900;
+      color: var(--primary-dark);
+      line-height: 1;
+    }
+
+    .core-title {
+      font-family: var(--font-heading);
+      font-size: 12.5px;
+      font-weight: 800;
+      color: var(--slate-900);
+      margin-top: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .core-sub {
+      font-size: 10px;
+      color: var(--slate-500);
+      margin-top: 4px;
+      line-height: 1.3;
+      padding: 0 10px;
+      font-weight: 500;
+    }
+
+    /* ==========================================================================
+       4. 4 CORE PILLARS WITH BESPOKE VECTOR ICONS
+       ========================================================================== */
+    .pillars-section {
+      margin-top: 20px;
+    }
+
+    .section-title-strip {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .section-title-strip h3 {
+      font-family: var(--font-heading);
+      font-size: 16.5px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--slate-900);
+    }
+
+    .section-title-strip .line-dec {
+      flex: 1;
+      height: 2.5px;
+      background: var(--slate-900);
+    }
+
+    .pillars-row-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .pillar-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--slate-800);
+      border-radius: 12px;
+      padding: 16px 14px;
+      box-shadow: 4px 4px 0px var(--slate-800);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .pillar-top-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .pillar-icon-box {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: var(--slate-100);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--slate-800);
+    }
+
+    .pillar-badge-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--primary-dark);
+      background: var(--primary-soft);
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+
+    .pillar-title {
+      font-family: var(--font-heading);
+      font-size: 14.5px;
+      font-weight: 800;
+      color: var(--slate-900);
+      margin-bottom: 6px;
+      line-height: 1.25;
+    }
+
+    .pillar-desc {
+      font-size: 11.5px;
+      color: var(--slate-600);
+      line-height: 1.45;
+    }
+
+    /* ==========================================================================
+       5. ENVIRONMENTAL IMPACT DASHBOARD
+       ========================================================================== */
+    .stats-dashboard-box {
+      margin-top: 20px;
+      background: var(--slate-900);
+      color: var(--white);
+      border-radius: 18px;
+      padding: 18px 28px 18px 28px;
+      box-shadow: 6px 6px 0px var(--primary);
+    }
+
+    .stats-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .stats-header-title {
+      font-family: var(--font-heading);
+      font-size: 13.5px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--primary-light);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stats-header-title svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    .stats-metric-tag {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      color: var(--slate-400);
+    }
+
+    .stats-numbers-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .stat-metric-cell {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .stat-metric-cell::after {
+      content: "";
+      position: absolute;
+      right: -10px;
+      top: 15%;
+      height: 70%;
+      width: 1px;
+      background: rgba(255, 255, 255, 0.12);
+    }
+    .stat-metric-cell:last-child::after {
+      display: none;
+    }
+
+    .stat-value {
+      font-family: var(--font-heading);
+      font-size: 35px;
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: baseline;
+      gap: 3px;
+    }
+
+    .stat-val-green { color: #34D399; }
+    .stat-val-blue { color: #60A5FA; }
+    .stat-val-amber { color: #FCD34D; }
+    .stat-val-purple { color: #C084FC; }
+
+    .stat-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--slate-200);
+      margin-bottom: 2px;
+      line-height: 1.3;
+    }
+
+    .stat-sub {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      color: var(--slate-400);
+    }
+
+    /* ==========================================================================
+       6. FOOTER: MANIFESTO, NETWORK CREDITS & QR ACCESS
+       ========================================================================== */
+    .poster-footer {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 2.5px solid var(--slate-900);
+      display: grid;
+      grid-template-columns: 112px 1fr 245px;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .qr-container {
+      width: 108px;
+      height: 108px;
+      background: #FFFFFF;
+      border: 2px solid var(--slate-900);
+      box-shadow: 4px 4px 0px var(--slate-900);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 6px;
+      position: relative;
+    }
+
+    .qr-svg {
+      width: 78px;
+      height: 78px;
+    }
+
+    .qr-caption {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--slate-700);
+      margin-top: 2px;
+      letter-spacing: 0.05em;
+    }
+
+    .footer-quote-block {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .manifesto-quote {
+      font-family: var(--font-heading);
+      font-size: 15.5px;
+      font-weight: 700;
+      font-style: italic;
+      color: var(--slate-900);
+      line-height: 1.45;
+      margin-bottom: 8px;
+    }
+
+    .school-transit-chips {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--slate-600);
+    }
+
+    .school-transit-chips strong {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      color: var(--slate-900);
+      margin-right: 2px;
+    }
+
+    .chip-item {
+      background: #FFFFFF;
+      border: 1px solid var(--slate-300);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--slate-700);
+    }
+
+    .footer-credits-box {
+      border-left: 2px solid var(--slate-300);
+      padding-left: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      color: var(--slate-500);
+      line-height: 1.4;
+    }
+
+    .credits-highlight {
+      font-weight: 800;
+      color: var(--primary-dark);
+      font-size: 10.5px;
+      letter-spacing: 0.04em;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="poster-canvas">
+    <!-- Background Coordinates Grid & Aura -->
+    <div class="bg-grid-layer"></div>
+    <div class="bg-aura-green"></div>
+    <div class="bg-aura-amber"></div>
+
+    <!-- Outer Frame & Crop Marks -->
+    <div class="poster-outer-frame"></div>
+    <div class="crop-mark crop-tl"></div>
+    <div class="crop-mark crop-tr"></div>
+    <div class="crop-mark crop-bl"></div>
+    <div class="crop-mark crop-br"></div>
+
+    <div class="poster-inner">
+
+      <!-- ====================================================================
+           1. TOP META HEADER
+           ==================================================================== -->
+      <header class="meta-top-bar">
+        <div class="meta-left">
+          <span class="meta-pill">RESCHOOL ARCHIVE</span>
+          <span>SÁNG KIẾN CÔNG NGHỆ VÌ HỌC ĐƯỜNG XANH</span>
+        </div>
+        <div class="meta-center">
+          <span class="dot-live"></span>
+          <span>HỆ THỐNG LUÂN CHUYỂN HOẠT ĐỘNG 24/7</span>
+        </div>
+        <div class="meta-right">
+          <span>LAT 20°57'N • LON 106°22'E</span>
+          <span>VIETNAM // 2026</span>
+        </div>
+      </header>
+
+      <!-- ====================================================================
+           2. BRAND IDENTITY & HERO TITLE
+           ==================================================================== -->
+      <section class="hero-brand-section">
+        <!-- Brand Mark Card -->
+        <div class="brand-mark-card">
+          <svg class="brand-mark-svg" viewBox="0 0 120 120" fill="none">
+            <defs>
+              <linearGradient id="pLeafGrad2" x1="15%" y1="10%" x2="85%" y2="90%">
+                <stop offset="0%" stop-color="#34D399" />
+                <stop offset="100%" stop-color="#059669" />
+              </linearGradient>
+              <linearGradient id="pBookGrad2" x1="10%" y1="15%" x2="90%" y2="85%">
+                <stop offset="0%" stop-color="#60A5FA" />
+                <stop offset="100%" stop-color="#2563EB" />
+              </linearGradient>
+              <linearGradient id="pSparkGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#FCD34D" />
+                <stop offset="100%" stop-color="#F59E0B" />
+              </linearGradient>
+              <filter id="markDropShadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#059669" flood-opacity="0.18"/>
+              </filter>
+            </defs>
+            <g filter="url(#markDropShadow)">
+              <!-- Outer Infinity Loop -->
+              <path d="M34 68 C25 56 28 38 42 30 C56 22 68 34 60 48" stroke="url(#pLeafGrad2)" stroke-width="7" stroke-linecap="round" />
+              <path d="M86 52 C95 64 92 82 78 90 C64 98 52 86 60 72" stroke="url(#pBookGrad2)" stroke-width="7" stroke-linecap="round" />
+              <!-- Open Book Pages -->
+              <path d="M60 76 C52 70 38 68 28 72 C28 54 38 50 54 52 C57 52.5 59 54 60 56 Z" fill="url(#pLeafGrad2)" />
+              <path d="M60 76 C68 70 82 68 92 72 C92 54 82 50 66 52 C63 52.5 61 54 60 56 Z" fill="url(#pBookGrad2)" />
+              <path d="M60 52 L60 84" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" />
+              <!-- Knowledge Spark -->
+              <path d="M60 26 C60 26 54 34 54 39 C54 42.3 56.7 45 60 45 C63.3 45 66 42.3 66 39 C66 34 60 26 60 26 Z" fill="url(#pSparkGrad2)" />
+              <circle cx="60" cy="38" r="2.5" fill="#FFFFFF" />
+            </g>
+          </svg>
+        </div>
+
+        <!-- Typography & Slogan -->
+        <div class="brand-text-block">
+          <div class="brand-eyebrow">DỰ ÁN XÃ HỘI HỌC ĐƯỜNG • VÒNG TUẦN HOÀN TÀI NGUYÊN</div>
+          <h1 class="brand-main-title">Re<span class="title-green">school</span></h1>
+          <h2 class="brand-sub-title">NGÂN HÀNG ĐỒ CŨ &amp; SÁCH GIÁO KHOA LUÂN CHUYỂN</h2>
+          <div class="brand-slogan-strip">
+            <strong>KHẨU HIỆU:</strong> "Trao đi những điều cũ — Nhận lại những giá trị mới • Kết nối học sinh — Vì một ngôi trường xanh"
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           3. THE HEART: CIRCULAR KNOWLEDGE ECOSYSTEM
+           ==================================================================== -->
+      <section class="central-infographic-box">
+        <div class="infographic-header">
+          <div class="info-header-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+            HỆ SINH THÁI LUÂN CHUYỂN TÀI NGUYÊN HỌC ĐƯỜNG
+          </div>
+          <div class="info-header-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            THUẬT TOÁN GHÉP CẶP THÔNG MINH // SMART MATCHMAKING
+          </div>
+        </div>
+
+        <div class="circular-ecosystem-grid">
+
+          <!-- Hub 1: Sách Giáo Khoa (Top Left) -->
+          <div class="hub-node-card green-theme">
+            <div class="hub-node-head">
+              <div class="hub-icon-circle icon-green">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              </div>
+              <div>
+                <div class="hub-node-title">Sách Giáo Khoa</div>
+                <small style="color: var(--primary); font-weight:800; font-size:10.5px;">BỘ SÁCH HIỆN HÀNH</small>
+              </div>
+            </div>
+            <p class="hub-node-desc">Kết Nối Tri Thức, Cánh Diều, Chân Trời Sáng Tạo (Khối 1 - 12), sách chuyên khảo &amp; tài liệu ôn thi vào 10, THPTQG.</p>
+            <div class="hub-tag-list">
+              <span class="hub-tag">Mới 90% - 98%</span>
+              <span class="hub-tag">Miễn phí 0đ</span>
+              <span class="hub-tag">Trọn bộ 12 môn</span>
+            </div>
+          </div>
+
+          <!-- Central Core: Smart Matchmaking & 0đ Economy -->
+          <div class="ecosystem-center-core">
+            <div class="core-orbit-ring"></div>
+            <div class="core-orbit-dots"></div>
+            <div class="core-mini-badge">
+              <span>●</span>
+              <span>CHI PHÍ TRAO NHẬN</span>
+            </div>
+            <div class="core-number">0<span style="font-size:22px; font-weight:700;">đ</span></div>
+            <div class="core-title">100% MIỄN PHÍ</div>
+            <div class="core-sub">Thuật toán ghép cặp theo môn học &amp; bán kính trường gần nhất</div>
+          </div>
+
+          <!-- Hub 2: Đồng Phục Học Sinh (Top Right) -->
+          <div class="hub-node-card blue-theme">
+            <div class="hub-node-head">
+              <div class="hub-icon-circle icon-blue">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg>
+              </div>
+              <div>
+                <div class="hub-node-title">Đồng Phục Trường</div>
+                <small style="color: var(--blue); font-weight:800; font-size:10.5px;">THEO TỪNG ĐIỂM TRƯỜNG</small>
+              </div>
+            </div>
+            <p class="hub-node-desc">Áo khoác gió mùa đông, sơ mi trắng, áo thể dục, cà vạt, khăn quàng đỏ Đội TNTP giữ gìn sạch sẽ, tinh tươm.</p>
+            <div class="hub-tag-list">
+              <span class="hub-tag">Size S - M - L</span>
+              <span class="hub-tag">Logo chuẩn trường</span>
+              <span class="hub-tag">Tái sử dụng cao</span>
+            </div>
+          </div>
+
+          <!-- Hub 3: Dụng Cụ & Máy Tính (Bottom Left) -->
+          <div class="hub-node-card amber-theme">
+            <div class="hub-node-head">
+              <div class="hub-icon-circle icon-amber">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m18 2 4 4-12 12H6v-4L18 2z"/></svg>
+              </div>
+              <div>
+                <div class="hub-node-title">Dụng Cụ Học Tập</div>
+                <small style="color: var(--amber-dark); font-weight:800; font-size:10.5px;">HỖ TRỢ THI CỬ</small>
+              </div>
+            </div>
+            <p class="hub-node-desc">Máy tính cầm tay Casio fx-580VNX, fx-570VN Plus, bộ compa êke kĩ thuật, bút chì vẽ kiến trúc &amp; cặp sách.</p>
+            <div class="hub-tag-list">
+              <span class="hub-tag">Hoạt động tốt</span>
+              <span class="hub-tag">Đầy đủ nắp pin</span>
+              <span class="hub-tag">Thi học sinh giỏi</span>
+            </div>
+          </div>
+
+          <!-- Hub 4: Trạm Luân Chuyển Học Đường (Bottom Right) -->
+          <div class="hub-node-card purple-theme">
+            <div class="hub-node-head">
+              <div class="hub-icon-circle icon-purple">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v4M12 14v4M16 14v4"/></svg>
+              </div>
+              <div>
+                <div class="hub-node-title">Trạm Luân Chuyển</div>
+                <small style="color: var(--purple); font-weight:800; font-size:10.5px;">BẢN ĐỒ ĐỊA BÀN</small>
+              </div>
+            </div>
+            <p class="hub-node-desc">Điểm hẹn trao nhận văn minh, an toàn đặt tại Thư viện trường học, Phòng Đoàn Đội hoặc góc trực Sao Đỏ.</p>
+            <div class="hub-tag-list">
+              <span class="hub-tag">An toàn tuyệt đối</span>
+              <span class="hub-tag">Giao lưu bạn học</span>
+              <span class="hub-tag">Ghim bản đồ số</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           4. 4 CORE PILLARS WITH BESPOKE VECTOR ICONS
+           ==================================================================== -->
+      <section class="pillars-section">
+        <div class="section-title-strip">
+          <h3>BỐN TRỤ CỘT ĐỘT PHÁ CỦA SÁNG KIẾN RESCHOOL</h3>
+          <div class="line-dec"></div>
+        </div>
+
+        <div class="pillars-row-grid">
+          <!-- Pillar 1 -->
+          <div class="pillar-card">
+            <div class="pillar-top-meta">
+              <div class="pillar-icon-box">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </div>
+              <span class="pillar-badge-num">01</span>
+            </div>
+            <div class="pillar-title">Đăng Tin Cho &amp; Nhận 0đ</div>
+            <div class="pillar-desc">Giao diện đăng tin trực quan, hỗ trợ phân loại 12 khối lớp, bộ sách hiện hành, ảnh thực tế và tình trạng sử dụng.</div>
+          </div>
+
+          <!-- Pillar 2 -->
+          <div class="pillar-card">
+            <div class="pillar-top-meta">
+              <div class="pillar-icon-box">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+              </div>
+              <span class="pillar-badge-num">02</span>
+            </div>
+            <div class="pillar-title">Bản Đồ Trường Học Số</div>
+            <div class="pillar-desc">Bản đồ Leaflet &amp; OpenStreetMap định vị các trường học Hải Phòng &amp; Hà Nội, ghim điểm trao tặng thuận tiện.</div>
+          </div>
+
+          <!-- Pillar 3 -->
+          <div class="pillar-card">
+            <div class="pillar-top-meta">
+              <div class="pillar-icon-box">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+              </div>
+              <span class="pillar-badge-num">03</span>
+            </div>
+            <div class="pillar-title">Ghép Cặp Thông Minh AI</div>
+            <div class="pillar-desc">Thuật toán Haversine tính khoảng cách địa lý và độ tương thích nhu cầu (&gt;95%), tự động gợi ý bạn cùng lớp/trường.</div>
+          </div>
+
+          <!-- Pillar 4 -->
+          <div class="pillar-card">
+            <div class="pillar-top-meta">
+              <div class="pillar-icon-box">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <span class="pillar-badge-num">04</span>
+            </div>
+            <div class="pillar-title">Trạm Hẹn Thư Viện An Toàn</div>
+            <div class="pillar-desc">Bàn giao tại Thư viện hoặc Phòng Đoàn Đội, có xác thực học sinh và giám sát của nhà trường, an toàn 100%.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           5. IMPACT DASHBOARD: CON SỐ TÁC ĐỘNG THỰC TẾ
+           ==================================================================== -->
+      <section class="stats-dashboard-box">
+        <div class="stats-header-row">
+          <div class="stats-header-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            TÁC ĐỘNG XÃ HỘI &amp; MÔI TRƯỜNG TÍCH LŨY (MEASURED GREEN IMPACT)
+          </div>
+          <div class="stats-metric-tag">DỮ LIỆU THỜI GIAN THỰC • HỆ THỐNG TELEMETRY</div>
+        </div>
+
+        <div class="stats-numbers-grid">
+          <!-- Stat 1 -->
+          <div class="stat-metric-cell">
+            <div class="stat-value stat-val-green">1,248+</div>
+            <div class="stat-label">Đồ dùng trao tặng</div>
+            <div class="stat-sub">Sách GK, đồng phục, máy tính</div>
+          </div>
+          <!-- Stat 2 -->
+          <div class="stat-metric-cell">
+            <div class="stat-value stat-val-blue">426.5 <span style="font-size:20px; font-weight:700;">kg</span></div>
+            <div class="stat-label">Khí CO₂ giảm phát thải</div>
+            <div class="stat-sub">Tương đương 35 cây xanh/năm</div>
+          </div>
+          <!-- Stat 3 -->
+          <div class="stat-metric-cell">
+            <div class="stat-value stat-val-amber">318.2 <span style="font-size:20px; font-weight:700;">kg</span></div>
+            <div class="stat-label">Bột giấy tái sử dụng</div>
+            <div class="stat-sub">Bảo tồn tài nguyên rừng gỗ</div>
+          </div>
+          <!-- Stat 4 -->
+          <div class="stat-metric-cell">
+            <div class="stat-value stat-val-purple">972+</div>
+            <div class="stat-label">Học sinh gắn kết</div>
+            <div class="stat-sub">Giảm gánh nặng chi phí học tập</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           6. FOOTER: MANIFESTO, NETWORK CREDITS & QR ACCESS
+           ==================================================================== -->
+      <footer class="poster-footer">
+        <!-- QR Code SVG -->
+        <div class="qr-container">
+          <svg class="qr-svg" viewBox="0 0 100 100">
+            <!-- Simulated Crisp Geometric QR Matrix -->
+            <rect width="100" height="100" fill="#FFFFFF"/>
+            <!-- Top-Left Target -->
+            <rect x="8" y="8" width="28" height="28" fill="#0F172A" rx="4"/>
+            <rect x="14" y="14" width="16" height="16" fill="#FFFFFF" rx="2"/>
+            <rect x="18" y="18" width="8" height="8" fill="#059669" rx="1.5"/>
+            <!-- Top-Right Target -->
+            <rect x="64" y="8" width="28" height="28" fill="#0F172A" rx="4"/>
+            <rect x="70" y="14" width="16" height="16" fill="#FFFFFF" rx="2"/>
+            <rect x="74" y="18" width="8" height="8" fill="#2563EB" rx="1.5"/>
+            <!-- Bottom-Left Target -->
+            <rect x="8" y="64" width="28" height="28" fill="#0F172A" rx="4"/>
+            <rect x="14" y="70" width="16" height="16" fill="#FFFFFF" rx="2"/>
+            <rect x="18" y="74" width="8" height="8" fill="#F59E0B" rx="1.5"/>
+            <!-- QR Data Pixels -->
+            <rect x="42" y="10" width="6" height="6" fill="#0F172A"/>
+            <rect x="52" y="10" width="6" height="6" fill="#0F172A"/>
+            <rect x="42" y="22" width="6" height="12" fill="#0F172A"/>
+            <rect x="52" y="26" width="6" height="6" fill="#059669"/>
+            <rect x="10" y="42" width="12" height="6" fill="#0F172A"/>
+            <rect x="26" y="42" width="6" height="16" fill="#0F172A"/>
+            <rect x="38" y="42" width="18" height="6" fill="#0F172A"/>
+            <rect x="60" y="42" width="14" height="6" fill="#0F172A"/>
+            <rect x="80" y="42" width="10" height="6" fill="#0F172A"/>
+            <rect x="38" y="52" width="6" height="12" fill="#0F172A"/>
+            <rect x="48" y="56" width="16" height="6" fill="#2563EB"/>
+            <rect x="68" y="52" width="6" height="18" fill="#0F172A"/>
+            <rect x="80" y="52" width="10" height="12" fill="#0F172A"/>
+            <rect x="42" y="72" width="14" height="6" fill="#0F172A"/>
+            <rect x="60" y="72" width="6" height="18" fill="#0F172A"/>
+            <rect x="72" y="78" width="18" height="6" fill="#059669"/>
+            <rect x="42" y="84" width="6" height="8" fill="#0F172A"/>
+            <rect x="52" y="84" width="6" height="8" fill="#0F172A"/>
+            <rect x="82" y="88" width="8" height="6" fill="#0F172A"/>
+          </svg>
+          <div class="qr-caption">QUÉT MÃ TRUY CẬP</div>
+        </div>
+
+        <!-- Manifesto Quote & Pilot Schools -->
+        <div class="footer-quote-block">
+          <div class="manifesto-quote">
+            “Mỗi cuốn sách trao đi là một mầm xanh ở lại — Gieo thói quen sống có trách nhiệm và sẻ chia ngay trên ghế nhà trường.”
+          </div>
+          <div class="school-transit-chips">
+            <strong>ĐIỂM TRƯỜNG THỰC HIỆN:</strong>
+            <span class="chip-item">THCS Ái Quốc</span>
+            <span class="chip-item">THPT Chuyên Trần Phú</span>
+            <span class="chip-item">THPT Ngô Quyền</span>
+            <span class="chip-item">ĐH Hàng hải (VMU)</span>
+            <span class="chip-item">THPT Chu Văn An</span>
+          </div>
+        </div>
+
+        <!-- System Architecture & Open Standards -->
+        <div class="footer-credits-box">
+          <div class="credits-highlight">RESCHOOL OPEN PLATFORM</div>
+          <div>Kiến trúc: FastAPI + Cloud Firestore + Web SPA + Leaflet</div>
+          <div>Bảo trợ: Liên đội TNTP &amp; Thư viện Học đường</div>
+          <div>Bản quyền sáng kiến © 2026 Reschool Vietnam</div>
+        </div>
+      </footer>
+
+    </div>
+  </div>
+
+</body>
+</html>

@@ -123,3 +123,39 @@ class StudentProfile(BaseModel):
     createdAt: Optional[datetime] = Field(default_factory=datetime.utcnow)
     updatedAt: Optional[datetime] = Field(default_factory=datetime.utcnow)
 
+# Quản lý Yêu cầu Cho / Nhận đồ (Theo yêu cầu khách hàng)
+class RequestStatus(str, Enum):
+    PENDING = "PENDING"      # Đang chờ (Màu vàng cam)
+    ACCEPTED = "ACCEPTED"    # Chấp nhận (Màu xanh lá cây)
+    REJECTED = "REJECTED"    # Từ chối (Màu đỏ)
+
+class ItemRequestCreate(BaseModel):
+    item_id: str
+    requester_id: str
+    requester_name: str
+    requester_school: Optional[str] = None
+    requester_class: Optional[str] = None
+    requester_avatar: Optional[str] = None
+    requester_note: Optional[str] = None
+
+class ItemRequestResponse(BaseModel):
+    id: str
+    item_id: str
+    item_title: str
+    item_image: Optional[str] = None
+    giver_id: str
+    giver_name: str
+    giver_class: Optional[str] = None
+    requester_id: str
+    requester_name: str
+    requester_school: Optional[str] = None
+    requester_class: Optional[str] = None
+    requester_avatar: Optional[str] = None
+    requester_note: Optional[str] = None
+    transit_station: str
+    transit_code: Optional[str] = None
+    status: RequestStatus = RequestStatus.PENDING
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+
+

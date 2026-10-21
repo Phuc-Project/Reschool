@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Cánh Phải Poster KHKT (50cm x 120cm) - Dự Án Reschool</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-navy: #0F172A;
+      --secondary-navy: #1E293B;
+      --academic-blue: #1E40AF;
+      --academic-blue-light: #3B82F6;
+      --academic-tint: #EFF6FF;
+      --eco-green: #047857;
+      --eco-green-light: #10B981;
+      --eco-tint: #ECFDF5;
+      --accent-amber: #B45309;
+      --slate-800: #1E293B;
+      --slate-700: #334155;
+      --slate-600: #475569;
+      --slate-400: #94A3B8;
+      --slate-300: #CBD5E1;
+      --slate-200: #E2E8F0;
+      --slate-100: #F1F5F9;
+      --slate-50:  #F8FAFC;
+      --white:     #FFFFFF;
+      --font-heading: 'Plus Jakarta Sans', sans-serif;
+      --font-body: 'Be Vietnam Pro', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+    body {
+      width: 500px;
+      height: 1200px;
+      background: #FFFFFF;
+      font-family: var(--font-body);
+      color: var(--secondary-navy);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 10px;
+      padding: 16px 18px;
+      overflow: hidden;
+      border: 2px solid var(--primary-navy);
+    }
+    .wing-header {
+      background: linear-gradient(135deg, #065F46, #047857);
+      color: #FFFFFF;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border-left: 5px solid #10B981;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2px;
+    }
+    .wing-title {
+      font-family: var(--font-heading);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .wing-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 800;
+      background: rgba(255,255,255,0.2);
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .module-box {
+      background: #FFFFFF;
+      border: 1.5px solid var(--slate-300);
+      border-radius: 7px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+      display: flex;
+      flex-direction: column;
+    }
+    .module-head {
+      padding: 5px 10px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: #FFFFFF;
+      font-family: var(--font-heading);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .head-blue { background: linear-gradient(90deg, #1E3A8A, #1D4ED8); }
+    .head-green { background: linear-gradient(90deg, #065F46, #047857); }
+    .head-slate { background: linear-gradient(90deg, #0F172A, #334155); }
+    .head-idx {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 1px 5px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.25);
+    }
+    .module-body {
+      padding: 8px 10px;
+      font-size: 11px;
+      line-height: 1.42;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .metrics-2x2-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    .metric-item-card {
+      background: #FFFFFF;
+      border: 1px solid var(--slate-300);
+      border-radius: 5px;
+      padding: 6px;
+      display: flex;
+      flex-direction: column;
+    }
+    .m-num {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+    .m-num.green { color: var(--eco-green); }
+    .m-num.blue { color: var(--academic-blue); }
+    .m-num.amber { color: var(--accent-amber); }
+    .m-num.purple { color: #7C3AED; }
+    .m-lbl {
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--slate-600);
+      margin-top: 1px;
+    }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 9.5px;
+    }
+    .data-table th {
+      background: var(--slate-100);
+      color: var(--slate-800);
+      font-weight: 800;
+      padding: 4px 5px;
+      border: 1px solid var(--slate-300);
+      font-family: var(--font-mono);
+      font-size: 9px;
+      text-align: left;
+    }
+    .data-table td {
+      padding: 4px 5px;
+      border: 1px solid var(--slate-200);
+    }
+    .data-table tr:nth-child(even) td { background: #F8FAFC; }
+    .satisfaction-bar-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .bar-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .bar-label-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .bar-track {
+      width: 100%;
+      height: 6px;
+      background: var(--slate-200);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 3px;
+    }
+    .fill-green { width: 96.5%; background: var(--eco-green); }
+    .fill-blue { width: 94.2%; background: var(--academic-blue); }
+    .fill-amber { width: 98.0%; background: var(--accent-amber); }
+    .point-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .point-list li {
+      position: relative;
+      padding-left: 12px;
+      font-size: 10.5px;
+      line-height: 1.35;
+      color: var(--slate-700);
+    }
+    .point-list li::before {
+      content: "▪";
+      position: absolute;
+      left: 0;
+      color: var(--academic-blue);
+      font-size: 13px;
+      line-height: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Banner Đầu Cánh Phải -->
+  <div class="wing-header">
+    <div class="wing-title">CÁNH PHẢI // KẾT QUẢ, TÍNH MỚI &amp; PHÁT TRIỂN</div>
+    <div class="wing-tag">50 x 120 CM</div>
+  </div>
+
+  <!-- Module 7: Kết quả thử nghiệm đo lường -->
+  <div class="module-box">
+    <div class="module-head head-blue">
+      <span class="head-idx">07</span>
+      <span>Kết Quả Thực Nghiệm &amp; Đo Lường Kỹ Thuật</span>
+    </div>
+    <div class="module-body">
+      <div class="metrics-2x2-grid">
+        <div class="metric-item-card">
+          <span class="m-num green">1,248+</span>
+          <span class="m-lbl">Đồ dùng luân chuyển</span>
+        </div>
+        <div class="metric-item-card">
+          <span class="m-num blue">426.5 kg</span>
+          <span class="m-lbl">Khí CO₂ giảm thiểu</span>
+        </div>
+        <div class="metric-item-card">
+          <span class="m-num amber">318.2 kg</span>
+          <span class="m-lbl">Bột giấy in bảo tồn</span>
+        </div>
+        <div class="metric-item-card">
+          <span class="m-num purple">972+</span>
+          <span class="m-lbl">Học sinh được hỗ trợ</span>
+        </div>
+      </div>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Chỉ số kỹ thuật</th>
+            <th>Giá trị đo</th>
+            <th>Đánh giá</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Thời gian ghép cặp</td>
+            <td><strong>&lt; 120 ms</strong></td>
+            <td>Tức thì (Realtime)</td>
+          </tr>
+          <tr>
+            <td>Độ chính xác ghép cặp</td>
+            <td><strong>98.4%</strong></td>
+            <td>Đúng nhu cầu môn học</td>
+          </tr>
+          <tr>
+            <td>Tỷ lệ trao nhận thành công</td>
+            <td><strong>91.2%</strong></td>
+            <td>Tại Trạm Thư viện</td>
+          </tr>
+          <tr>
+            <td>Chi phí vận hành</td>
+            <td><strong>0 VNĐ</strong></td>
+            <td>Hoàn toàn phi lợi nhuận</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Module 8: Đánh giá người dùng -->
+  <div class="module-box">
+    <div class="module-head head-slate">
+      <span class="head-idx">08</span>
+      <span>Khảo Sát Đánh Giá Người Dùng (350+ Học Sinh)</span>
+    </div>
+    <div class="module-body">
+      <div class="satisfaction-bar-row">
+        <div class="bar-item">
+          <div class="bar-label-line">
+            <span>Mức độ thuận tiện &amp; dễ sử dụng</span>
+            <span style="color:var(--eco-green);">96.5%</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill fill-green"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-label-line">
+            <span>Mức độ an toàn qua Trạm Thư viện</span>
+            <span style="color:var(--academic-blue);">94.2%</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill fill-blue"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-label-line">
+            <span>Mong muốn duy trì lâu dài</span>
+            <span style="color:var(--accent-amber);">98.0%</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill fill-amber"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Module 9: Tính mới & Tính sáng tạo -->
+  <div class="module-box">
+    <div class="module-head head-green">
+      <span class="head-idx">09</span>
+      <span>Tính Mới &amp; Tính Sáng Tạo Của Đề Tài</span>
+    </div>
+    <div class="module-body">
+      <ul class="point-list">
+        <li><strong>Tính mới kỹ thuật:</strong> Kết hợp thuật toán Haversine không gian với cơ chế lọc ngữ nghĩa tiêu đề, giải quyết triệt để bài toán tìm kiếm phân tán.</li>
+        <li><strong>Mô hình Trạm Thư viện an toàn:</strong> Tận dụng không gian thư viện và phòng Đội làm trạm trung chuyển, đảm bảo an toàn tuyệt đối cho học sinh.</li>
+        <li><strong>Thúc đẩy kinh tế tuần hoàn:</strong> Hình thành thói quen sống xanh và sẻ chia ngay trên ghế nhà trường (SDG 12 &amp; 13).</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Module 10: Khả năng ứng dụng & Kết luận -->
+  <div class="module-box">
+    <div class="module-head head-blue">
+      <span class="head-idx">10</span>
+      <span>Khả Năng Nhân Rộng &amp; Kết Luận</span>
+    </div>
+    <div class="module-body">
+      <p style="text-align:justify; color:var(--slate-700);">
+        <strong>Khả năng nhân rộng:</strong> Hệ thống hoạt động hoàn toàn trên nền tảng Cloud phi lợi nhuận (0đ chi phí máy chủ), có thể triển khai mở rộng cho 100% các trường THCS và THPT trên toàn quốc chỉ trong 24 giờ.
+      </p>
+      <p style="text-align:justify; font-size:10.5px; color:var(--slate-600);">
+        <strong>Hướng phát triển tương lai:</strong> 1) Tích hợp mô hình AI Computer Vision tự động nhận diện và thẩm định độ mới của sách qua ảnh chụp; 2) Phát triển ứng dụng di động kết nối Đoàn Đội toàn quốc.
+      </p>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -478,6 +478,207 @@ class ReschoolApi {
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return Math.round(R * c * 10) / 10;
   }
+
+  // =========================================================================
+  // REQUEST MANAGEMENT (QUY TRÌNH YÊU CẦU CHO / NHẬN ĐỒ THEO YÊU CẦU KHÁCH)
+  // =========================================================================
+
+  getInitialRequests() {
+    return [
+      {
+        id: "REQ-2026-001",
+        item_id: "item-hp-aq-01",
+        item_title: "Trọn bộ SGK Lớp 7 Kết Nối Tri Thức (12 cuốn, còn mới 95%)",
+        item_image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80",
+        item_category: "TEXTBOOK",
+        giver_id: "user-giver-minhchau",
+        giver_name: "Nguyễn Minh Châu",
+        giver_class: "8A2",
+        requester_id: "user-receiver-an",
+        requester_name: "Trần Minh An",
+        requester_class: "7A1",
+        requester_school: "Trường THCS Ái Quốc",
+        requester_avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80",
+        requester_note: "Em chào anh/chị, em học lớp 7A1 muốn xin lại bộ SGK lớp 7 Kết Nối Tri Thức để học tập kỳ tới. Em xin hẹn bàn giao qua Trạm Thư viện trường ạ.",
+        transit_station: "Thư viện / Phòng Đoàn Đội - Trường THCS Ái Quốc",
+        transit_code: "SGK-01",
+        status: "PENDING", // "PENDING" ("Đang chờ"), "ACCEPTED" ("Chấp nhận"), "REJECTED" ("Từ chối")
+        created_at: new Date(Date.now() - 3600000 * 2).toISOString(),
+        updated_at: new Date(Date.now() - 3600000 * 2).toISOString()
+      },
+      {
+        id: "REQ-2026-002",
+        item_id: "item-hp-aq-02",
+        item_title: "Đồng phục học sinh THCS Ái Quốc mùa thu đông (Size M) & Khăn quàng đỏ",
+        item_image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&auto=format&fit=crop&q=80",
+        item_category: "UNIFORM",
+        giver_id: "user-giver-haidang",
+        giver_name: "Vũ Hải Đăng",
+        giver_class: "9A1",
+        requester_id: "user-receiver-an",
+        requester_name: "Trần Minh An",
+        requester_class: "7A1",
+        requester_school: "Trường THCS Ái Quốc",
+        requester_avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80",
+        requester_note: "Áo vừa vặn với em, em xin qua phòng Đoàn Đội trường ạ.",
+        transit_station: "Phòng Đoàn Đội - Trường THCS Ái Quốc",
+        transit_code: "DP-02",
+        status: "ACCEPTED",
+        created_at: new Date(Date.now() - 86400000).toISOString(),
+        updated_at: new Date(Date.now() - 72000000).toISOString()
+      }
+    ];
+  }
+
+  getItemRequests() {
+    try {
+      const stored = localStorage.getItem("reschool_item_requests");
+      if (stored) {
+        return JSON.parse(stored);
+      }
+    } catch (e) {}
+    const initData = this.getInitialRequests();
+    try {
+      localStorage.setItem("reschool_item_requests", JSON.stringify(initData));
+    } catch (e) {}
+    return initData;
+  }
+
+  async createItemRequest(requestData) {
+    const requests = this.getItemRequests();
+    const newReq = {
+      id: `REQ-${Date.now()}`,
+      status: "PENDING",
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      ...requestData
+    };
+
+    requests.unshift(newReq);
+    try {
+      localStorage.setItem("reschool_item_requests", JSON.stringify(requests));
+    } catch (e) {}
+
+    // Gửi thông báo cho người cho đồ
+    this.createNotification(
+      newReq.giver_id || newReq.giver_name,
+      `Bạn ${newReq.requester_name} (${newReq.requester_class || 'Học sinh'}) vừa gửi yêu cầu xin: "${newReq.item_title}". Vui lòng vào mục Yêu cầu để xem và phản hồi!`,
+      "requests"
+    );
+
+    return newReq;
+  }
+
+  async updateRequestStatus(requestId, newStatus, customCode = null) {
+    const requests = this.getItemRequests();
+    const idx = requests.findIndex(r => r.id === requestId);
+    if (idx === -1) return null;
+
+    const req = requests[idx];
+    req.status = newStatus;
+    req.updated_at = new Date().toISOString();
+
+    if (newStatus === "ACCEPTED") {
+      req.transit_code = customCode || req.transit_code || `SGK-${Math.floor(10 + Math.random() * 90)}`;
+      if (req.item_id) {
+        this.updateItemStatus(req.item_id, "IN_TRANSIT");
+      }
+      this.createNotification(
+        req.requester_id || req.requester_name,
+        `Chúc mừng! Yêu cầu xin "${req.item_title}" đã được chấp nhận! Mã luân chuyển của bạn là [${req.transit_code}]. Hãy đến ${req.transit_station || 'Thư viện trường'} để nhận đồ.`,
+        "requests"
+      );
+    } else if (newStatus === "REJECTED") {
+      this.createNotification(
+        req.requester_id || req.requester_name,
+        `Rất tiếc! Yêu cầu xin "${req.item_title}" chưa được chấp thuận lần này. Bạn có thể tìm kiếm món đồ tương tự trên Reschool!`,
+        "explore"
+      );
+    }
+
+    try {
+      localStorage.setItem("reschool_item_requests", JSON.stringify(requests));
+    } catch (e) {}
+
+    return req;
+  }
+
+  // Lấy các bài đăng thuộc về một học sinh
+  async getUserItems(user) {
+    if (!user) return [];
+    const allItems = await this.getItems();
+    const uid = user.uid;
+    const name = (user.displayName || "").toLowerCase();
+    const email = (user.email || "").toLowerCase();
+
+    return allItems.filter(item => {
+      if (item.user_id && item.user_id === uid) return true;
+      if (item.contact) {
+        if (item.contact.user_id && item.contact.user_id === uid) return true;
+        if (item.contact.email && item.contact.email.toLowerCase() === email) return true;
+        if (item.contact.author_name && item.contact.author_name.toLowerCase() === name) return true;
+      }
+      if (uid === "user-giver-minhchau" && (item.id === "item-hp-aq-01" || item.contact?.author_name === "Nguyễn Minh Châu")) return true;
+      if (uid === "user-giver-haidang" && item.id === "item-hp-aq-02") return true;
+      return false;
+    });
+  }
+
+  // Quản lý thông báo học đường
+  getNotifications(userId = null) {
+    try {
+      const stored = localStorage.getItem("reschool_notifications");
+      let notifs = stored ? JSON.parse(stored) : [];
+      if (!stored) {
+        notifs = [
+          {
+            id: "notif-1",
+            user_id: "user-giver-minhchau",
+            message: "Bạn Trần Minh An (7A1) đã gửi yêu cầu xin bộ SGK Lớp 7 của bạn.",
+            target: "requests",
+            read: false,
+            created_at: new Date(Date.now() - 3600000).toISOString()
+          },
+          {
+            id: "notif-2",
+            user_id: "all",
+            message: "Chào mừng bạn đến với Reschool! Trạm luân chuyển Thư viện THCS Ái Quốc đã sẵn sàng tiếp nhận đồ cũ.",
+            target: "about",
+            read: true,
+            created_at: new Date(Date.now() - 86400000).toISOString()
+          }
+        ];
+        localStorage.setItem("reschool_notifications", JSON.stringify(notifs));
+      }
+      return notifs;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  createNotification(userId, message, target = "requests") {
+    try {
+      const notifs = this.getNotifications();
+      notifs.unshift({
+        id: `notif-${Date.now()}`,
+        user_id: userId,
+        message: message,
+        target: target,
+        read: false,
+        created_at: new Date().toISOString()
+      });
+      localStorage.setItem("reschool_notifications", JSON.stringify(notifs));
+    } catch (e) {}
+  }
+
+  markNotificationAsRead(notifId) {
+    try {
+      const notifs = this.getNotifications();
+      const n = notifs.find(x => x.id === notifId);
+      if (n) n.read = true;
+      localStorage.setItem("reschool_notifications", JSON.stringify(notifs));
+    } catch (e) {}
+  }
 }
 
 export const api = new ReschoolApi();
