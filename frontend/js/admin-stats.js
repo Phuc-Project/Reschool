@@ -3,14 +3,18 @@
  * Tính số liệu THẬT từ dữ liệu hệ thống: tài khoản đăng ký, đồ dùng đăng tải,
  * lượt yêu cầu, giao dịch luân chuyển thành công, tỷ lệ khớp lệnh, vi phạm an toàn.
  */
+import { PILOT_STATS } from './pilot-stats.js';
 
 const CATEGORY_META = {
   TEXTBOOK:   { label: "Sách giáo khoa", color: "#16A34A", price: 250000, kg: 2.5 },
   UNIFORM:    { label: "Đồng phục",      color: "#2563EB", price: 200000, kg: 0.6 },
   STATIONERY: { label: "Dụng cụ học tập", color: "#F59E0B", price: 80000,  kg: 0.3 },
-  OTHER:      { label: "Khác",           color: "#8B5CF6", price: 50000,  kg: 0.3 }
+  OTHER:      { label: "Khác",           color: "#8B5CF6", price: 50000,  kg: 0.3 },
+  UNCLASSIFIED: { label: "Chưa phân loại", color: "#94A3B8", price: 0, kg: 0 }
 };
 const CAT_KEYS = Object.keys(CATEGORY_META);
+const REAL_CATS = CAT_KEYS.filter(k => k !== "UNCLASSIFIED");
+const PILOT = PILOT_STATS && PILOT_STATS.enabled ? PILOT_STATS : null;
 const PHONE_REGEX = /(?:\+?84|0)(?:\s?\.?\-?\d){9}\b/;
 const SUCCESS_STATUSES = new Set(["ACCEPTED", "COMPLETED"]);
 
@@ -35,10 +39,6 @@ const prevMonthKey = (key) => {
 const inMonth = (v, key) => {
   const d = toDate(v);
   return d ? monthKey(d) === key : false;
-};
-const upToMonth = (v, key) => {
-  const d = toDate(v);
-  return !d || monthKey(d) <= key; // không có ngày => coi như có từ đầu
 };
 
 // Gộp tài khoản theo uid / email / tên, lấy ngày tham gia sớm nhất
@@ -101,8 +101,8 @@ function computeStats({ items, requests, accounts, period }) {
   const offStation = reqs.filter(r => !r.transit_station).length;
   const violations = phoneLeaks + offStation;
 
-  const accountsTotal = isAll ? accounts.length : accounts.filter(a => upToMonth(a.date, period)).length;
-  const newAccounts = isAll ? accounts.length : accounts.filter(a => a.date && monthKey(a.date) === period).length;
+  let accountsTotal = isAll ? accounts.length : accounts.filter(a => a.date && monthKey(a.date) <= period).length;
+  let newAccounts = isAll ? accounts.length : accounts.filter(a => a.date && monthKey(a.date) === period).length;
 
   // Phân loại
   const postedByCat = Object.fromEntries(CAT_KEYS.map(k => [k, 0]));
@@ -115,20 +115,56 @@ function computeStats({ items, requests, accounts, period }) {
   });
   completedWithoutReq.forEach(i => { reusedByCat[catOf(i.category)] += 1; });
 
-  const moneySaved = CAT_KEYS.reduce((s, k) => s + reusedByCat[k] * CATEGORY_META[k].price, 0);
-  const wasteSaved = CAT_KEYS.reduce((s, k) => s + reusedByCat[k] * CATEGORY_META[k].kg, 0);
+  // Cộng số liệu tổng hợp đợt vận hành thử nghiệm (pilot-stats.js)
+  let posted = giveItems.length, requestsCount = reqs.length;
+  let success = successCount, pending = pendingCount, rejected = rejectedCount;
+  let unresolved = 0, pilotViolations = 0;
+  const pilotIncluded = !!PILOT && (isAll || period === PILOT.period);
+  if (PILOT && (isAll || period >= PILOT.period)) accountsTotal += PILOT.accounts || 0;
+  if (pilotIncluded) {
+    newAccounts += PILOT.accounts || 0;
+    posted += PILOT.posted || 0;
+    requestsCount += PILOT.requests || 0;
+    success += PILOT.success || 0;
+    pending += PILOT.pending || 0;
+    rejected += PILOT.rejected || 0;
+    if (PILOT.pending == null || PILOT.rejected == null) {
+      unresolved = Math.max(0, (PILOT.requests || 0) - (PILOT.success || 0) - (PILOT.pending || 0) - (PILOT.rejected || 0));
+    }
+    pilotViolations = PILOT.violations || 0;
+
+    const known = PILOT.postedByCategory || {};
+    let knownSum = 0;
+    REAL_CATS.forEach(k => { if (known[k] != null) { postedByCat[k] += known[k]; knownSum += known[k]; } });
+    postedByCat.UNCLASSIFIED += Math.max(0, (PILOT.posted || 0) - knownSum);
+
+    if (PILOT.reusedByCategory) {
+      let reusedKnown = 0;
+      REAL_CATS.forEach(k => { const v = PILOT.reusedByCategory[k]; if (v != null) { reusedByCat[k] += v; reusedKnown += v; } });
+      reusedByCat.UNCLASSIFIED += Math.max(0, (PILOT.success || 0) - reusedKnown);
+    } else {
+      reusedByCat.UNCLASSIFIED += PILOT.success || 0;
+    }
+  }
+
+  // Đồ chưa phân loại: ước tính theo cơ cấu đồ dùng đã đăng
+  const mixTotal = REAL_CATS.reduce((s, k) => s + postedByCat[k], 0) || 1;
+  const avgPrice = REAL_CATS.reduce((s, k) => s + postedByCat[k] * CATEGORY_META[k].price, 0) / mixTotal;
+  const avgKg = REAL_CATS.reduce((s, k) => s + postedByCat[k] * CATEGORY_META[k].kg, 0) / mixTotal;
+  const moneySaved = REAL_CATS.reduce((s, k) => s + reusedByCat[k] * CATEGORY_META[k].price, 0) + reusedByCat.UNCLASSIFIED * avgPrice;
+  const wasteSaved = REAL_CATS.reduce((s, k) => s + reusedByCat[k] * CATEGORY_META[k].kg, 0) + reusedByCat.UNCLASSIFIED * avgKg;
 
   const textbookCount = postedByCat.TEXTBOOK;
   const uniformCount = postedByCat.UNIFORM;
 
   return {
     accountsTotal, newAccounts,
-    posted: giveItems.length, needPosts: needPosts.length,
-    requests: reqs.length, successCount, pendingCount, rejectedCount,
-    matchRate: giveItems.length ? (successCount / giveItems.length) * 100 : 0,
-    violations, phoneLeaks, offStation,
+    posted, needPosts: needPosts.length,
+    requests: requestsCount, successCount: success, pendingCount: pending, rejectedCount: rejected, unresolved,
+    matchRate: posted ? (success / posted) * 100 : 0,
+    violations: violations + pilotViolations, phoneLeaks, offStation,
     postedByCat, reusedByCat, moneySaved, wasteSaved,
-    textbookCount, uniformCount
+    textbookCount, uniformCount, pilotIncluded
   };
 }
 
@@ -172,12 +208,19 @@ function deltaText(cur, prev) {
   return `<span class="as-delta ${diff > 0 ? "up" : "down"}">${diff > 0 ? "+" : ""}${fmt(diff)} so với tháng trước</span>`;
 }
 
+function requestNote(s) {
+  if (s.unresolved > 0) {
+    return `${fmt(s.requests - s.successCount)} lượt chưa hoàn tất luân chuyển; nhu cầu nhận đồ lớn hơn lượng đồ được đăng tặng.`;
+  }
+  return `${fmt(s.pendingCount)} đang chờ duyệt, ${fmt(s.rejectedCount)} bị từ chối.`;
+}
+
 function summaryRows(s) {
   const rate = s.matchRate.toFixed(1).replace(".", ",");
   return [
     ["Tổng số tài khoản học sinh đăng ký tham gia", `${fmt(s.accountsTotal)} tài khoản`, "Số tài khoản đã tạo trên hệ thống (Google, Mã học sinh/Email)."],
     ["Tổng số món đồ được đăng tải (Cho/Tặng)", `${fmt(s.posted)} món`, `Gồm ${fmt(s.textbookCount)} SGK, ${fmt(s.uniformCount)} đồng phục và các đồ dùng khác.`],
-    ["Tổng số lượt yêu cầu xin nhận đồ", `${fmt(s.requests)} lượt`, `${fmt(s.pendingCount)} đang chờ duyệt, ${fmt(s.rejectedCount)} bị từ chối.`],
+    ["Tổng số lượt yêu cầu xin nhận đồ", `${fmt(s.requests)} lượt`, requestNote(s)],
     ["Số giao dịch luân chuyển hoàn tất thành công", `${fmt(s.successCount)} giao dịch`, `Tỷ lệ khớp lệnh thành công ${rate}% (${fmt(s.successCount)}/${fmt(s.posted)}).`],
     ["Số ca vi phạm an toàn thông tin (lộ SĐT, hẹn sai địa điểm)", `${fmt(s.violations)} ca`, s.violations === 0 ? "Mô hình Trạm Thư viện an toàn hoạt động hiệu quả." : `${fmt(s.phoneLeaks)} ca lộ SĐT, ${fmt(s.offStation)} ca hẹn ngoài Trạm.`]
   ];
@@ -208,8 +251,11 @@ export function renderAdminStats(container, { items = [], requests = [], account
     const d = toDate(v);
     if (d) months.add(monthKey(d));
   });
+  if (PILOT && PILOT.period) months.add(PILOT.period);
   const monthList = [...months].sort().reverse();
-  const period = state.period && (state.period === "all" || months.has(state.period)) ? state.period : "all";
+  const defaultPeriod = PILOT && PILOT.showByDefault ? PILOT.period : "all";
+  const wanted = state.period || defaultPeriod;
+  const period = wanted === "all" || months.has(wanted) ? wanted : "all";
   const periodText = period === "all" ? "Toàn thời gian" : monthLabel(period);
 
   const s = computeStats({ items, requests, accounts: allAccounts, period });
@@ -218,8 +264,16 @@ export function renderAdminStats(container, { items = [], requests = [], account
 
   // Donut theo loại
   const postedTotal = Math.max(1, s.posted);
+  // Có số liệu chưa phân loại thì ẩn các loại bằng 0 để tránh hiểu nhầm là "không có"
+  const visibleCats = (byCat) => {
+    const nonZero = CAT_KEYS.filter(k => byCat[k] > 0);
+    if (byCat.UNCLASSIFIED > 0) return nonZero;
+    return REAL_CATS;
+  };
+  const postedCats = visibleCats(s.postedByCat);
+  const reusedCats = visibleCats(s.reusedByCat);
   let acc = 0;
-  const stops = CAT_KEYS.map(k => {
+  const stops = postedCats.map(k => {
     const start = (acc / postedTotal) * 100;
     acc += s.postedByCat[k];
     const end = (acc / postedTotal) * 100;
@@ -228,8 +282,8 @@ export function renderAdminStats(container, { items = [], requests = [], account
   const donutBg = s.posted ? `conic-gradient(${stops})` : "#E2E8F0";
 
   const reuseRate = s.posted ? Math.round((s.successCount / s.posted) * 100) : 0;
-  const barMax = Math.max(1, s.posted, s.successCount, s.pendingCount);
-  const reusedMax = Math.max(1, ...CAT_KEYS.map(k => s.reusedByCat[k]));
+  const barMax = Math.max(1, s.posted, s.successCount, s.pendingCount + s.unresolved);
+  const reusedMax = Math.max(1, ...reusedCats.map(k => s.reusedByCat[k]));
   const activity = buildActivity(items, requests, period);
 
   container.innerHTML = `
@@ -244,10 +298,12 @@ export function renderAdminStats(container, { items = [], requests = [], account
       <button type="button" class="btn btn-sm btn-outline" id="as-export-csv">⬇ Xuất CSV báo cáo</button>
     </div>
 
+    ${s.pilotIncluded ? `<div class="as-source-note">ℹ️ Kỳ này bao gồm ${esc(PILOT.label.charAt(0).toLowerCase() + PILOT.label.slice(1))}.</div>` : ""}
+
     <div class="as-kpi-grid">
       <div class="as-kpi" style="--kpi:#8B5CF6"><div class="as-kpi-icon">👥</div><div class="as-kpi-val">${fmt(s.accountsTotal)}</div><div class="as-kpi-label">Tài khoản đã đăng ký</div>${prev ? `<span class="as-delta up">+${fmt(s.newAccounts)} tài khoản mới trong tháng</span>` : `<span class="as-delta">Lũy kế toàn hệ thống</span>`}</div>
       <div class="as-kpi" style="--kpi:#16A34A"><div class="as-kpi-icon">📦</div><div class="as-kpi-val">${fmt(s.posted)}</div><div class="as-kpi-label">Đồ dùng đã đăng (Cho/Tặng)</div>${sub(s.posted, prev?.posted, `+${fmt(s.needPosts)} bài cần xin`)}</div>
-      <div class="as-kpi" style="--kpi:#EF4444"><div class="as-kpi-icon">💬</div><div class="as-kpi-val">${fmt(s.requests)}</div><div class="as-kpi-label">Lượt yêu cầu xin đồ</div>${sub(s.requests, prev?.requests, `${fmt(s.pendingCount)} đang chờ duyệt`)}</div>
+      <div class="as-kpi" style="--kpi:#EF4444"><div class="as-kpi-icon">💬</div><div class="as-kpi-val">${fmt(s.requests)}</div><div class="as-kpi-label">Lượt yêu cầu xin đồ</div>${sub(s.requests, prev?.requests, s.unresolved > 0 ? `${fmt(s.requests - s.successCount)} lượt chưa hoàn tất` : `${fmt(s.pendingCount)} đang chờ duyệt`)}</div>
       <div class="as-kpi" style="--kpi:#2563EB"><div class="as-kpi-icon">♻️</div><div class="as-kpi-val">${fmt(s.successCount)}</div><div class="as-kpi-label">Giao dịch luân chuyển thành công</div>${sub(s.successCount, prev?.successCount, "Đã cấp mã & bàn giao qua Trạm")}</div>
       <div class="as-kpi" style="--kpi:#0EA5E9"><div class="as-kpi-icon">🎯</div><div class="as-kpi-val">${s.matchRate.toFixed(1).replace(".", ",")}%</div><div class="as-kpi-label">Tỷ lệ khớp lệnh thành công</div><span class="as-delta">${fmt(s.successCount)}/${fmt(s.posted)} món đã có người nhận</span></div>
       <div class="as-kpi" style="--kpi:${s.violations ? "#DC2626" : "#16A34A"}"><div class="as-kpi-icon">🛡️</div><div class="as-kpi-val">${fmt(s.violations)}</div><div class="as-kpi-label">Ca vi phạm an toàn</div><span class="as-delta">Lộ SĐT / hẹn ngoài Trạm</span></div>
@@ -261,7 +317,7 @@ export function renderAdminStats(container, { items = [], requests = [], account
             <div class="as-donut-hole"><strong>${fmt(s.posted)}</strong><span>đồ dùng</span></div>
           </div>
           <ul class="as-legend">
-            ${CAT_KEYS.map(k => `<li><i style="background:${CATEGORY_META[k].color}"></i><span>${CATEGORY_META[k].label}</span><strong>${fmt(s.postedByCat[k])}</strong></li>`).join("")}
+            ${postedCats.map(k => `<li><i style="background:${CATEGORY_META[k].color}"></i><span>${CATEGORY_META[k].label}</span><strong>${fmt(s.postedByCat[k])}</strong></li>`).join("")}
           </ul>
         </div>
       </div>
@@ -269,7 +325,7 @@ export function renderAdminStats(container, { items = [], requests = [], account
         <h4>Tình trạng tái sử dụng</h4>
         <div class="as-status-wrap">
           <div class="as-vbars">
-            ${[["Đã đăng", s.posted, "#16A34A"], ["Đã tái sử dụng", s.successCount, "#2563EB"], ["Đang chờ", s.pendingCount, "#94A3B8"]].map(([l, v, c]) => `
+            ${[["Đã đăng", s.posted, "#16A34A"], ["Đã tái sử dụng", s.successCount, "#2563EB"], [s.unresolved > 0 ? "Chưa hoàn tất" : "Đang chờ", s.pendingCount + s.unresolved, "#94A3B8"]].map(([l, v, c]) => `
               <div class="as-vbar"><span class="as-vbar-val">${fmt(v)}</span><div class="as-vbar-fill" style="height:${Math.max(4, (v / barMax) * 100)}%;background:${c}"></div><span class="as-vbar-label">${l}</span></div>
             `).join("")}
           </div>
@@ -287,7 +343,7 @@ export function renderAdminStats(container, { items = [], requests = [], account
       <div class="as-card">
         <h4>Đồ dùng được tái sử dụng theo loại</h4>
         <div class="as-hbars">
-          ${CAT_KEYS.map(k => `
+          ${reusedCats.map(k => `
             <div class="as-hbar"><span>${CATEGORY_META[k].label}</span><div class="as-hbar-track"><div style="width:${(s.reusedByCat[k] / reusedMax) * 100}%;background:${CATEGORY_META[k].color}"></div></div><strong>${fmt(s.reusedByCat[k])}</strong></div>
           `).join("")}
         </div>
@@ -311,7 +367,7 @@ export function renderAdminStats(container, { items = [], requests = [], account
     </div>
 
     <div class="as-impact-row">
-      <div class="as-impact"><strong>${fmt(s.moneySaved)} đ</strong><span>Chi phí ước tính tiết kiệm cho phụ huynh</span></div>
+      <div class="as-impact"><strong>${fmt(Math.round(s.moneySaved / 1000) * 1000)} đ</strong><span>Chi phí ước tính tiết kiệm cho phụ huynh</span></div>
       <div class="as-impact"><strong>${s.wasteSaved.toLocaleString("vi-VN", { maximumFractionDigits: 1 })} kg</strong><span>Rác thải giấy &amp; vải ước tính giảm thiểu</span></div>
       <div class="as-impact"><strong>100%</strong><span>Giao dịch bàn giao qua Trạm Thư viện / Phòng Đoàn Đội, không lộ SĐT</span></div>
     </div>

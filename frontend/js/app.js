@@ -238,7 +238,7 @@ class ReschoolApp {
       requests: api.getItemRequests(),
       accounts,
       demoAccounts: Object.values(DEMO_ACCOUNTS)
-    }, { period: this.statsPeriod || "all", onPeriodChange: (p) => { this.statsPeriod = p; } });
+    }, { period: this.statsPeriod, onPeriodChange: (p) => { this.statsPeriod = p; } });
   }
 
   async loadData() {
