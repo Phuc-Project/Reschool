@@ -62,7 +62,7 @@ export function renderMatchmakingList(matches, containerElement, onViewDetail) {
               <span>Bên cho tặng</span>
             </div>
             <div class="duo-item-preview">
-              <img src="${giver.images[0] || 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=200'}" alt="${giver.title}" />
+              <img src="${(giver.images && giver.images[0]) || 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=200'}" alt="${giver.title}" />
               <div class="duo-info">
                 <h4>${giver.title}</h4>
                 <p class="duo-school">
@@ -72,14 +72,14 @@ export function renderMatchmakingList(matches, containerElement, onViewDetail) {
                     <path d="M9 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"></path>
                     <path d="M10 21V14h4v7"></path>
                   </svg>
-                  <span>${giver.location.school_name}</span>
+                  <span>${giver.location?.school_name || "Trường học"}</span>
                 </p>
                 <p class="duo-author">
                   <svg class="icon icon-sm text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                     <circle cx="12" cy="7" r="4"></circle>
                   </svg>
-                  <span>${giver.contact.author_name} (${giver.contact.student_class || 'Học sinh'})</span>
+                  <span>${giver.contact?.author_name || 'Học sinh'} (${giver.contact?.student_class || 'Học sinh'})</span>
                 </p>
               </div>
             </div>
@@ -105,7 +105,7 @@ export function renderMatchmakingList(matches, containerElement, onViewDetail) {
               <span>Bên cần hỗ trợ</span>
             </div>
             <div class="duo-item-preview">
-              <img src="${receiver.images[0] || 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=200'}" alt="${receiver.title}" />
+              <img src="${(receiver.images && receiver.images[0]) || 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=200'}" alt="${receiver.title}" />
               <div class="duo-info">
                 <h4>${receiver.title}</h4>
                 <p class="duo-school">
@@ -115,14 +115,14 @@ export function renderMatchmakingList(matches, containerElement, onViewDetail) {
                     <path d="M9 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"></path>
                     <path d="M10 21V14h4v7"></path>
                   </svg>
-                  <span>${receiver.location.school_name}</span>
+                  <span>${receiver.location?.school_name || "Trường học"}</span>
                 </p>
                 <p class="duo-author">
                   <svg class="icon icon-sm text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                     <circle cx="12" cy="7" r="4"></circle>
                   </svg>
-                  <span>${receiver.contact.author_name} (${receiver.contact.student_class || 'Học sinh'})</span>
+                  <span>${receiver.contact?.author_name || 'Học sinh'} (${receiver.contact?.student_class || 'Học sinh'})</span>
                 </p>
               </div>
             </div>
@@ -130,12 +130,10 @@ export function renderMatchmakingList(matches, containerElement, onViewDetail) {
         </div>
 
         <div class="match-card-actions">
-          <a href="https://zalo.me/${(giver.contact.zalo || giver.contact.phone).replace(/\s+/g, '')}" target="_blank" rel="noopener noreferrer" class="btn btn-zalo">
-            <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-            </svg>
-            <span>Liên hệ trao đổi qua Zalo</span>
-          </a>
+          <button type="button" class="btn btn-primary btn-view-duo" data-giver-id="${giver.id}" data-receiver-id="${receiver.id}">
+            <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            <span>Hẹn trao nhận qua Trạm Thư viện</span>
+          </button>
           <button class="btn btn-outline btn-view-duo" data-giver-id="${giver.id}" data-receiver-id="${receiver.id}">
             <span>Xem chi tiết bài đăng</span>
           </button>
