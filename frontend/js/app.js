@@ -639,15 +639,15 @@ class ReschoolApp {
     // Yêu cầu nhận được: Các bạn khác xin đồ của mình (mình là người cho)
     const received = allReqs.filter(r => 
       r.giver_id === user.uid || 
-      (user.uid === 'user-giver-minhchau' && (r.giver_name === 'Nguyễn Minh Châu' || r.item_id === 'item-hp-aq-01')) ||
-      (user.role === 'GIVER')
+      (r.giver_name && r.giver_name === user.displayName) ||
+      (user.uid === 'user-giver-minhchau' && r.item_id === 'item-hp-aq-01') ||
+      (user.role === 'STATION_MANAGER') // Thủ thư Trạm được xem toàn bộ yêu cầu để đối soát mã
     );
 
     // Yêu cầu đã gửi: Mình đi xin đồ của bạn khác
     const sent = allReqs.filter(r => 
       r.requester_id === user.uid || 
-      (user.uid === 'user-receiver-an' && (r.requester_name === 'Trần Minh An' || r.requester_id === 'user-receiver-an')) ||
-      (user.role === 'RECEIVER')
+      (user.uid === 'user-receiver-an' && r.requester_name === 'Trần Minh An')
     );
 
     // Render danh sách Yêu cầu nhận được
