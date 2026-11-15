@@ -3,7 +3,8 @@
  * Điều hướng tabs, lắng nghe sự kiện, xử lý đăng tin và điều khiển giao diện.
  */
 import { api } from './api.js';
-import { authManager } from './auth.js';
+import { authManager, DEMO_ACCOUNTS } from './auth.js';
+import { renderAdminStats } from './admin-stats.js';
 import { initReschoolMap, renderMapMarkers, resizeMap, focusLocation } from './map.js';
 import { renderItemGrid, openItemDetailModal, openTransitTicketModal } from './items.js';
 import { renderMatchmakingList } from './matchmaking.js';
@@ -222,7 +223,22 @@ class ReschoolApp {
       this.renderMyItems();
     } else if (tabId === "requests") {
       this.renderRequests();
+    } else if (tabId === "stats") {
+      this.renderStats();
     }
+  }
+
+  // Thống kê quản trị: số tài khoản, đồ đăng, yêu cầu, giao dịch thành công
+  async renderStats() {
+    const root = document.getElementById("admin-stats-root");
+    if (!root) return;
+    const accounts = await api.getRegisteredAccounts();
+    renderAdminStats(root, {
+      items: this.allItems && this.allItems.length ? this.allItems : api.getLocalItems(),
+      requests: api.getItemRequests(),
+      accounts,
+      demoAccounts: Object.values(DEMO_ACCOUNTS)
+    }, { period: this.statsPeriod || "all", onPeriodChange: (p) => { this.statsPeriod = p; } });
   }
 
   async loadData() {
@@ -232,6 +248,7 @@ class ReschoolApp {
     this.setupDrawer();
     if (this.currentTab === "my-items") this.renderMyItems();
     if (this.currentTab === "requests") this.renderRequests();
+    if (this.currentTab === "stats") this.renderStats();
   }
 
   applyFilters() {
@@ -683,6 +700,7 @@ class ReschoolApp {
                     <svg class="icon icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     <span>Đang chờ</span>
                   </span>
+                  <span class="request-transit-code-pill">Mã luân chuyển: <strong>${req.transit_code || '...'}</strong></span>
                   <div class="request-dual-buttons">
                     <button type="button" class="btn-action-accept" data-accept-id="${req.id}">
                       <svg class="icon icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -797,7 +815,11 @@ class ReschoolApp {
                     <svg class="icon icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     <span>Đang chờ duyệt</span>
                   </span>
+                  <span class="request-transit-code-pill">Mã luân chuyển: <strong>${req.transit_code || '...'}</strong></span>
                   <span style="font-size: 0.76rem; color: #64748B; text-align: right;">Đang đợi bạn ${req.giver_name} xác nhận</span>
+                  <button type="button" class="btn btn-sm btn-outline btn-view-my-sent-ticket" data-sent-id="${req.id}">
+                    Xem phiếu mã
+                  </button>
                 ` : isAccepted ? `
                   <span class="badge-status-accepted">
                     <svg class="icon icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -824,7 +846,10 @@ class ReschoolApp {
                 title: req.item_title,
                 transit_station: req.transit_station
               };
-              openTransitTicketModal(item, req.transit_code || "SGK-01", "RECEIVER");
+              const note = req.status === "PENDING"
+                ? `🕒 Đang chờ bạn ${req.giver_name || 'cho đồ'} duyệt. Hãy ghi nhớ mã này để nhận đồ tại Trạm.`
+                : "";
+              openTransitTicketModal(item, req.transit_code || "SGK-01", "RECEIVER", note);
             }
           };
         });
