@@ -299,7 +299,7 @@ export function openItemDetailModal(item, modalElement, onDataChange) {
                 ` : myExistingRequest && myExistingRequest.status === 'PENDING' ? `
                   <button type="button" id="btn-goto-my-requests" class="btn btn-block btn-warning-soft">
                     <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                    <span>🕒 Đang chờ bạn ${item.contact?.author_name || 'cho đồ'} duyệt yêu cầu (Xem)</span>
+                    <span>🕒 Đang chờ duyệt • Mã luân chuyển [${myExistingRequest.transit_code || '...'}] (Xem)</span>
                   </button>
                 ` : myExistingRequest && myExistingRequest.status === 'ACCEPTED' ? `
                   <button type="button" id="btn-view-accepted-ticket" class="btn btn-block btn-success">
@@ -415,7 +415,7 @@ export function openItemDetailModal(item, modalElement, onDataChange) {
           }
 
           try {
-            await api.createItemRequest({
+            const createdReq = await api.createItemRequest({
               item_id: item.id,
               item_title: item.title,
               item_image: (item.images && item.images[0]) || 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600',
@@ -437,10 +437,18 @@ export function openItemDetailModal(item, modalElement, onDataChange) {
             closeModal();
 
             if (window.reschoolApp) {
-              window.reschoolApp.showToast(`Đã gửi yêu cầu tới bạn ${item.contact?.author_name || 'cho đồ'}!`);
+              window.reschoolApp.showToast(`Đã gửi yêu cầu tới bạn ${item.contact?.author_name || 'cho đồ'}! Mã luân chuyển: ${createdReq.transit_code}`);
               window.reschoolApp.switchTab("requests");
               await window.reschoolApp.loadData();
             }
+
+            // Hiện phiếu Mã luân chuyển ngay sau khi đăng ký (theo yêu cầu khách hàng)
+            openTransitTicketModal(
+              item,
+              `Mã ${createdReq.transit_code}`,
+              "RECEIVER",
+              `🕒 Đang chờ bạn ${item.contact?.author_name || 'cho đồ'} duyệt. Hãy ghi nhớ mã này để nhận đồ tại Trạm.`
+            );
           } catch (err) {
             console.error("Lỗi gửi yêu cầu:", err);
           } finally {
@@ -490,9 +498,27 @@ export function openItemDetailModal(item, modalElement, onDataChange) {
 }
 
 // Hàm mở Modal Phiếu Luân Chuyển Học Đường
-export function openTransitTicketModal(item, code, role = "RECEIVER") {
+export function openTransitTicketModal(item, code, role = "RECEIVER", statusNote = "") {
   const modal = document.getElementById("transit-ticket-modal");
   if (!modal) return;
+
+  // Chuẩn hoá hiển thị "Mã SGK-01"
+  if (code && !String(code).startsWith("Mã")) code = `Mã ${code}`;
+  const rawCode = String(code || "").replace(/^Mã\s*/, "");
+
+  // Dòng trạng thái (VD: đang chờ người cho duyệt)
+  let statusEl = modal.querySelector("#ticket-status-note");
+  const codeCard = modal.querySelector(".transit-code-card");
+  if (!statusEl && codeCard) {
+    statusEl = document.createElement("div");
+    statusEl.id = "ticket-status-note";
+    statusEl.className = "ticket-status-note";
+    codeCard.insertAdjacentElement("afterend", statusEl);
+  }
+  if (statusEl) {
+    statusEl.textContent = statusNote;
+    statusEl.style.display = statusNote ? "block" : "none";
+  }
 
   const codeEl = modal.querySelector("#display-transit-code");
   const titleEl = modal.querySelector("#ticket-modal-title");
@@ -521,7 +547,7 @@ export function openTransitTicketModal(item, code, role = "RECEIVER") {
 
   if (copyBtn) {
     copyBtn.onclick = () => {
-      navigator.clipboard.writeText(code).then(() => {
+      navigator.clipboard.writeText(rawCode).then(() => {
         copyBtn.innerHTML = `
           <svg class="icon icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
           <span>Đã sao chép!</span>
