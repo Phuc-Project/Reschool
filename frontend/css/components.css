@@ -2608,3 +2608,231 @@
   font-size: 0.72rem;
   color: var(--slate-400);
 }
+
+/* ========================================================
+   BẢNG XẾP HẠNG THÀNH VIÊN TÍCH CỰC (LEADERBOARD)
+   ======================================================== */
+.leaderboard-view-wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+.leaderboard-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.leaderboard-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.leaderboard-tag {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--primary-700, #10B981);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.leaderboard-heading {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.leaderboard-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.custom-select-wrap {
+  position: relative;
+}
+
+.select-pill {
+  appearance: none;
+  background-color: #FFFFFF;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px;
+  border: 1.5px solid var(--slate-200, #CBD5E1);
+  border-radius: 20px;
+  padding: 8px 34px 8px 16px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.select-pill:hover {
+  border-color: var(--primary-500, #10B981);
+  background-color: #F8FAFC;
+}
+
+.leaderboard-card-container {
+  background: #FFFFFF;
+  border: 1px solid var(--slate-200, #E2E8F0);
+  border-radius: var(--radius-2xl, 20px);
+  box-shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.05);
+  overflow: hidden;
+}
+
+.leaderboard-table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.leaderboard-table thead tr {
+  border-bottom: 1.5px solid #E2E8F0;
+  background: #FAFAFA;
+}
+
+.leaderboard-table th {
+  padding: 16px 20px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #0F172A;
+  white-space: nowrap;
+}
+
+.leaderboard-table th.th-rank {
+  width: 90px;
+  text-align: center;
+}
+
+.leaderboard-table th.th-condition,
+.leaderboard-table th.th-contributions {
+  text-align: center;
+  width: 180px;
+}
+
+.leaderboard-table th.th-points {
+  text-align: right;
+  width: 160px;
+}
+
+.leaderboard-table tbody tr {
+  border-bottom: 1px solid #F1F5F9;
+  transition: background-color 0.15s ease;
+}
+
+.leaderboard-table tbody tr:hover {
+  background-color: #F8FAFC;
+}
+
+.leaderboard-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+/* Nổi bật Top 1, Top 2, Top 3 */
+.leaderboard-table tbody tr.row-top-1 {
+  background-color: #FEFDF5;
+}
+
+.leaderboard-table tbody tr.row-top-2 {
+  background-color: #FAFAFA;
+}
+
+.leaderboard-table tbody tr.row-top-3 {
+  background-color: #FFFDF9;
+}
+
+.leaderboard-table td {
+  padding: 14px 20px;
+  font-size: 0.95rem;
+  color: #1E293B;
+  vertical-align: middle;
+}
+
+.col-rank-cell {
+  text-align: center;
+}
+
+.rank-icon-wrap {
+  font-size: 1.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.rank-number {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #64748B;
+}
+
+.col-member-cell {
+  min-width: 220px;
+}
+
+.member-profile-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.member-avatar-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+}
+
+.member-full-name {
+  font-weight: 700;
+  color: #0F172A;
+  font-size: 0.96rem;
+}
+
+.col-condition-cell,
+.col-count-cell {
+  text-align: center;
+  font-weight: 600;
+  color: #334155;
+  font-size: 0.95rem;
+}
+
+.col-points-cell {
+  text-align: right;
+  font-size: 1.05rem;
+  color: #0F172A;
+}
+
+.col-points-cell strong {
+  font-weight: 800;
+  color: var(--primary-700, #047857);
+}
+
+.table-loading-cell,
+.table-empty-cell,
+.table-error-cell {
+  text-align: center;
+  padding: 36px 20px;
+  color: #64748B;
+  font-size: 0.92rem;
+}
+

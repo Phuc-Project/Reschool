@@ -704,6 +704,36 @@
     border-radius: 12px !important;
     padding: 10px 14px !important;
   }
+
+  /* Leaderboard responsive mobile */
+  .leaderboard-view-wrap {
+    padding: 16px 12px 60px !important;
+  }
+
+  .leaderboard-heading {
+    font-size: 1.35rem !important;
+  }
+
+  .leaderboard-header-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+
+  .leaderboard-table th,
+  .leaderboard-table td {
+    padding: 10px 12px !important;
+    font-size: 0.85rem !important;
+  }
+
+  .member-avatar-img {
+    width: 34px !important;
+    height: 34px !important;
+  }
+
+  .rank-icon-wrap {
+    font-size: 1.3rem !important;
+  }
 }
 
 /* Hiệu ứng kéo Bottom Sheet từ dưới lên mượt mà */
