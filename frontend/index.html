@@ -102,6 +102,12 @@
           <span>Yêu cầu</span>
           <span class="nav-badge-pill" id="header-requests-badge">1</span>
         </button>
+        <button class="nav-tab-btn" data-tab="leaderboard">
+          <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+          <span>Xếp hạng</span>
+        </button>
         <button class="nav-tab-btn" data-tab="about">
           <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"></circle>
@@ -562,6 +568,54 @@
 
       <div id="admin-stats-root">
         <p style="color:#64748B;font-size:0.85rem;">Đang tải số liệu thống kê...</p>
+      </div>
+    </section>
+
+    <!-- VIEW: BẢNG XẾP HẠNG THÀNH VIÊN TÍCH CỰC -->
+    <section id="view-leaderboard" class="view-section">
+      <div class="leaderboard-view-wrap">
+        <div class="leaderboard-header-row">
+          <div class="leaderboard-titles">
+            <span class="leaderboard-tag">LEADERBOARD</span>
+            <h2 class="leaderboard-heading">BẢNG XẾP HẠNG THÀNH VIÊN TÍCH CỰC</h2>
+          </div>
+          <div class="leaderboard-controls">
+            <div class="custom-select-wrap">
+              <select id="select-leaderboard-period" class="select-pill" aria-label="Lọc thời gian">
+                <option value="month" selected>Tháng này</option>
+                <option value="all">Tất cả</option>
+              </select>
+            </div>
+            <div class="custom-select-wrap">
+              <select id="select-leaderboard-class" class="select-pill" aria-label="Lọc theo lớp">
+                <option value="all" selected>Tất cả các lớp</option>
+                <option value="9A1">Lớp 9A1</option>
+                <option value="8A2">Lớp 8A2</option>
+                <option value="7A1">Lớp 7A1</option>
+                <option value="6A1">Lớp 6A1</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="leaderboard-card-container">
+          <div class="leaderboard-table-responsive">
+            <table class="leaderboard-table">
+              <thead>
+                <tr>
+                  <th class="th-rank">Hạng</th>
+                  <th class="th-member">Thành viên</th>
+                  <th class="th-condition">Độ mới TB (1-100)</th>
+                  <th class="th-contributions">Số lượng đóng góp</th>
+                  <th class="th-points">Tổng điểm</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboard-tbody">
+                <!-- Rendered by app.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1037,6 +1091,16 @@
             </svg>
           </div>
           <span class="drawer-menu-title">Thống kê</span>
+        </button>
+
+        <!-- Bảng xếp hạng (Leaderboard) -->
+        <button type="button" class="drawer-menu-item" id="drawer-menu-leaderboard" data-tab="leaderboard">
+          <div class="drawer-menu-icon" style="color: #F59E0B;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+          </div>
+          <span class="drawer-menu-title">Bảng xếp hạng</span>
         </button>
 
         <!-- 6. Cài đặt -->

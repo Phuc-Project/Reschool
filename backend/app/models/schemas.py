@@ -158,4 +158,17 @@ class ItemRequestResponse(BaseModel):
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
 
+# Bảng xếp hạng thành tích trao đổi (Leaderboard)
+class LeaderboardEntry(BaseModel):
+    rank: int = Field(..., description="Thứ hạng (1, 2, 3...)")
+    user_id: Optional[str] = None
+    name: str = Field(..., description="Họ và tên học sinh")
+    student_class: Optional[str] = Field(None, description="Lớp học (vd: Lớp 8A2)")
+    school: Optional[str] = Field(None, description="Trường học")
+    avatar: Optional[str] = Field(None, description="Ảnh đại diện")
+    avg_condition: float = Field(..., description="Độ mới trung bình thang 1-100")
+    contributions_count: int = Field(..., description="Số lượng đồ dùng đã cho / đóng góp thành công")
+    total_points: float = Field(..., description="Tổng điểm thành tích = Độ mới TB * Số lượng")
+    badge: Optional[str] = Field(None, description="Huy hiệu: gold, silver, bronze")
+
 

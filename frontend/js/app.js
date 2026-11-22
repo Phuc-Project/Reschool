@@ -190,6 +190,16 @@ class ReschoolApp {
         }
       });
     });
+
+    // Leaderboard Filter Selectors
+    const lbPeriod = document.getElementById("select-leaderboard-period");
+    if (lbPeriod) {
+      lbPeriod.addEventListener("change", () => this.renderLeaderboard());
+    }
+    const lbClass = document.getElementById("select-leaderboard-class");
+    if (lbClass) {
+      lbClass.addEventListener("change", () => this.renderLeaderboard());
+    }
   }
 
   switchTab(tabId) {
@@ -226,6 +236,8 @@ class ReschoolApp {
       this.renderRequests();
     } else if (tabId === "stats") {
       this.renderStats();
+    } else if (tabId === "leaderboard") {
+      this.renderLeaderboard();
     }
   }
 
@@ -250,6 +262,7 @@ class ReschoolApp {
     if (this.currentTab === "my-items") this.renderMyItems();
     if (this.currentTab === "requests") this.renderRequests();
     if (this.currentTab === "stats") this.renderStats();
+    if (this.currentTab === "leaderboard") this.renderLeaderboard();
   }
 
   applyFilters() {
@@ -1001,6 +1014,14 @@ class ReschoolApp {
       };
     }
 
+    const menuLeaderboard = document.getElementById("drawer-menu-leaderboard");
+    if (menuLeaderboard) {
+      menuLeaderboard.onclick = () => {
+        closeDrawer();
+        this.switchTab("leaderboard");
+      };
+    }
+
     const menuSettings = document.getElementById("drawer-menu-settings");
     if (menuSettings) {
       menuSettings.onclick = () => {
@@ -1090,6 +1111,70 @@ class ReschoolApp {
     const modal = document.getElementById("notifications-modal");
     if (modal) modal.classList.remove("active");
     if (target) this.switchTab(target);
+  }
+
+  async renderLeaderboard() {
+    const tbody = document.getElementById("leaderboard-tbody");
+    if (!tbody) return;
+
+    tbody.innerHTML = `<tr><td colspan="5" class="table-loading-cell">Đang tải bảng xếp hạng thành tích học sinh...</td></tr>`;
+
+    const periodSelect = document.getElementById("select-leaderboard-period");
+    const classSelect = document.getElementById("select-leaderboard-class");
+
+    const period = periodSelect ? periodSelect.value : "month";
+    const studentClass = classSelect && classSelect.value !== "all" ? classSelect.value : "";
+
+    try {
+      const currentSchool = authManager.currentUser?.school || "";
+      const data = await api.getLeaderboard(period, currentSchool, studentClass);
+      if (!data || data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="table-empty-cell">Chưa có dữ liệu thành tích cho bộ lọc này.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = data.map((item) => {
+        let rankBadge = "";
+        let rowClass = "";
+        if (item.rank === 1) {
+          rankBadge = `<span class="rank-icon-wrap rank-gold" title="Hạng 1 - Cúp Vàng">🏆</span>`;
+          rowClass = "row-top-1";
+        } else if (item.rank === 2) {
+          rankBadge = `<span class="rank-icon-wrap rank-silver" title="Hạng 2 - Huy Chương Bạc">🥈</span>`;
+          rowClass = "row-top-2";
+        } else if (item.rank === 3) {
+          rankBadge = `<span class="rank-icon-wrap rank-bronze" title="Hạng 3 - Huy Chương Đồng">🥉</span>`;
+          rowClass = "row-top-3";
+        } else {
+          rankBadge = `<span class="rank-number">#${item.rank}</span>`;
+        }
+
+        const className = item.student_class && !item.name.includes(item.student_class)
+          ? ` (${item.student_class})` 
+          : "";
+        const formattedTotal = Number(item.total_points).toFixed(1);
+        const formattedCondition = Number(item.avg_condition).toFixed(1);
+
+        return `
+          <tr class="${rowClass}">
+            <td class="col-rank-cell">${rankBadge}</td>
+            <td class="col-member-cell">
+              <div class="member-profile-info">
+                <img src="${item.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80'}" alt="${item.name}" class="member-avatar-img" />
+                <span class="member-full-name">${item.name}${className}</span>
+              </div>
+            </td>
+            <td class="col-condition-cell">${formattedCondition}%</td>
+            <td class="col-count-cell">${item.contributions_count} món</td>
+            <td class="col-points-cell"><strong>${formattedTotal} điểm</strong></td>
+          </tr>
+        `;
+      }).join("");
+
+    } catch (e) {
+      console.error("Lỗi render Leaderboard:", e);
+      tbody.innerHTML = `<tr><td colspan="5" class="table-error-cell">Không thể tải dữ liệu bảng xếp hạng.</td></tr>`;
+    }
   }
 }
 
