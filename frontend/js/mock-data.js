@@ -12,22 +12,22 @@ export const INITIAL_ITEMS_DATA = [
     category: "TEXTBOOK",
     grade: 7,
     condition: "Mới 95% - Bọc bìa nilon cẩn thận, không rách trang, chỉ ghi chú nhẹ chì",
-    description: "Em đã hoàn thành chương trình lớp 7 tại trường THCS Ái Quốc, nay muốn chuyển giao lại toàn bộ bộ sách cho bạn học sinh khóa dưới có nhu cầu. Đồ dùng sẽ được bàn giao qua Trạm luân chuyển thư viện trường.",
+    description: "Em đã hoàn thành chương trình lớp 7 tại trường THCS & THPT Hiếu Nhơn, nay muốn chuyển giao lại toàn bộ bộ sách cho bạn học sinh khóa dưới có nhu cầu. Đồ dùng sẽ được bàn giao qua Trạm luân chuyển thư viện trường.",
     images: ["https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80"],
-    tags: ["THCS Ái Quốc", "Hải Phòng", "Kết Nối Tri Thức", "Lớp 7", "Trạm Thư viện"],
+    tags: ["THCS & THPT Hiếu Nhơn", "Hiếu Thành", "Vĩnh Long", "Kết Nối Tri Thức", "Lớp 7", "Trạm Thư viện"],
     location: {
-      school_name: "Trường THCS Ái Quốc",
-      city: "Hải Phòng",
-      district: "Ái Quốc",
-      address_detail: "Phường Ái Quốc, TP Hải Phòng",
-      latitude: 20.9525,
-      longitude: 106.3785
+      school_name: "Trường THCS & THPT Hiếu Nhơn",
+      city: "Vĩnh Long",
+      district: "Hiếu Thành, Vũng Liêm",
+      address_detail: "Ấp Hiếu Minh B, Xã Hiếu Thành, huyện Vũng Liêm, tỉnh Vĩnh Long",
+      latitude: 9.9844,
+      longitude: 106.1031
     },
-    transit_station: "Thư viện / Phòng Đoàn Đội - Trường THCS Ái Quốc",
+    transit_station: "Thư viện / Phòng Đoàn Đội - Trường THCS & THPT Hiếu Nhơn",
     contact: {
       author_name: "Nguyễn Minh Châu",
       student_class: "8A2",
-      email: "minhchau.thcsaiquoc@gmail.com"
+      email: "minhchau.hieunhon@gmail.com"
     },
     status: "AVAILABLE",
     created_at: "2026-10-18T08:50:00Z",
@@ -35,27 +35,27 @@ export const INITIAL_ITEMS_DATA = [
   },
   {
     id: "item-hp-aq-02",
-    title: "Đồng phục học sinh THCS Ái Quốc mùa thu đông (Size M) & Khăn quàng đỏ",
+    title: "Đồng phục học sinh THCS & THPT Hiếu Nhơn (Size M) & Khăn quàng đỏ",
     type: "GIVE",
     category: "UNIFORM",
     grade: 8,
-    condition: "Tốt 90% - Áo khoác ấm sạch sẽ, khóa kéo tốt, logo trường rõ nét",
-    description: "Áo khoác gió đồng phục mùa đông trường THCS Ái Quốc, kèm 2 khăn quàng đỏ Đội TNTP. Em tăng chiều cao nên mặc chật, xin gửi lại Trạm luân chuyển phòng Đội cho bạn nào cần.",
+    condition: "Tốt 90% - Áo sạch sẽ ấm áp, khóa kéo tốt, logo trường rõ nét",
+    description: "Áo đồng phục trường THCS & THPT Hiếu Nhơn, kèm 2 khăn quàng đỏ Đội TNTP. Em tăng chiều cao nên mặc chật, xin gửi lại Trạm luân chuyển phòng Đội cho bạn nào cần.",
     images: ["https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&auto=format&fit=crop&q=80"],
-    tags: ["THCS Ái Quốc", "Đồng phục", "Phòng Đoàn Đội", "Size M"],
+    tags: ["THCS & THPT Hiếu Nhơn", "Đồng phục", "Hiếu Thành", "Phòng Đoàn Đội", "Size M"],
     location: {
-      school_name: "Trường THCS Ái Quốc",
-      city: "Hải Phòng",
-      district: "Ái Quốc",
-      address_detail: "Phường Ái Quốc, TP Hải Phòng",
-      latitude: 20.9525,
-      longitude: 106.3785
+      school_name: "Trường THCS & THPT Hiếu Nhơn",
+      city: "Vĩnh Long",
+      district: "Hiếu Thành, Vũng Liêm",
+      address_detail: "Ấp Hiếu Minh B, Xã Hiếu Thành, huyện Vũng Liêm, tỉnh Vĩnh Long",
+      latitude: 9.9844,
+      longitude: 106.1031
     },
-    transit_station: "Phòng Đoàn Đội - Trường THCS Ái Quốc",
+    transit_station: "Phòng Đoàn Đội - Trường THCS & THPT Hiếu Nhơn",
     contact: {
       author_name: "Vũ Hải Đăng",
       student_class: "9A1",
-      email: "haidang.thcsaiquoc@gmail.com"
+      email: "haidang.hieunhon@gmail.com"
     },
     status: "AVAILABLE",
     created_at: "2026-10-18T08:55:00Z",
@@ -68,22 +68,22 @@ export const INITIAL_ITEMS_DATA = [
     category: "TEXTBOOK",
     grade: 9,
     condition: "Dùng được - Đầy đủ các môn chính Toán, Ngữ Văn, Tiếng Anh",
-    description: "Em là học sinh lớp 9 trường THCS Ái Quốc, điều kiện gia đình khó khăn nên mong được anh chị khóa trên tặng lại bộ SGK lớp 9 để ôn thi vào lớp 10 THPT. Em xin nhận qua Trạm luân chuyển của trường ạ.",
+    description: "Em là học sinh lớp 9 trường THCS & THPT Hiếu Nhơn, điều kiện gia đình khó khăn nên mong được anh chị khóa trên tặng lại bộ SGK lớp 9 để ôn thi vào lớp 10 THPT. Em xin nhận qua Trạm luân chuyển của trường ạ.",
     images: ["https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&auto=format&fit=crop&q=80"],
-    tags: ["THCS Ái Quốc", "Lớp 9", "Cần nhận gấp", "Ôn thi vào 10"],
+    tags: ["THCS & THPT Hiếu Nhơn", "Hiếu Thành", "Lớp 9", "Cần nhận gấp", "Ôn thi vào 10"],
     location: {
-      school_name: "Trường THCS Ái Quốc",
-      city: "Hải Phòng",
-      district: "Ái Quốc",
-      address_detail: "Phường Ái Quốc, TP Hải Phòng",
-      latitude: 20.9525,
-      longitude: 106.3785
+      school_name: "Trường THCS & THPT Hiếu Nhơn",
+      city: "Vĩnh Long",
+      district: "Hiếu Thành, Vũng Liêm",
+      address_detail: "Ấp Hiếu Minh B, Xã Hiếu Thành, huyện Vũng Liêm, tỉnh Vĩnh Long",
+      latitude: 9.9844,
+      longitude: 106.1031
     },
-    transit_station: "Thư viện / Phòng Đoàn Đội - Trường THCS Ái Quốc",
+    transit_station: "Thư viện / Phòng Đoàn Đội - Trường THCS & THPT Hiếu Nhơn",
     contact: {
       author_name: "Đỗ Phương Thảo",
       student_class: "9A3",
-      email: "phuongthao.thcsaiquoc@gmail.com"
+      email: "phuongthao.hieunhon@gmail.com"
     },
     status: "AVAILABLE",
     created_at: "2026-10-18T09:00:00Z",

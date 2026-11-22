@@ -207,17 +207,17 @@ class ReschoolLoginPage {
       submitBtn.textContent = "Đang lưu hồ sơ...";
     }
 
-    const isHaiPhong = district.includes("Hải Phòng") || schoolName.includes("Ái Quốc") || schoolName.includes("Hàng hải");
+    const isVinhLong = district.includes("Vĩnh Long") || schoolName.includes("Hiếu Nhơn") || district.includes("Vũng Liêm");
 
     const profileData = {
       authorName: authorName,
       schoolName: schoolName,
       studentClass: studentClass,
-      district: district || "Ái Quốc",
-      city: isHaiPhong ? "Hải Phòng" : "Hải Phòng",
+      district: district || (isVinhLong ? "Hiếu Thành, Vũng Liêm" : "Hiếu Thành, Vũng Liêm"),
+      city: isVinhLong ? "Vĩnh Long" : "Vĩnh Long",
       phone: phone || "Bảo mật",
       zalo: "",
-      address: address || "Thư viện / Phòng Đoàn Đội trường"
+      address: address || "Thư viện / Phòng Đoàn Đội - Trường THCS & THPT Hiếu Nhơn"
     };
 
     authManager.saveStudentProfile(profileData);

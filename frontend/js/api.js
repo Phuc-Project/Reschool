@@ -407,6 +407,47 @@ class ReschoolApi {
     return null;
   }
 
+  // Thống kê quản trị: gom toàn bộ tài khoản đã đăng ký (Cloud Firestore + bộ nhớ cục bộ)
+  async getRegisteredAccounts() {
+    const accounts = [];
+
+    // 1. Hồ sơ học sinh trên Cloud Firestore
+    try {
+      const db = await getFirestoreDb();
+      if (db) {
+        const { collection, getDocs } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
+        const snap = await getDocs(collection(db, "student_profiles"));
+        snap.forEach(docSnap => {
+          const data = docSnap.data() || {};
+          let createdAt = data.createdAt || data.created_at || null;
+          if (createdAt && typeof createdAt.toDate === "function") createdAt = createdAt.toDate().toISOString();
+          accounts.push({ ...data, uid: data.uid || docSnap.id, createdAt, source: "firestore" });
+        });
+      }
+    } catch (e) {
+      console.warn("Không đọc được student_profiles (cần đăng nhập Firebase), dùng dữ liệu cục bộ:", e?.code || e);
+    }
+
+    // 2. Tài khoản Mã học sinh / Email tạo trên thiết bị
+    try {
+      const customUsers = JSON.parse(localStorage.getItem("reschool_custom_users") || "{}");
+      Object.values(customUsers).forEach(u => accounts.push({ ...u, source: "local" }));
+    } catch (e) {}
+
+    // 3. Hồ sơ đã lưu cục bộ (Google / cập nhật hồ sơ)
+    try {
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith("reschool_student_profile_")) {
+          const p = JSON.parse(localStorage.getItem(key) || "null");
+          if (p) accounts.push({ ...p, source: "local" });
+        }
+      }
+    } catch (e) {}
+
+    return accounts;
+  }
+
   // Lấy danh sách gợi ý ghép cặp
   async getMatchSuggestions() {
     if (this.backendAvailable) {
@@ -512,10 +553,10 @@ class ReschoolApi {
         requester_id: "user-receiver-an",
         requester_name: "Trần Minh An",
         requester_class: "7A1",
-        requester_school: "Trường THCS Ái Quốc",
+        requester_school: "Trường THCS & THPT Hiếu Nhơn",
         requester_avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80",
         requester_note: "Em chào anh/chị, em học lớp 7A1 muốn xin lại bộ SGK lớp 7 Kết Nối Tri Thức để học tập kỳ tới. Em xin hẹn bàn giao qua Trạm Thư viện trường ạ.",
-        transit_station: "Thư viện / Phòng Đoàn Đội - Trường THCS Ái Quốc",
+        transit_station: "Thư viện / Phòng Đoàn Đội - Trường THCS & THPT Hiếu Nhơn",
         transit_code: "SGK-01",
         status: "PENDING", // "PENDING" ("Đang chờ"), "ACCEPTED" ("Chấp nhận"), "REJECTED" ("Từ chối")
         created_at: new Date(Date.now() - 3600000 * 2).toISOString(),
@@ -524,7 +565,7 @@ class ReschoolApi {
       {
         id: "REQ-2026-002",
         item_id: "item-hp-aq-02",
-        item_title: "Đồng phục học sinh THCS Ái Quốc mùa thu đông (Size M) & Khăn quàng đỏ",
+        item_title: "Đồng phục học sinh THCS & THPT Hiếu Nhơn (Size M) & Khăn quàng đỏ",
         item_image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&auto=format&fit=crop&q=80",
         item_category: "UNIFORM",
         giver_id: "user-giver-haidang",
@@ -533,10 +574,10 @@ class ReschoolApi {
         requester_id: "user-receiver-an",
         requester_name: "Trần Minh An",
         requester_class: "7A1",
-        requester_school: "Trường THCS Ái Quốc",
+        requester_school: "Trường THCS & THPT Hiếu Nhơn",
         requester_avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80",
         requester_note: "Áo vừa vặn với em, em xin qua phòng Đoàn Đội trường ạ.",
-        transit_station: "Phòng Đoàn Đội - Trường THCS Ái Quốc",
+        transit_station: "Phòng Đoàn Đội - Trường THCS & THPT Hiếu Nhơn",
         transit_code: "DP-02",
         status: "ACCEPTED",
         created_at: new Date(Date.now() - 86400000).toISOString(),
@@ -545,11 +586,37 @@ class ReschoolApi {
     ];
   }
 
+  // Sinh Mã luân chuyển theo danh mục: SGK-01, DP-02, DC-03, DD-04...
+  generateTransitCode(category, existingRequests = []) {
+    const prefixMap = { TEXTBOOK: "SGK", UNIFORM: "DP", STATIONERY: "DC" };
+    const prefix = prefixMap[category] || "DD";
+    const used = new Set(existingRequests.map(r => r.transit_code).filter(Boolean));
+    let n = existingRequests.filter(r => (r.transit_code || "").startsWith(prefix + "-")).length + 1;
+    let code = `${prefix}-${String(n).padStart(2, "0")}`;
+    while (used.has(code)) {
+      n += 1;
+      code = `${prefix}-${String(n).padStart(2, "0")}`;
+    }
+    return code;
+  }
+
   getItemRequests() {
     try {
       const stored = localStorage.getItem("reschool_item_requests");
       if (stored) {
-        return JSON.parse(stored);
+        const list = JSON.parse(stored);
+        // Bổ sung mã cho các yêu cầu cũ được tạo khi chưa sinh mã ngay lúc gửi
+        let patched = false;
+        list.slice().reverse().forEach(r => {
+          if (!r.transit_code) {
+            r.transit_code = this.generateTransitCode(r.item_category, list);
+            patched = true;
+          }
+        });
+        if (patched) {
+          try { localStorage.setItem("reschool_item_requests", JSON.stringify(list)); } catch (e) {}
+        }
+        return list;
       }
     } catch (e) {}
     const initData = this.getInitialRequests();
@@ -568,6 +635,10 @@ class ReschoolApi {
       updated_at: new Date().toISOString(),
       ...requestData
     };
+    // Cấp Mã luân chuyển ngay khi gửi yêu cầu (giữ nguyên mã này khi người cho Chấp nhận)
+    if (!newReq.transit_code) {
+      newReq.transit_code = this.generateTransitCode(newReq.item_category, requests);
+    }
 
     requests.unshift(newReq);
     try {
@@ -577,7 +648,7 @@ class ReschoolApi {
     // Gửi thông báo cho người cho đồ
     this.createNotification(
       newReq.giver_id || newReq.giver_name,
-      `Bạn ${newReq.requester_name} (${newReq.requester_class || 'Học sinh'}) vừa gửi yêu cầu xin: "${newReq.item_title}". Vui lòng vào mục Yêu cầu để xem và phản hồi!`,
+      `Bạn ${newReq.requester_name} (${newReq.requester_class || 'Học sinh'}) vừa gửi yêu cầu xin: "${newReq.item_title}" (Mã luân chuyển: ${newReq.transit_code}). Vui lòng vào mục Yêu cầu để xem và phản hồi!`,
       "requests"
     );
 
@@ -657,7 +728,7 @@ class ReschoolApi {
           {
             id: "notif-2",
             user_id: "all",
-            message: "Chào mừng bạn đến với Reschool! Trạm luân chuyển Thư viện THCS Ái Quốc đã sẵn sàng tiếp nhận đồ cũ.",
+            message: "Chào mừng bạn đến với Reschool! Trạm luân chuyển Thư viện THCS & THPT Hiếu Nhơn đã sẵn sàng tiếp nhận đồ cũ.",
             target: "about",
             read: true,
             created_at: new Date(Date.now() - 86400000).toISOString()

@@ -17,12 +17,12 @@ export function initReschoolMap(containerId = "reschool-map", onMarkerClick = nu
   const container = document.getElementById(containerId);
   if (!container) return null;
 
-  // Tọa độ trung tâm TP Hải Phòng (Khu vực ĐH Hàng hải, THPT Chuyên Trần Phú, ĐH Y Dược HP)
-  const haiPhongCoords = [20.8449, 106.6881];
+  // Tọa độ trung tâm: Trường THCS & THPT Hiếu Nhơn (Xã Hiếu Thành, Huyện Vũng Liêm, Tỉnh Vĩnh Long)
+  const vinhLongCoords = [9.9844, 106.1031];
 
   mapInstance = L.map(containerId, {
-    center: haiPhongCoords,
-    zoom: 13,
+    center: vinhLongCoords,
+    zoom: 15,
     zoomControl: true,
     attributionControl: false
   });

@@ -18,10 +18,11 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 
   <!-- Project Styles -->
-  <link rel="stylesheet" href="css/main.css?v=2.1">
-  <link rel="stylesheet" href="css/components.css?v=2.1">
-  <link rel="stylesheet" href="css/map.css?v=2.1">
-  <link rel="stylesheet" href="css/mobile-app.css?v=2.1">
+  <link rel="stylesheet" href="css/main.css?v=2.2">
+  <link rel="stylesheet" href="css/components.css?v=2.2">
+  <link rel="stylesheet" href="css/map.css?v=2.2">
+  <link rel="stylesheet" href="css/mobile-app.css?v=2.2">
+  <link rel="stylesheet" href="css/admin-stats.css?v=2.2">
 </head>
 <body>
 
@@ -296,20 +297,19 @@
             </div>
           </div>
         </div>
-        <!-- Quick School Selector for Hai Phong -->
+        <!-- Quick School Selector for Vinh Long / Vung Liem -->
         <div class="map-school-selector">
           <span class="selector-label">
             <svg class="icon icon-sm" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Điểm trường Hải Phòng:
+            Điểm trường Vĩnh Long:
           </span>
           <div class="school-chip-list" id="map-school-chips">
-            <button type="button" class="school-chip active" data-lat="20.9525" data-lng="106.3785" data-zoom="16" data-id="item-hp-aq-01">🏛️ THCS Ái Quốc (Hải Phòng)</button>
-            <button type="button" class="school-chip" data-lat="20.8449" data-lng="106.6881" data-zoom="13">Toàn TP Hải Phòng</button>
-            <button type="button" class="school-chip" data-lat="20.8415" data-lng="106.6963" data-zoom="16" data-id="item-hp-001">ĐH Hàng hải (VMU)</button>
-            <button type="button" class="school-chip" data-lat="20.8439" data-lng="106.7115" data-zoom="16" data-id="item-hp-002">THPT Chuyên Trần Phú</button>
-            <button type="button" class="school-chip" data-lat="20.8037" data-lng="106.6341" data-zoom="16" data-id="item-hp-003">ĐH Hải Phòng (Kiến An)</button>
-            <button type="button" class="school-chip" data-lat="20.8550" data-lng="106.6998" data-zoom="16" data-id="item-hp-004">ĐH Y Dược HP</button>
-            <button type="button" class="school-chip" data-lat="20.8601" data-lng="106.6852" data-zoom="16" data-id="item-hp-005">THPT Ngô Quyền</button>
+            <button type="button" class="school-chip active" data-lat="9.9844" data-lng="106.1031" data-zoom="16" data-id="item-hp-aq-01">🏛️ THCS &amp; THPT Hiếu Nhơn (Hiếu Thành)</button>
+            <button type="button" class="school-chip" data-lat="9.9844" data-lng="106.1031" data-zoom="13">Toàn khu vực Hiếu Thành - Vũng Liêm</button>
+            <button type="button" class="school-chip" data-lat="10.0261" data-lng="106.1822" data-zoom="16">THPT Vũng Liêm</button>
+            <button type="button" class="school-chip" data-lat="9.9815" data-lng="106.1062" data-zoom="16">Tiểu học Hiếu Thành</button>
+            <button type="button" class="school-chip" data-lat="10.2520" data-lng="105.9733" data-zoom="15">ĐH Sư phạm Kỹ thuật Vĩnh Long</button>
+            <button type="button" class="school-chip" data-lat="10.2081" data-lng="105.9812" data-zoom="15">ĐH Cửu Long</button>
           </div>
         </div>
         <!-- Bản đồ Google Maps & Leaflet -->
@@ -554,46 +554,14 @@
         <div class="view-header-title">
           <div class="view-icon-badge">📊</div>
           <div>
-            <h3>Thống kê tuần hoàn học đường</h3>
-            <p>Báo cáo số lượng SGK và đồ dùng được luân chuyển, tiết kiệm chi phí cho phụ huynh và bảo vệ môi trường.</p>
+            <h3>Thống kê quản trị hệ thống</h3>
+            <p>Số tài khoản đăng ký, đồ dùng đăng tải, lượt yêu cầu và giao dịch luân chuyển thành công — tổng hợp từ dữ liệu hệ thống và số liệu đợt vận hành thử nghiệm.</p>
           </div>
         </div>
       </div>
 
-      <div class="stats-overview-grid">
-        <div class="stat-box-hero">
-          <div class="stat-box-val">1.248+</div>
-          <div class="stat-box-title">Đồ dùng &amp; Sách đã luân chuyển</div>
-          <div class="stat-box-sub">Thông qua các Trạm Thư viện trường</div>
-        </div>
-        <div class="stat-box-hero">
-          <div class="stat-box-val">186.500.000 đ</div>
-          <div class="stat-box-title">Chi phí tiết kiệm cho phụ huynh</div>
-          <div class="stat-box-sub">Dựa trên đơn giá SGK &amp; đồng phục mới</div>
-        </div>
-        <div class="stat-box-hero">
-          <div class="stat-box-val">2.840 kg</div>
-          <div class="stat-box-title">Rác thải giấy &amp; nhựa giảm thiểu</div>
-          <div class="stat-box-sub">Góp phần xây dựng trường học sinh thái xanh</div>
-        </div>
-      </div>
-
-      <div class="stats-cards-row">
-        <div class="stats-card">
-          <h4>Top danh mục trao đổi nhiều nhất</h4>
-          <ul class="stats-list">
-            <li><span>Sách giáo khoa Kết Nối Tri Thức (Lớp 6, 7, 8, 9)</span><strong>54%</strong></li>
-            <li><span>Đồng phục học sinh THCS Ái Quốc</span><strong>26%</strong></li>
-            <li><span>Dụng cụ học tập &amp; Máy tính cầm tay</span><strong>14%</strong></li>
-            <li><span>Đồ dùng học đường khác</span><strong>6%</strong></li>
-          </ul>
-        </div>
-        <div class="stats-card">
-          <h4>Mô hình Trạm luân chuyển an toàn</h4>
-          <p class="stats-card-text">
-            100% các cuộc trao nhận được thực hiện thông qua <strong>Thư viện trường</strong> và <strong>Phòng Đoàn Đội</strong>. Học sinh chỉ cần xuất trình <strong>Mã luân chuyển (VD: SGK-01)</strong> để nhận sách, hoàn toàn không cần chia sẻ số điện thoại cá nhân ra ngoài.
-          </p>
-        </div>
+      <div id="admin-stats-root">
+        <p style="color:#64748B;font-size:0.85rem;">Đang tải số liệu thống kê...</p>
       </div>
     </section>
 
@@ -875,7 +843,7 @@
           </div>
           <div class="ticket-detail-row">
             <span class="detail-label">Trạm luân chuyển:</span>
-            <strong id="ticket-station-name" class="detail-value">Thư viện / Phòng Đoàn Đội - Trường THCS Ái Quốc</strong>
+            <strong id="ticket-station-name" class="detail-value">Thư viện / Phòng Đoàn Đội - Trường THCS &amp; THPT Hiếu Nhơn</strong>
           </div>
         </div>
 
@@ -983,7 +951,7 @@
         </div>
         <div class="drawer-user-info">
           <h4 id="drawer-user-name" class="drawer-user-name">Tên học sinh</h4>
-          <p id="drawer-user-school" class="drawer-user-school">Trường THCS Ái Quốc · 8A2</p>
+          <p id="drawer-user-school" class="drawer-user-school">Trường THCS &amp; THPT Hiếu Nhơn · 8A2</p>
         </div>
         <button class="drawer-close-btn" id="btn-close-drawer" aria-label="Đóng menu">
           <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

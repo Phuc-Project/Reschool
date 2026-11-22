@@ -3,7 +3,8 @@
  * Điều hướng tabs, lắng nghe sự kiện, xử lý đăng tin và điều khiển giao diện.
  */
 import { api } from './api.js';
-import { authManager } from './auth.js';
+import { authManager, DEMO_ACCOUNTS } from './auth.js';
+import { renderAdminStats } from './admin-stats.js';
 import { initReschoolMap, renderMapMarkers, resizeMap, focusLocation } from './map.js';
 import { renderItemGrid, openItemDetailModal, openTransitTicketModal } from './items.js';
 import { renderMatchmakingList } from './matchmaking.js';
@@ -212,7 +213,8 @@ class ReschoolApp {
       initReschoolMap("reschool-map", (item) => {
         openItemDetailModal(item, this.itemDetailModal, () => this.loadData());
       });
-      renderMapMarkers(this.allItems, (item) => {
+      const itemsToRender = (this.allItems && this.allItems.length) ? this.allItems : api.getLocalItems();
+      renderMapMarkers(itemsToRender, (item) => {
         openItemDetailModal(item, this.itemDetailModal, () => this.loadData());
       });
       resizeMap();
@@ -222,7 +224,22 @@ class ReschoolApp {
       this.renderMyItems();
     } else if (tabId === "requests") {
       this.renderRequests();
+    } else if (tabId === "stats") {
+      this.renderStats();
     }
+  }
+
+  // Thống kê quản trị: số tài khoản, đồ đăng, yêu cầu, giao dịch thành công
+  async renderStats() {
+    const root = document.getElementById("admin-stats-root");
+    if (!root) return;
+    const accounts = await api.getRegisteredAccounts();
+    renderAdminStats(root, {
+      items: this.allItems && this.allItems.length ? this.allItems : api.getLocalItems(),
+      requests: api.getItemRequests(),
+      accounts,
+      demoAccounts: Object.values(DEMO_ACCOUNTS)
+    }, { period: this.statsPeriod, onPeriodChange: (p) => { this.statsPeriod = p; } });
   }
 
   async loadData() {
@@ -232,6 +249,7 @@ class ReschoolApp {
     this.setupDrawer();
     if (this.currentTab === "my-items") this.renderMyItems();
     if (this.currentTab === "requests") this.renderRequests();
+    if (this.currentTab === "stats") this.renderStats();
   }
 
   applyFilters() {
@@ -362,14 +380,14 @@ class ReschoolApp {
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
       location: {
-        school_name: user.school || "Trường THPT",
-        city: user.city || "Hà Nội",
-        district: user.district || "Tây Hồ",
-        address_detail: specificAddress || user.defaultAddress || "",
-        latitude: 21.0333 + (Math.random() - 0.5) * 0.04,
-        longitude: 105.8400 + (Math.random() - 0.5) * 0.04
+        school_name: user.school || "Trường THCS & THPT Hiếu Nhơn",
+        city: user.city || "Vĩnh Long",
+        district: user.district || "Hiếu Thành, Vũng Liêm",
+        address_detail: specificAddress || user.defaultAddress || "Xã Hiếu Thành, huyện Vũng Liêm, tỉnh Vĩnh Long",
+        latitude: user.city === "Vĩnh Long" || !user.city ? (9.9844 + (Math.random() - 0.5) * 0.02) : (20.9525 + (Math.random() - 0.5) * 0.04),
+        longitude: user.city === "Vĩnh Long" || !user.city ? (106.1031 + (Math.random() - 0.5) * 0.02) : (106.3785 + (Math.random() - 0.5) * 0.04)
       },
-      transit_station: specificAddress || `Thư viện / Phòng Đoàn Đội - ${user.school || 'Trường THCS Ái Quốc'}`,
+      transit_station: specificAddress || `Thư viện / Phòng Đoàn Đội - ${user.school || 'Trường THCS & THPT Hiếu Nhơn'}`,
       contact: {
         user_id: user.uid || "anonymous",
         author_name: user.displayName,
@@ -472,8 +490,8 @@ class ReschoolApp {
 
     const profileData = {
       schoolName: form["profile-school-name"].value.trim(),
-      district: form["profile-district"].value.trim() || "Ái Quốc",
-      city: "Hải Phòng",
+      district: form["profile-district"].value.trim() || "Hiếu Thành, Vũng Liêm",
+      city: "Vĩnh Long",
       address: form["profile-address"].value.trim(),
       authorName: form["profile-student-name"].value.trim(),
       studentClass: studentClassStr,
@@ -622,15 +640,15 @@ class ReschoolApp {
     // Yêu cầu nhận được: Các bạn khác xin đồ của mình (mình là người cho)
     const received = allReqs.filter(r => 
       r.giver_id === user.uid || 
-      (user.uid === 'user-giver-minhchau' && (r.giver_name === 'Nguyễn Minh Châu' || r.item_id === 'item-hp-aq-01')) ||
-      (user.role === 'GIVER')
+      (r.giver_name && r.giver_name === user.displayName) ||
+      (user.uid === 'user-giver-minhchau' && r.item_id === 'item-hp-aq-01') ||
+      (user.role === 'STATION_MANAGER') // Thủ thư Trạm được xem toàn bộ yêu cầu để đối soát mã
     );
 
     // Yêu cầu đã gửi: Mình đi xin đồ của bạn khác
     const sent = allReqs.filter(r => 
       r.requester_id === user.uid || 
-      (user.uid === 'user-receiver-an' && (r.requester_name === 'Trần Minh An' || r.requester_id === 'user-receiver-an')) ||
-      (user.role === 'RECEIVER')
+      (user.uid === 'user-receiver-an' && r.requester_name === 'Trần Minh An')
     );
 
     // Render danh sách Yêu cầu nhận được
@@ -659,7 +677,7 @@ class ReschoolApp {
                 <div class="request-meta-row">
                   <div class="requester-profile">
                     <img src="${req.requester_avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80'}" alt="${req.requester_name}" class="requester-avatar" />
-                    <span>Học sinh xin: <strong>${req.requester_name}</strong> (${req.requester_class || 'Lớp 7A1'} · ${req.requester_school || 'THCS Ái Quốc'})</span>
+                    <span>Học sinh xin: <strong>${req.requester_name}</strong> (${req.requester_class || 'Lớp 7A1'} · ${req.requester_school || 'THCS & THPT Hiếu Nhơn'})</span>
                   </div>
                   <span>&bull;</span>
                   <span class="request-time">${new Date(req.created_at).toLocaleDateString('vi-VN')}</span>
@@ -683,6 +701,7 @@ class ReschoolApp {
                     <svg class="icon icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     <span>Đang chờ</span>
                   </span>
+                  <span class="request-transit-code-pill">Mã luân chuyển: <strong>${req.transit_code || '...'}</strong></span>
                   <div class="request-dual-buttons">
                     <button type="button" class="btn-action-accept" data-accept-id="${req.id}">
                       <svg class="icon icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -782,7 +801,7 @@ class ReschoolApp {
               <div class="request-info">
                 <div class="request-item-title">${req.item_title}</div>
                 <div class="request-meta-row">
-                  <span>Người cho: <strong>${req.giver_name || 'Bạn học sinh'}</strong> (${req.giver_class ? 'Lớp ' + req.giver_class : 'THCS Ái Quốc'})</span>
+                  <span>Người cho: <strong>${req.giver_name || 'Bạn học sinh'}</strong> (${req.giver_class ? 'Lớp ' + req.giver_class : 'THCS & THPT Hiếu Nhơn'})</span>
                   <span>&bull;</span>
                   <span>Ngày gửi: ${new Date(req.created_at).toLocaleDateString('vi-VN')}</span>
                 </div>
@@ -797,7 +816,11 @@ class ReschoolApp {
                     <svg class="icon icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     <span>Đang chờ duyệt</span>
                   </span>
+                  <span class="request-transit-code-pill">Mã luân chuyển: <strong>${req.transit_code || '...'}</strong></span>
                   <span style="font-size: 0.76rem; color: #64748B; text-align: right;">Đang đợi bạn ${req.giver_name} xác nhận</span>
+                  <button type="button" class="btn btn-sm btn-outline btn-view-my-sent-ticket" data-sent-id="${req.id}">
+                    Xem phiếu mã
+                  </button>
                 ` : isAccepted ? `
                   <span class="badge-status-accepted">
                     <svg class="icon icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -824,7 +847,10 @@ class ReschoolApp {
                 title: req.item_title,
                 transit_station: req.transit_station
               };
-              openTransitTicketModal(item, req.transit_code || "SGK-01", "RECEIVER");
+              const note = req.status === "PENDING"
+                ? `🕒 Đang chờ bạn ${req.giver_name || 'cho đồ'} duyệt. Hãy ghi nhớ mã này để nhận đồ tại Trạm.`
+                : "";
+              openTransitTicketModal(item, req.transit_code || "SGK-01", "RECEIVER", note);
             }
           };
         });
@@ -900,7 +926,7 @@ class ReschoolApp {
 
     if (avatarEl) avatarEl.src = user.photoURL || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100";
     if (nameEl) nameEl.textContent = user.displayName || "Học sinh";
-    if (schoolEl) schoolEl.textContent = `${user.school || 'Trường THCS Ái Quốc'} · ${user.studentClass || 'Học sinh'}`;
+    if (schoolEl) schoolEl.textContent = `${user.school || 'Trường THCS & THPT Hiếu Nhơn'} · ${user.studentClass || 'Học sinh'}`;
     if (roleEl) roleEl.textContent = user.role === "GIVER" ? "Người cho" : (user.role === "RECEIVER" ? "Người xin" : "Học sinh");
 
     // Đóng drawer
